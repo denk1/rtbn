@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div>
+{% for person in persons %}
+<p>
+{{
+    person.surname
+}}
+
+{{ 
+    person.name 
+}}
+
+{{
+    person.father_name
+}}
+</p>
+{% endfor %}
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if persons.has_previous %}
+            <a href="?page=1">&laquo; начало</a>
+            <a href="?page={{ persons.previous_page_number }}">предыдущий</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
+        </span>
+
+        {% if persons.has_next %}
+            <a href="?page={{ persons.next_page_number }}">следующий</a>
+            <a href="?page={{ persons.paginator.num_pages }}">последний &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock %}

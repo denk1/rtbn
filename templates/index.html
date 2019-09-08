@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}
+    <div class="inner">
+        <div class="search_border">
+            <div class="main_button"><a href="{% url 'index' %}"><b>Поиск</b></a></div>
+            <div class="main_button"><a href="{% url 'data_input' %}"><b>Внесение данных</b></a></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="inner" ><p class="sections_name">По разделам:</p>
+        <div class="tags color_border_red">Персональные данные</div>
+        <div class="tags color_border_gray">Призыв</div>
+        <div class="tags color_border_gray">Боевые действия</div>
+        <div class="tags color_border_gray">Госпиталь</div>
+        <div class="tags color_border_gray">Плен</div>
+        <div class="tags color_border_gray">Захоронение</div>
+    </div>
+{% endblock %}

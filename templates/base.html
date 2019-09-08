@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+   {% load static %}
+    <!-- Material boostrap wizard -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- <script src="{% static 'js/jquery-2.2.4.min.js' %}"></script> -->
+
+    <script src="{% static 'js/jquery.bootstrap.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+
+    
+    <link rel="stylesheet" href="{% static 'css/material-bootstrap-wizard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/demo.css' %}">
+    <script src="{% static 'js/material-bootstrap-wizard.js' %}"></script>
+    
+    <!--     Fonts and icons     -->
+    
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+
+    <!-- mdl-->
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+
+   
+    <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+    
+    <!--
+    some comment
+    some text
+   -->
+    <!-- Datepicker -->
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-material-datetimepicker.css' %}" />
+    <script src="{% static 'js/bootstrap-material-datetimepicker.js' %}"></script>
+    <title>Вспомним их поименно</title>
+    <!-- CSS Files -->
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <script>
+    function delFormItem() {
+        var inition_button_id = this.getAttribute('id').split('_')[0];
+        var formItems = document.getElementById(inition_button_id + 's_list');
+        var container_list = document.querySelectorAll('#' + inition_button_id + '_container');
+        if((container_list.length - 1) > 0) {
+            num = container_list.length - 1
+            var container_del = container_list[num];
+            formItems.removeChild(container_del);
+        }
+    };
+
+    function addFormItem() {
+        var inition_button_id = this.getAttribute('id').split('_')[0];
+        var formItems = document.getElementById(inition_button_id + 's_list');
+        var container_list = document.querySelectorAll('#' + inition_button_id + '_container');
+        var item = container_list[0];
+        console.log(item);
+        var since = item.querySelectorAll('#' + inition_button_id + '_since');
+        var to = item.querySelectorAll('#' + inition_button_id + '_to');
+        var attributeValueSince = since[0].getAttribute('id') + '_' + (num).toString();
+        var attributeValueTo = to[0].getAttribute('id') + '_' + (num++).toString();
+        var item_new = item.cloneNode(true);
+        var since_new = item_new.querySelectorAll('#' + inition_button_id + '_since');
+        var to_new = item_new.querySelectorAll('#' + inition_button_id + '_to');
+        since_new[0].setAttribute('id', attributeValueSince);
+        to_new[0].setAttribute('id', attributeValueTo);
+        formItems.appendChild(item_new);
+        
+        $('#' + attributeValueSince).bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+
+        $('#' + attributeValueTo).bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+
+    };
+
+    </script>
+</head>
+
+<body>
+        <b class="header" ><h1 class="inner" >Вспомним их поименно</h1></b>
+        {% if user.is_authenticated %}
+            <li>User: {{ user.get_username }}</li>
+            <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+        {% else %}
+            <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+        {% endif %} 
+        {%  block title %}
+        
+        {% endblock %}
+         
+        {% block content %}
+       
+        {% endblock %}
+         </div>
+         <div class="footer_main inner">
+        <p>Информация для пользователей:</p>
+        <ol>
+            <li>
+                эксперты имеют право вносить информацию на основе поисков и имеющихся в наличии документов
+            и свидетельств, отдельно по любому разделу. При этом в дальнейшем это привдедет к связи с персоналиями
+            </li>
+            <li>
+                разыскивающие своих родственников имеют возможность начать поиск по любому потвержденному этапу судьбы, либо по сопоставлению судеб земляков, однополчан
+            </li>
+        </ol>
+        <p>
+            Все действия в столь массовых и масштабных событиях имели определенную структуру и правила. Исключениями могли быть лишь отдельные судьбы
+        </p>
+        </div>
+        <div><h1>Успехов в поиске</h1></div>
+<div class="count"></div>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $('#date_birthday').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#date_mobilization').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#fighting_since').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#fighting_to').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#hospital_since').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#hospital_to').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#date_of_captivity').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#camp_since').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+    
+    $(document).ready(function()
+    {
+        $('#camp_to').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#work_since').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+    
+    $(document).ready(function()
+    {
+        $('#work_to').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#infir_since').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#infir_to').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#date_of_burial').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+
+    $(document).ready(function()
+    {
+        $('#date_of_reburial').bootstrapMaterialDatePicker
+        ({
+            time: false,
+            clearButton: true,
+            lang: 'ru'
+        });
+    });
+</script>
+</body>
+</html>

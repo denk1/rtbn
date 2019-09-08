@@ -4,3 +4,4 @@ static/
 *.sqlite3
 remember_theirs_by_name_pro/migrations/
 remember_theirs_by_name_pro/__pycache__/
+__pycache__

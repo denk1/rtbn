@@ -1,27 +1,33 @@
+from enumfields import EnumField
+from enumfields import Enum
 from django.db import models
 
-
-class Locality(models.Model):
+class TypePlace(Enum):
     """
-    Населенный пункт
+    тип адресной компоненты
     """
-    up_place = models.ForeignKey('District', on_delete=models.CASCADE)
-    name = models.CharField(max_length=90)
-
-
-class District(models.Model):
-    """
-    Район 
-    """
-    up_place = models.ForeignKey('Region', on_delete=models.CASCADE)
-    name = models.CharField(max_length=90)
+    LOCALITY = 1
+    DISTRICT = 2
+    REGION = 3
+    REPUBLIC = 4
 
 
-class Region(models.Model):
+class WarUnitType(Enum):
+    FRONT = 1
+    ARMY = 2
+    DIVISION = 3
+    RGT = 4
+    COY = 5
+    UNIT = 6
+
+
+class AddressItem(models.Model):
     """
-    Область
+    Адрес 
     """
-    region_name = models.CharField(max_length=90)
+    above_address_unit = models.ForeignKey("AddressItem", null=True, on_delete=models.CASCADE)
+    address_item_name = models.CharField(max_length=60)
+    address_item_type = EnumField(TypePlace, max_length=1)
 
 
 class WarUnit(models.Model):
@@ -31,7 +37,7 @@ class WarUnit(models.Model):
     above_war_init = models.ForeignKey("WarUnit", null=True, on_delete=models.CASCADE)
     military_personnel = models.ManyToManyField("Person", through='WarServe')
     name = models.CharField(max_length=60)
-    warunit_type = models.IntegerField(null=True)
+    warunit_type = EnumField(WarUnitType, max_length=1)
 
 
 class WarServe(models.Model):
@@ -58,7 +64,7 @@ class MilitaryEnlistmentOffice(models.Model):
     """
     Военкомат
     """
-    address = models.ForeignKey(District, on_delete=models.CASCADE)
+    address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
 
 
@@ -71,11 +77,10 @@ class Call(models.Model):
     military_enlistment_office = models.ForeignKey(MilitaryEnlistmentOffice, on_delete=models.CASCADE)
     mobilization = models.ForeignKey(Mobilization, on_delete=models.CASCADE)
     warunit = models.ForeignKey(WarUnit, on_delete=models.CASCADE)
-    last_msg_locality = models.ForeignKey(Locality, on_delete=models)
+    last_msg_locality = models.ForeignKey(AddressItem, on_delete=models)
 
 
 class Hospital(models.Model):
-    address = models.ForeignKey(Locality, on_delete=models.CASCADE)
     patients = models.ManyToManyField("Person", through='Hospitalization')
     name = models.CharField(max_length=256)
 
@@ -115,8 +120,8 @@ class Person(models.Model):
     father_name = models.CharField(max_length=30, null=True)
     father_name_distortion = models.CharField(max_length=30, null=True)
     birthday = models.DateField(null=True)
-    born_locality = models.ForeignKey(Locality, related_name='born', on_delete=models.CASCADE)
-    live_locality = models.ForeignKey(Locality, related_name='live', on_delete=models.CASCADE)
+    born_locality = models.ForeignKey(AddressItem, related_name='born', on_delete=models.CASCADE)
+    live_locality = models.ForeignKey(AddressItem, related_name='live', on_delete=models.CASCADE)
     calling_teams = models.ManyToManyField(CallingTeam, through="CallingTeamDirection")
     call = models.ForeignKey(Call, on_delete=models.CASCADE)
     def __str__(self):

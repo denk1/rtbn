@@ -2,9 +2,7 @@ from django.contrib import admin
 from rtbn.models import Person, \
                                                Mobilization, \
                                                MilitaryEnlistmentOffice, \
-                                               Region, \
-                                               District, \
-                                               Locality, \
+                                               AddressItem, \
                                                CallingTeam, \
                                                WarUnit, \
                                                WarServe, \
@@ -16,13 +14,11 @@ from rtbn.models import Person, \
                                                WarArchievement
 
 
-admin.site.register(District)
+admin.site.register(AddressItem)
 admin.site.register(CallingTeam)
-admin.site.register(Locality)
 admin.site.register(Mobilization)
 admin.site.register(MilitaryEnlistmentOffice)
 admin.site.register(Person)
-admin.site.register(Region)
 admin.site.register(WarUnit)
 admin.site.register(WarServe)
 admin.site.register(CallingTeamDirection)

@@ -68,7 +68,6 @@ class MilitaryEnlistmentOffice(models.Model):
     name = models.CharField(max_length=50)
 
 
-
 class Mobilization(models.Model):
     date_mobilization = models.DateField()
 
@@ -108,7 +107,6 @@ class WarArchievement(models.Model):
     period_to = models.DateField(null=False)
     
 
-
 class Person(models.Model):
     """
     ФИО, дата рождения, мобилизация, последнее сообщение
@@ -126,3 +124,48 @@ class Person(models.Model):
     call = models.ForeignKey(Call, on_delete=models.CASCADE)
     def __str__(self):
         return self.name + ' ' + self.surname + ' ' + self.father_name
+
+
+class Camp(models.Model):
+    """
+    Лагерь
+    """
+    name = models.CharField(max_length=60)
+    number = models.CharField(null=True, max_length=60)
+    prisoners = models.ManyToManyField(Person, through='Captivity')
+
+
+class CampArbeit(models.Model):
+    camp = models.ForeignKey(Camp, on_delete=models.CASCADE)
+    period_from = models.DateField(null=True)
+    period_to = models.DataFieild(null=True)
+    captivity = models.ForeignKey('Captivity', on_delete=models.CASCADE)
+    name = models.CharField(max_length=60)
+
+
+class InfirmaryCamp(models.Model):
+    camp = models.ForeignKey(Camp, on_delete=models.CASCADE)
+    period_from = models.DateField(null=True)
+    period_to = models.DateField(null=True)
+    captivity = models.ForeignKey('Captivity', on_delete=models.CASCADE)
+    name = models.CharField(max_length=60)
+
+
+class Captivity(models.Model):
+    """
+    Плен
+    """
+    person = models.ForeignKey('Person', on_delete=models.CASCADE)
+    camp = models.ForeignKey(Camp, on_delete=models.CASCADE)
+    date_of_captivity = models.DateField(null=True)
+    place_of_captivity = models.ForeignKey(AddressItem, null=True, on_delete=models.CASCADE)
+    
+
+class AddingInfo(models.Model):
+    """
+    Дополнительная информация
+    """
+    person = models.OneToOneField('Person', on_delete=models.CASCADE)
+    is_defector = models.BooleanField()
+    is_gestapo = models.BooleanField()
+    is_frei = models.BooleanField()

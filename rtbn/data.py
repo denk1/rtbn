@@ -1,10 +1,16 @@
 from rtbn.models import Person, \
-                                               Mobilization, \
-                                               MilitaryEnlistmentOffice, \
-                                               AddressItem, \
-                                               CallingTeam, \
-                                               WarUnit, \
-                                               WarServe
+                        Mobilization, \
+                        MilitaryEnlistmentOffice, \
+                        AddressItem, \
+                        CallingTeam, \
+                        WarUnit, \
+                        WarServe, \
+                        WarOperation, \
+                        Hospital, \
+                        Hospitalization, \
+                        CampArbeit, \
+                        InfirmaryCamp, \
+                        AddingInfo
 
 
 def find_address(type_place, place_name):
@@ -42,28 +48,26 @@ def find_warunit(warunit_name, warunit_type):
 def fill_warunit(name_warunit_dict):
     prev_warunit = None
     warunit = None
+    is_new = False
     i = 0
     for u in name_warunit_dict.keys():
         if name_warunit_dict[u] is not None:
             finded_unit, flag_type = find_warunit(name_warunit_dict[u], u)
-            if finded_unit is not None and flag_type is not None:
+            if finded_unit is not None and flag_type is not None and is_new is False:
                 warunit = finded_unit
             else:
-                if i == 0:
-                    warunit = WarUnit.objects.create(above_war_unit=None, 
+                warunit = WarUnit.objects.create(above_war_unit=None, 
                                        name = name_warunit_dict[u],
                                        warunit_type=u)
-                else:
-                    warunit = WarUnit.objects.create(above_war_unit=None, 
-                                       name = name_warunit_dict[u],
-                                       warunit_type=u)
-            i = i + 1
+                is_new = True
             prev_warunit = warunit
     return warunit
 
 
 def fill_new_line(post_obj):
-    # person
+    # ######################
+    # the personal data - N1
+    # ######################
     surname = post_obj.get('surname')
     surname_distortion = post_obj.get('surname_distortion')
     name = post_obj.get('name')
@@ -92,7 +96,9 @@ def fill_new_line(post_obj):
     #live address
     live_locality = fill_address(live_address, live_address_type)
 
-    # mobilization
+    # ####################
+    # mobilization - N2
+    # ####################
     date_mobilization = post_obj.get("date_mobilization")
     region_military_enlistment_office = post_obj.get('region_military_enlistment_office')
     district_military_enlistment_office = post_obj.get('district_military_enlistment_office')
@@ -130,8 +136,11 @@ def fill_new_line(post_obj):
                       WarUnitType.COY: None,
                       WarUnitType.UNIT: direction_warunit }
     warunit_direction = fill_warunit(direction_dict)
+    #it's creating of the record into CallingTeam table
     calling_team = CallingTeam.objects.create(name = calling_team_name)
+    #it's creating of the record into Mobilization
     mobilization = Mobilization.objects.create(date_mobilization=date_mobilization)
+    #Call
     call = Call.objects.create(military_enlistment_office=military_enlistment_office,
                                moblization=mobilization,
                                warunit=warunit,
@@ -146,11 +155,17 @@ def fill_new_line(post_obj):
                           born_locality=born_locality,
                           live_locality=live_locality,
                           call=call)
+    new_person.save()
+
     calling_team_direction = CallingTeamDirection.objects.create(calling_team=calling_team, person=new_person)
     calling_team_direction.save()
-
+    # ########################
+    # The fighting action - N3
+    # ########################
+    military_operations_list = post_obj.getlist('military_operation_name[]')
     fight_since_list = post_obj.getlist('fight_since[]')
     fight_to_list = post_obj.getlist('fight_to[]')
+    front_name_list = post_obj.getlist('front_name[]')
     army_name_list = post_obj.getlist('army_name[]')
     division_name_list = post_obj.getlist('division_name[]')
     regiment_name_list = post_obj.getlist('regiment_name[]')
@@ -158,14 +173,177 @@ def fill_new_line(post_obj):
     platoon_name_list = post_obj.getlist('platoon_name[]')
 
 
-
     fights_size = len(fight_since_list)
     for i in range(fights_size):
+        military_operation = military_operations_list[i]
+        fight_since = fight_since_list[i]
+        fight_to = fight_to[i]
+        front_name = front_name_list[i]
+        army_name = army_name_list[i]
+        division_name = division_name_list[i]
+        regiment_name = regiment_name_list[i]
+        company_name = company_name_list[i]
+        platoon_name = platoon_name_list[i]
+        unit_dict = { WarUnitType.FRONT: front_name,
+                      WarUnitType.ARMY: army_name,
+                      WarUnitType.DIVISION: division_name,
+                      WarUnitType.RGT: regiment_name,
+                      WarUnitType.COY: company_name,
+                      WarUnitType.UNIT: platoon_name
+        }
+        war_serve_unit = fill_warunit(unit_dict)
+        war_serve = WarServe.objects.create(person=new_person, war_unit=war_serve_unit)
+        war_serve.save()
+        war_operation = WarOperation.objects.create(name=military_operation)
+        war_operation.save()
+        war_archievenment = WarArchievenment.objects.create(war_operation=war_operation,
+                                                            war_serve=war_serve,
+                                                            period_from=fight_since,
+                                                            period_to=fight_to)
+        war_archievenment.save()
+                                    
+    # ########################
+    # the hospitalization - N4
+    # ########################
+    hospital_name_list = post_obj.get('hospital_name[]')
+    hospital_period_since_list = post_obj.get('hospital_since[]')
+    hospital_period_to_list = post_obj.get('hospital_to[]')
+    hospital_region_list = post_obj.get('hospital_region_name[]')
+    hospital_district_list = post_obj.get('hospital_district_name[]')
+    hospital_locality_list = post_obj.get('hospital_locality_name[]')
+    hospital_army_list = post_obj.get('hospital_army_name[]')
+    hospital_division_list = post_obj.get('hospital_division_name[]')
+    hospital_regiment_list = post_obj.get('hospital_regiment_name[]')
+    healthy_direction_list = post_obj.get('healthy_direction[]')
+    hospital_size = len(hospital_name_list)
+    for i in range(hospital_size):
+        hospital = Hospital.objects.create(name=hospital_name_list)
+        war_unit_consist_dict = {WarUnitType.FRONT: None,
+                                 WarUnitType.ARMY: hospital_army_list[i],
+                                 WarUnitType.DIVISION: hospital_division_list[i],
+                                 WarUnitType.RGT: hospital_regiment_list[i],
+                                 WarUnitType.COY: None,
+                                 WarUnitType.UNIT: None }
+        war_unit_consist = fill_warunit(war_unit_consist)
+        hospitalization = Hospitalization.objects.create(person=new_person,
+                                                         hospital=hospital,
+                                                         period_from=hospital_period_since_list[i],
+                                                         period_to=hospital_period_to_list[i],
+                                                         war_unit_consis=war_unit_consist,
+                                                         direction_name=healthy_direction_list[i]
+                                                         )
+    # ############################
+    # The captivity - N5
+    # ############################
+    date_of_captivity_list = post_obj.get('date_of_captivity[]')
+    capt_region_list = post_obj.get('capt_region[]')
+    capt_region_type_list = post_obj.get('capt_region_type[]')
+    capt_district_list = post_obj.get('capt_district[]')
+    capt_district_type_list = post_obj.get('capt_district_type[]') 
+    capt_locality_list = post_obj.get('capt_locality[]')
+    capt_locality_type_list = post_obj.get('capt_locality_type[]')
+    camps_list = post_obj.get('camp[]')
+    count_captivities = len(camps_list)
+    number_of_prisoners_list = post_obj.get('number_of_prisoners')
+    for i in range(count_captivities):
+        capt_region = capt_region_list[i]
+        capt_region_type = capt_region_type_list[i]
+        capt_district = capt_district_list[i]
+        capt_district_type = capt_district_type_list[i]
+        capt_locality = capt_locality_list[i]
+        capt_locality_type = capt_locality_type_list[i]
+        capt_address = [capt_region, capt_district, capt_locality]
+        capt_address_type = [capt_region_type, capt_district_type, capt_locality_type]
+        capt_locality = fill_address(capt_address, capt_address_type)
+        camp = Camp.objects.create(name=camps_list[i],
+                                   number=number_of_prisoners_list[i])
+        captivity = Captivity.objects.create(person=new_person,
+                                 date_of_captivity=date_of_captivity_list[i],
+                                 place_of_captivity=capt_locality,
+                                 camp=camp
+                                 )
+        camp_arbeit_list = post_obj.get('work_command[][]')
+        period_from_list = post_obj.get('work_since[][]')
+        period_to_list = post_obj.get('work_to[][]')
+        camp_arbeit_count = len(camp_arbeit_count[i])
+        for j in range(camp_arbeit_count):
+            camp_arbeit = camp_arbeit_list[i][j]
+            period_from = period_from_list[i][j]
+            period_to = period_to_list[i][j]
+            camp_arbeit = CampArbeit.objects.create(
+                                      camp=camp,
+                                      name=camp_arbeit,
+                                      period_from=period_from,
+                                      period_to=period_to,
+                                      captivity=captivity
+                                      )
+            camp_arbeit.save()
         
-        pass
-        #WarArchievement.objects.create(war_operation=military_operation_name[i],
-        #                               )
-        
+        infirmary_camp_list = post_obj.get('infirmary[][]')
+        period_from_list = post_obj.get('infir_since[][]')
+        period_to_list = post_obj.get('infir_to[][]')
+        infirmary_count = len(infirmary_camp_list[i])
+        for j in range(infirmary_count):
+            infirmary_camp = infirmary_camp_list[i][j]
+            period_from = period_from_list[i][j]
+            period_to = period_to[i][j]
+            infirmary = InfirmaryCamp.objects.create(camp=camp,
+                                         period_from=period_from,
+                                         period_to=period_to,
+                                         captivity=captivity,
+                                         name = infirmary_camp
+                                         )
+            infirmary.save()
+        camp.save()
+        captivity.save()
+    is_defector = post_obj.get('defector')
+    is_gestapo = post_obj.get('gestapo')
+    is_frei = post_obj.get('frei')
+    adding_info = AddingInfo.objects.create(
+                              person=new_person,
+                              is_defector=is_defector,
+                              is_gestapo=is_gestapo,
+                              is_frei=is_frei
+                             )
+    adding_info.save()
+
+    # ###########################
+    # The bureal - N6
+    # ###########################
+    date_of_burial = post_obj.get('date_of_burial')
+    burial_region_doc = post_obj.get('burial_region_doc')
+    burial_region_type_doc = post_obj.get('burial_region_doc_type')
+    burial_district_doc = post_obj.get('burial_disrict_doc')
+    burial_district_type_doc = post_obj.get('burial_district_type_doc')
+    burial_locality_doc = post_obj.get('burial_locality_doc')
+    burial_locality_type_doc = post_obj.get('burial_locality_type_doc')
+    burial_region_act = post_obj.get('burial_region_act')
+    burial_region_type_act = post_obj.get('burial_region_act_type')
+    burial_district_act = post_obj.get('burial_disrict_act')
+    burial_district_type_act = post_obj.get('burial_district_type_act')
+    burial_locality_act = post_obj.get('burial_locality_act')
+    burial_locality_type_act = post_obj.get('burial_locality_type_act')
+    #defenition of the burial
+    cemetery = post_obj.get('cemetery')
+    number_plot = post_obj.get('number_plot')
+    number_line = post_obj.get('number_line')
+    number_thumb = post_obj.get('number_thumb')
+    #reburial
+    date_of_reburial = post_obj.get('date_of_reburial')
+    rebureal_cause = post_obj.get('reburial_cause')
+    reburial_region_fact = post_obj.get('capt_region[]')
+    reburial_region_type_fact = post_obj.get('capt_region_type[]')
+    reburial_district_fact = post_obj.get('capt_district[]')
+    reburial_district_type_fact = post_obj.get('capt_district_type[]') 
+    reburial_locality_fact = post_obj.get('capt_locality[]')
+    reburial_locality_type_fa = post_obj.get('capt_locality_type[]')
+
+
+
+
+    
+
+
 
     
 

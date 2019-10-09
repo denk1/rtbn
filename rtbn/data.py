@@ -10,7 +10,9 @@ from rtbn.models import Person, \
                         Hospitalization, \
                         CampArbeit, \
                         InfirmaryCamp, \
-                        AddingInfo
+                        AddingInfo, \
+                        Burial, \
+                        Reburial
 
 
 def find_address(type_place, place_name):
@@ -317,17 +319,32 @@ def fill_new_line(post_obj):
     burial_district_type_doc = post_obj.get('burial_district_type_doc')
     burial_locality_doc = post_obj.get('burial_locality_doc')
     burial_locality_type_doc = post_obj.get('burial_locality_type_doc')
+    burial_doc_address_list = [burial_region_doc, burial_district_doc, burial_locality_doc]
+    burial_doc_address_types_list = [burial_region_type_doc, burial_district_type_doc, burial_locality_type_doc]
+    burial_doc_address = fill_address(burial_doc_address_list, burial_doc_address_types_list)
     burial_region_act = post_obj.get('burial_region_act')
     burial_region_type_act = post_obj.get('burial_region_act_type')
     burial_district_act = post_obj.get('burial_disrict_act')
     burial_district_type_act = post_obj.get('burial_district_type_act')
     burial_locality_act = post_obj.get('burial_locality_act')
     burial_locality_type_act = post_obj.get('burial_locality_type_act')
+    burial_act_address_list = [burial_region_act, burial_district_act, burial_locality_act]
+    burial_act_address_types_list = [burial_region_type_doc, burial_district_type_doc, burial_locality_type_doc]
+    burial_act_address = fill_address(burial_doc_address_list, burial_doc_address_types_list)
     #defenition of the burial
     cemetery = post_obj.get('cemetery')
     number_plot = post_obj.get('number_plot')
     number_line = post_obj.get('number_line')
     number_thumb = post_obj.get('number_thumb')
+    burial = Burial.objects.create(person=new_person,
+                          date_of_burial=date_of_burial,
+                          address_doc=burial_doc_address,
+                          address_act=burial_act_address,
+                          cemetery=cemetery,
+                          number_plot=number_plot,
+                          number_line=number_line,
+                          number_thumb=number_thumb)
+    burial.save()
     #reburial
     date_of_reburial = post_obj.get('date_of_reburial')
     rebureal_cause = post_obj.get('reburial_cause')
@@ -336,10 +353,15 @@ def fill_new_line(post_obj):
     reburial_district_fact = post_obj.get('capt_district[]')
     reburial_district_type_fact = post_obj.get('capt_district_type[]') 
     reburial_locality_fact = post_obj.get('capt_locality[]')
-    reburial_locality_type_fa = post_obj.get('capt_locality_type[]')
-
-
-
+    reburial_locality_type_fact = post_obj.get('capt_locality_type[]')
+    reburial_fact_address_list = [reburial_region_fact, reburial_district_fact, burial_locality_act]
+    reburial_fact_address_types_list = [reburial_region_type_fact, reburial_district_type_fact, reburial_locality_type_fact]
+    reburial_fact_address = fill_address(reburial_fact_address_list, reburial_fact_address_types_list)
+    reburial = Reburial.objects.create(burial=burial,
+                            date_of_reburial=date_of_reburial,
+                            rebureal_cause=rebureal_cause,
+                            address=reburial_fact_address)
+    reburial.save()
 
     
 

@@ -138,7 +138,7 @@ class Camp(models.Model):
 class CampArbeit(models.Model):
     camp = models.ForeignKey(Camp, on_delete=models.CASCADE)
     period_from = models.DateField(null=True)
-    period_to = models.DataFieild(null=True)
+    period_to = models.DateField(null=True)
     captivity = models.ForeignKey('Captivity', on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
 
@@ -169,3 +169,28 @@ class AddingInfo(models.Model):
     is_defector = models.BooleanField()
     is_gestapo = models.BooleanField()
     is_frei = models.BooleanField()
+
+
+class Burial(models.Model):
+    """
+    Захоронение
+    """
+    person = models.OneToOneField(Person, on_delete=models.CASCADE)
+    date_of_burial = models.DateField(null=True)
+    number_plot = models.CharField(max_length=30)
+    address_doc = models.ForeignKey(AddressItem, on_delete=models.CASCADE)
+    address_act = models.ForeignKey(AddressItem, on_delete=models.CASCADE)
+    cemetery = models.CharField(max_length=60)
+    number_plot = models.CharField(max_length=30)
+    number_line = models.CharField(max_length=30)
+    number_thumb = models.CharField(max_length=30)
+
+
+class Reburial(models.Model):
+    """
+    Перезахоронение
+    """
+    burial = models.OneToOneField(Burial, on_delete=models.CASCADE)
+    date_of_reburial = models.DateField(null=True)
+    reburial_cause = models.CharField(max_length=60)
+    address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)

@@ -11,7 +11,8 @@ from rtbn.models import Person, \
                                                Hospital, \
                                                Hospitalization, \
                                                WarOperation, \
-                                               WarArchievement
+                                               WarArchievement, \
+                                               AddingInfo
 
 
 admin.site.register(AddressItem)
@@ -27,3 +28,4 @@ admin.site.register(Hospital)
 admin.site.register(Hospitalization)
 admin.site.register(WarOperation)
 admin.site.register(WarArchievement)
+admin.site.register(AddingInfo)

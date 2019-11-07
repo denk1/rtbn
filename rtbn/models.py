@@ -34,7 +34,7 @@ class WarUnit(models.Model):
     """
     Подразделения
     """
-    above_war_init = models.ForeignKey("WarUnit", null=True, on_delete=models.CASCADE)
+    above_war_unit = models.ForeignKey("WarUnit", null=True, on_delete=models.CASCADE)
     military_personnel = models.ManyToManyField("Person", through='WarServe')
     name = models.CharField(max_length=60)
     warunit_type = EnumField(WarUnitType, max_length=1)
@@ -75,8 +75,8 @@ class Mobilization(models.Model):
 class Call(models.Model):
     military_enlistment_office = models.ForeignKey(MilitaryEnlistmentOffice, on_delete=models.CASCADE)
     mobilization = models.ForeignKey(Mobilization, on_delete=models.CASCADE)
-    warunit = models.ForeignKey(WarUnit, on_delete=models.CASCADE)
-    last_msg_locality = models.ForeignKey(AddressItem, on_delete=models)
+    warunit = models.ForeignKey(WarUnit, on_delete=models.CASCADE, null=True)
+    last_msg_locality = models.ForeignKey(AddressItem, on_delete=models.CASCADE, null=True)
 
 
 class Hospital(models.Model):
@@ -87,6 +87,7 @@ class Hospital(models.Model):
 class Hospitalization(models.Model):
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
     hospital= models.ForeignKey(Hospital, on_delete=models.CASCADE)
+    hospital_location = models.ForeignKey(AddressItem, on_delete=models.CASCADE, null=True)
     period_from = models.DateField(null=False)
     period_to = models.DateField(null=False)
     war_unit_consist = models.ForeignKey(WarUnit, on_delete=models.CASCADE)
@@ -175,7 +176,7 @@ class Burial(models.Model):
     """
     Захоронение
     """
-    person = models.OneToOneField(Person, on_delete=models.CASCADE)
+    person = models.OneToOneField(Person, on_delete=models.CASCADE, primary_key=True)
     date_of_burial = models.DateField(null=True)
     number_plot = models.CharField(max_length=30)
     address_doc = models.ForeignKey(AddressItem, on_delete=models.CASCADE, related_name='address_item_doc_id')
@@ -190,7 +191,7 @@ class Reburial(models.Model):
     """
     Перезахоронение
     """
-    burial = models.OneToOneField(Burial, on_delete=models.CASCADE)
+    burial = models.OneToOneField(Burial, on_delete=models.CASCADE, primary_key=True)
     date_of_reburial = models.DateField(null=True)
-    reburial_cause = models.CharField(max_length=60)
+    reburial_cause = models.CharField(max_length=60, null=True)
     address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)

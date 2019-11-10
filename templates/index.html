@@ -10,11 +10,28 @@
 
 {% block content %}
     <div class="inner" ><p class="sections_name">По разделам:</p>
-        <div class="tags color_border_red">Персональные данные</div>
+        <div class="tags color_border_red">
+        <a href="{% url 'data_list' %}">Персональные данные</a>
+        </div>
         <div class="tags color_border_gray">Призыв</div>
         <div class="tags color_border_gray">Боевые действия</div>
         <div class="tags color_border_gray">Госпиталь</div>
         <div class="tags color_border_gray">Плен</div>
         <div class="tags color_border_gray">Захоронение</div>
     </div>
+{% endblock %}
+
+{% block list_update_persons %}
+
+<div>
+{% for person in persons_update %}
+<p>
+{{person.surname}}
+
+{{person.name}}
+
+{{person.father_name}}
+</p>
+{% endfor %}
+
 {% endblock %}

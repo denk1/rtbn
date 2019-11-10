@@ -6,7 +6,8 @@ from django.core.paginator import Paginator
 
 
 def index(request):
-    return render(request, 'index.html')
+    persons = Person.objects.all()[:5]
+    return render(request, 'index.html', {'persons_update': persons})
 
 
 @login_required

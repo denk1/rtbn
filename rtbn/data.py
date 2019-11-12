@@ -155,7 +155,7 @@ def fill_new_line(post_obj):
                           name_distortion=name_distortion,
                           surname=surname, 
                           surname_distortion=surname_distortion,
-                          father_name=father_name_distortion,
+                          father_name=father_name,
                           father_name_distortion=father_name_distortion,
                           born_locality=born_locality,
                           live_locality=live_locality,

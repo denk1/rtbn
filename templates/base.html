@@ -94,7 +94,7 @@
 <body>
         <b class="header" ><h1 class="inner" >Вспомним их поименно</h1></b>
         {% if user.is_authenticated %}
-            <li>User: {{ user.get_username }}</li>
+            <li>Пользователь: {{ user.get_username }}</li>
             <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>   
         {% else %}
             <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>   

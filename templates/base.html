@@ -42,7 +42,7 @@
     <title>Вспомним их поименно</title>
     <!-- CSS Files -->
     
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" /> 
     <script>
     function delFormItem() {
         var inition_button_id = this.getAttribute('id').split('_')[0];
@@ -92,7 +92,15 @@
 </head>
 
 <body>
-        <b class="header" ><h1 class="inner" >Вспомним их поименно</h1></b>
+    <div class="container22" >
+        <b class="top" ><h1 >Вспомним их поименно</h1></b>
+        <div class="left">
+            <p>&larr;</p>
+        </div>
+        <div class="content">
+            <div id="container"></div>
+
+        
         {% if user.is_authenticated %}
             <li>Пользователь: {{ user.get_username }}</li>
             <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>   
@@ -111,8 +119,12 @@
 
         {% endblock %}
 
-         </div>
-         <div class="footer_main inner">
+        </div>
+        <div class="right">
+            <p>&rarr;</p>
+        </div>
+        
+        <div class="bottom">
         <p>Информация для пользователей:</p>
         <ol>
             <li>
@@ -126,9 +138,11 @@
         <p>
             Все действия в столь массовых и масштабных событиях имели определенную структуру и правила. Исключениями могли быть лишь отдельные судьбы
         </p>
-        </div>
+       
         <div><h1>Успехов в поиске</h1></div>
-<div class="count"></div>
+        </div>
+    
+    </div>
 <script type="text/javascript">
     $(document).ready(function()
     {

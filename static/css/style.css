@@ -6,7 +6,7 @@ body {
     padding		: 0;
     margin		: 0;
     background-color: #BBB;
-    height:		: 100%
+    height:		: 100%;
 }
 #info {
     position	: absolute;
@@ -38,9 +38,10 @@ body {
     height		: 100%;
 }
 .container22 {
-         position:relative;
-         width: 100%;
+         position:absolute;
+         width: 80%;
          height: 100%;
+         left: 10%;
          text-align: center;
     }
     .top {
@@ -51,20 +52,20 @@ body {
     }
     .left {
      position:absolute;
-         top:100px;
+         top:0px;
          left:0;
-         bottom:100px;
-         width: 100px;
+         bottom: 0;
+         width: 10%;
          background: #e8e9ca;
          font-size: 50pt;
          margin: auto;
     }
     .right {
         position:absolute;
-        top:100px;
+        top:0px;
         right:0;
-        bottom:100px;
-        width: 100px;
+        bottom: 0;
+        width: 10%;
         background: #e8e9ca;
         font-size: 50pt;
     }
@@ -74,10 +75,10 @@ body {
         height: 100px;
         background: blue;
         font-size: 50pt;
-        position: absolute;
+        position: static;
     }
     .content {
-        position:absolute;
+        position:static;
         top:100px;
         left:100px;
         right:50px;
@@ -86,7 +87,7 @@ body {
             //overflow:scroll;
     }
 
-    iv.count {
+    div.count {
         height: 20%;
         width: 100%;
         background-color: powderblue;

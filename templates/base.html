@@ -104,13 +104,14 @@
         <div class="content">
             <div id="container"></div>
 
-        
-        {% if user.is_authenticated %}
-            <li>Пользователь: {{ user.get_username }}</li>
-            <li><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></li>   
-        {% else %}
-            <li><a href="{% url 'login'%}?next={{request.path}}">Войти</a></li>   
-        {% endif %} 
+        <div id="authen">
+            {% if user.is_authenticated %}
+                <div class="element_input">Пользователь: {{ user.get_username }}</div>
+                <div class="element_input"><a href="{% url 'logout'%}?next={{request.path}}">Выйти</a></div>   
+            {% else %}
+                <div class="element_input"><a href="{% url 'login'%}?next={{request.path}}">Войти</a></div>   
+            {% endif %} 
+        </div>
         {%  block title %}
         
         {% endblock %}

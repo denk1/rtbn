@@ -87,6 +87,20 @@ body {
             //overflow:scroll;
     }
 
+    #authen {
+        position: relative;
+
+        width: 200px;
+        height: 200px;
+        text-align: left;
+    }
+
+    .element_input {
+        position: relative;
+        left: 0px;
+        margin: 15px;
+    }
+
     div.count {
         height: 20%;
         width: 100%;

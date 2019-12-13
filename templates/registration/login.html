@@ -17,9 +17,9 @@
 
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
-<table>
-
-<tr class="element_input">
+<div class="element_input">
+<table id="login_spec">
+<tr>
   <td>{{ form.username.label_tag }}</td>
   <td>{{ form.username }}</td>
 </tr>
@@ -30,11 +30,12 @@
 </tr>
 </table>
 
+
 <input type="submit" value="Войти" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
-
+</div>
 {% endblock %}

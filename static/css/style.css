@@ -2,7 +2,7 @@ html {
     height: 100%;
 }
 body {
-    overflow	: hidden;
+    overflow-y	: scroll;
     padding		: 0;
     margin		: 0;
     background-color: #BBB;
@@ -39,7 +39,8 @@ body {
 }
 .container22 {
          position: relative;
-         width: 1000px;
+         min-width: 500px;
+         max-width: 1000px;
          height: 100%;
          text-align: center;
          margin: 0 auto;

@@ -5,9 +5,12 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
    {% load static %}
     <!-- Material boostrap wizard -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script> 
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script> 
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css" />
 
  
     <!-- <script src="{% static 'js/jquery-2.2.4.min.js' %}"></script> -->
@@ -39,6 +42,7 @@
 
    
     <script src="{% static 'js/moment-with-locales.min.js' %}"></script>
+   
     
     <!--
     some comment
@@ -102,7 +106,11 @@
 
 <body class="main">
     <div class="container22" >
-        <div class="top" ><h1 >Вспомним их поименно</h1></div>
+        <div class="top" id="scaleable-wrapper">
+            <div class="very-specific-design" id="very-specific-design">
+                <h1 >Вспомним их поименно</h1>
+            </div>
+        </div>
         
         <div class="content">
             <div id="container"></div>
@@ -294,6 +302,39 @@
             lang: 'ru'
         });
     });
+    
+    var $el = $("#very-specific-design");
+    var elHeight = $el.outerHeight();
+    var elWidth = $el.outerWidth();
+
+    var $wrapper = $("#scaleable-wrapper");
+
+    $wrapper.resizable({
+        resize: doResize
+    });
+
+    function doResize(event, ui) {
+  
+        var scale, origin;
+    
+        scale = Math.min(
+            ui.size.width / elWidth,    
+            ui.size.height / elHeight
+        );
+  
+        $el.css({
+            transform: "translate(-50%, -50%) " + "scale(" + scale + ")"
+        });
+  
+    }
+
+    var starterData = { 
+        size: {
+            width: $wrapper.width(),
+            height: $wrapper.height()
+        }
+    }
+    doResize(null, starterData);
 </script>
 </body>
 </html>

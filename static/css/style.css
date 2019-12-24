@@ -50,6 +50,9 @@ body {
         width: 100%;
         background: rgb(129, 64, 64);
         font-size: 50pt;
+        padding: 20px;
+        resize: both;
+        position: relative;
     }
    
     .bottom {
@@ -184,3 +187,16 @@ body {
         vertical-align: baseline;
         background: transparent;
     } 
+
+    .very-specific-design {
+        width: 600px;
+        height: 400px;
+        padding: 50px;
+        text-align: center;
+        background: white;
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transform-origin: center center;
+      }

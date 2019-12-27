@@ -105,7 +105,7 @@
 </head>
 
 <body class="main">
-    <div class="container22" >
+    <div class="container22" id="container22">
         <div class="top" id="scaleable-wrapper">
             <div class="very-specific-design" id="very-specific-design">
                 <h1 >Вспомним их поименно</h1>
@@ -302,17 +302,18 @@
             lang: 'ru'
         });
     });
-    
+
     var $el = $("#very-specific-design");
     var elHeight = $el.outerHeight();
     var elWidth = $el.outerWidth();
 
     var $wrapper = $("#scaleable-wrapper");
-
+    var $container22 = $("container22");
+    /*
     $wrapper.resizable({
         resize: doResize
     });
-
+    */
     function doResize(event, ui) {
   
         var scale, origin;
@@ -328,13 +329,19 @@
   
     }
 
-    var starterData = { 
-        size: {
-            width: $wrapper.width(),
-            height: $wrapper.height()
+    function resizeHandler() 
+    {
+        var starterData = { 
+            size: {
+                width: $wrapper.width(),
+                height: $wrapper.height()
+            }
         }
+        doResize(null, starterData);
     }
-    doResize(null, starterData);
+
+    //$(window).resize(resizeHandler);
+    $(document).ready(resizeHandler);
 </script>
 </body>
 </html>

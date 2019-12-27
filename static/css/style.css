@@ -45,16 +45,17 @@ body {
          text-align: center;
          margin: 0 auto;
     }
+    
     .top {
         height: 100px;
         width: 100%;
         background: rgb(129, 64, 64);
         font-size: 50pt;
         padding: 20px;
-        resize: both;
         position: relative;
+        resize: both;
     }
-   
+
     .bottom {
         bottom: 100px;
         width: 100%;
@@ -188,9 +189,10 @@ body {
         background: transparent;
     } 
 
+    
     .very-specific-design {
-        width: 600px;
-        height: 400px;
+        //width: 600px;
+        //height: 400px;
         padding: 50px;
         text-align: center;
         background: white;
@@ -200,3 +202,4 @@ body {
         transform: translate(-50%, -50%);
         transform-origin: center center;
       }
+    

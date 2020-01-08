@@ -108,7 +108,7 @@
     <div class="container22" >
         <div class="top" id="scaleable-wrapper">
             <div class="very-specific-design" id="very-specific-design">
-                <h1 >Вспомним их поименно</h1>
+                <img src="{% static 'img/logo_rtbn.png' %}" alt="Вспомним их поименно">
             </div>
         </div>
         
@@ -309,9 +309,9 @@
 
     var $wrapper = $("#scaleable-wrapper");
 
-    $wrapper.resizable({
-        resize: doResize
-    });
+    //$wrapper.resizable({
+    //    resize: doResize
+    //});
 
     function doResize(event, ui) {
   

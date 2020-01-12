@@ -114,9 +114,11 @@
         
         <div class="content">
             <div id="container"></div>
+        <div>
         {% block get_authorized %}
 
         {% endblock %}
+        </div>
        
         {%  block title %}
         
@@ -321,6 +323,7 @@
             ui.size.width / elWidth,    
             ui.size.height / elHeight
         );
+        scale = 0.2;
   
         $el.css({
             transform: "translate(-50%, -50%) " + "scale(" + scale + ")"

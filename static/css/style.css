@@ -5,7 +5,7 @@ body {
     overflow-y	: scroll;
     padding		: 0;
     margin		: 0;
-    background-color: #BBB;
+    background-color: rgb(112, 35, 255);
     height:		: 100%;
 }
 #info {
@@ -46,9 +46,9 @@ body {
          margin: 0 auto;
     }
     .top {
-        height: 100px;
+        height: 150px;
         width: 100%;
-        background: rgb(129, 64, 64);
+        background: rgb(223, 43, 43);
         font-size: 50pt;
         padding: 20px;
         resize: both;
@@ -58,23 +58,20 @@ body {
     .bottom {
         bottom: 100px;
         width: 100%;
-        height: 100px;
-        background: blue;
+        height: auto;
+        background: rgb(245, 234, 205);
         font-size: 50pt;
         position: static;
     }
     .content {
-        position:static;
-        top:100px;
-        left:100px;
-        right:50px;
-        bottom:50px;
-        background: lightgreen;
+        position: relative;
+        min-height: 400px;
+        background: #8d5e5e;
         //overflow:scroll;
     }
 
     #authen {
-        position: relative;
+        position: absolute;
 
         width: 200px;
         height: 200px;
@@ -97,12 +94,12 @@ body {
     }
     
     b.header {
-        color: crimson;
+        color: rgb(250, 227, 232);
         font-size: 25px;
     }
     
     div.main_button {
-        border: crimson 2px solid;
+        border: rgb(245, 234, 205) 2px solid;
         font-size: 25px;
         display: inline;
     }
@@ -120,7 +117,7 @@ body {
     
     div.color_border_red {
         margin-left: 20px;
-        border: fuchsia 2px solid;
+        border: rgb(245, 234, 205) 2px solid;
     }
     
     p.sections_name {
@@ -137,7 +134,7 @@ body {
     }
     
     div.search_border {
-         margin: 50px 100px 100px 50px;
+         //margin: 50px 100px 100px 50px;
     }
     
     .top-buffer { 
@@ -145,12 +142,12 @@ body {
     }
     
     .red1 {
-        color: red;
+        color: rgb(245, 234, 205);
     }
     
     .border_red_mark {
         margin: 2px;
-        border: red 2px solid;
+        border: rgb(245, 234, 205) 2px solid;
     }
     
     .add_item {
@@ -185,7 +182,7 @@ body {
         font-size: 100%;
         height: 100%;
         vertical-align: baseline;
-        background: transparent;
+        background: #7df4363b;
     } 
 
     .very-specific-design {
@@ -193,10 +190,19 @@ body {
         height: 400px;
         padding: 50px;
         text-align: center;
-        background: white;
+        //background: white;
         position: relative;
-        left: 0%;
-        top: 0%;
+        left: 10%;
+        top: 10%;
         transform: translate(-50%, -50%);
         transform-origin: center center;
       }
+
+    #content_tags {
+        position: absolute;
+        bottom: 0;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+    }

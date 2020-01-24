@@ -1,8 +1,7 @@
-from enumfields import EnumField
-from enumfields import Enum
+from django_enumfield import enum
 from django.db import models
 
-class TypePlace(Enum):
+class TypePlace(enum.Enum):
     """
     тип адресной компоненты
     """
@@ -12,7 +11,7 @@ class TypePlace(Enum):
     REPUBLIC = 4
 
 
-class WarUnitType(Enum):
+class WarUnitType(enum.Enum):
     FRONT = 1
     ARMY = 2
     DIVISION = 3
@@ -27,7 +26,7 @@ class AddressItem(models.Model):
     """
     above_address_unit = models.ForeignKey("AddressItem", null=True, on_delete=models.CASCADE)
     address_item_name = models.CharField(max_length=60)
-    address_item_type = EnumField(TypePlace, max_length=1)
+    address_item_type = enum.EnumField(TypePlace)
 
 
 class WarUnit(models.Model):
@@ -37,7 +36,7 @@ class WarUnit(models.Model):
     above_war_unit = models.ForeignKey("WarUnit", null=True, on_delete=models.CASCADE)
     military_personnel = models.ManyToManyField("Person", through='WarServe')
     name = models.CharField(max_length=60)
-    warunit_type = EnumField(WarUnitType, max_length=1)
+    warunit_type = enum.EnumField(WarUnitType)
 
 
 class WarServe(models.Model):

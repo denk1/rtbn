@@ -108,15 +108,17 @@
     <div class="container22" id="container22">
         <div class="top" id="scaleable-wrapper">
             <div class="very-specific-design" id="very-specific-design">
-                <h1 >Вспомним их поименно</h1>
+                <img src="{% static 'img/logo_rtbn.png' %}" alt="Вспомним их поименно">
             </div>
         </div>
         
         <div class="content">
             <div id="container"></div>
+        <div>
         {% block get_authorized %}
 
         {% endblock %}
+        </div>
        
         {%  block title %}
         
@@ -308,12 +310,20 @@
     var elWidth = $el.outerWidth();
 
     var $wrapper = $("#scaleable-wrapper");
+<<<<<<< HEAD
     var $container22 = $("container22");
     /*
     $wrapper.resizable({
         resize: doResize
     });
     */
+=======
+
+    //$wrapper.resizable({
+    //    resize: doResize
+    //});
+
+>>>>>>> 978cc365e6a039ba24e5595e85eda16824b69ad1
     function doResize(event, ui) {
   
         var scale, origin;
@@ -322,6 +332,7 @@
             ui.size.width / elWidth,    
             ui.size.height / elHeight
         );
+        scale = 0.2;
   
         $el.css({
             transform: "translate(-50%, -50%) " + "scale(" + scale + ")"

@@ -52,6 +52,8 @@
 
     <link rel="stylesheet" href="{% static 'css/bootstrap-material-datetimepicker.css' %}" />
     <script src="{% static 'js/bootstrap-material-datetimepicker.js' %}"></script>
+      <script src="https://code.jquery.com/jquery-1.11.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <title>Вспомним их поименно</title>
     <!-- CSS Files -->
     
@@ -108,7 +110,7 @@
     <div class="container22" >
         <div class="top" id="scaleable-wrapper">
             <div class="very-specific-design" id="very-specific-design">
-                <img src="{% static 'img/logo_rtbn.png' %}" alt="Вспомним их поименно">
+                <a href="{% url 'index' %}"><img src="{% static 'img/logo_rtbn.png' %}" alt="Вспомним их поименно"></a>
             </div>
         </div>
         

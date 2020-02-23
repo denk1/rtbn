@@ -25,3 +25,8 @@ def persons_listing(request):
     persons = paginator.get_page(page)
     return render(request,'persons_list.html', {'persons': persons})
 
+
+def searching(requiest):
+    searching_type = requiest.GET.get('type')
+    return render(requiest, 'search.html', {'searching_type': searching_type})
+

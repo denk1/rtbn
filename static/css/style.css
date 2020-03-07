@@ -45,17 +45,16 @@ body {
          text-align: center;
          margin: 0 auto;
     }
-    
     .top {
         height: 150px;
         width: 100%;
         background: rgb(223, 43, 43);
         font-size: 50pt;
         padding: 20px;
-        position: relative;
         resize: both;
+        position: relative;
     }
-
+   
     .bottom {
         bottom: 100px;
         width: 100%;
@@ -186,10 +185,9 @@ body {
         background: #7df4363b;
     } 
 
-    
     .very-specific-design {
-        //width: 600px;
-        //height: 400px;
+        width: 600px;
+        height: 400px;
         padding: 50px;
         text-align: center;
         //background: white;
@@ -199,9 +197,6 @@ body {
         transform: translate(-50%, -50%);
         transform-origin: center center;
       }
-<<<<<<< HEAD
-    
-=======
 
     #content_tags {
         position: absolute;
@@ -211,4 +206,3 @@ body {
         left: 0;
         right: 0;
     }
->>>>>>> 978cc365e6a039ba24e5595e85eda16824b69ad1

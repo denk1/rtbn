@@ -1,0 +1,31 @@
+{% extends 'authorized.html' %}
+
+{% block title %}
+    <div class="inner">
+        <div class="search_border">
+            <div class="main_button"><b>Поиск</b></div>
+            <div class="main_button"><a href="{% url 'data_input' %}"><b>Внесение данных</b></a></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+
+
+{% endblock %}
+
+{% block footer %}
+
+<div id="content_tags" class="inner" ><p class="sections_name">По разделам:</p>
+    <div class="tags color_border_red">
+        <a href="{% url 'search' %}1">Персональные данные</a>
+    </div>
+    <div class="tags color_border_gray">Призыв</div>
+    <div class="tags color_border_gray">Боевые действия</div>
+    <div class="tags color_border_gray">Госпиталь</div>
+    <div class="tags color_border_gray">Плен</div>
+    <div class="tags color_border_gray">Захоронение</div>
+    </div>
+
+{% endblock %}

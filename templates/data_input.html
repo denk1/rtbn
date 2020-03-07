@@ -1,19 +1,19 @@
-{% extends 'authorized.html' %} {% block title %}
-
+{% extends 'authorized.html' %} 
+{% block title %}
 <div class="inner">
     <div class="search_border">
         <div class="main_button">
-            <a href="{% url 'index' %}">
+            <a href="{% url 'search' %}">
                 <b>Поиск</b>
             </a>
         </div>
-        <h1>Ввод данных</h1>
+        <div class="main_button">
+            Внесение данных
+        </div>
     </div>
 </div>
 <script>
     var num = 1;
-    
-
     var registerEventButton = function() {
     var fighting_minus = document.getElementById('fight_minus'),
         fighting_plus  = document.getElementById('fight_plus'),
@@ -30,7 +30,8 @@
     };
     addEventListener('load', registerEventButton);
 </script>
-{% endblock %} {% block content %}
+{% endblock %} 
+{% block content %}
 <div class="wizard-container">
     <div class="card wizard-card" data-color="red" id="wizard">
         <form action="{% url 'data_list' %}" method="POST"> {% csrf_token %}
@@ -57,13 +58,13 @@
                         <a href="#captivity" data-toggle="tab">Плен(принудительные работы)</a>
                     </li>
                     <li>
-                        <a href="#burial" data-toggle="tab">Захоронение(Перезахоронение)</a>
+                        <a href="#burial" data-toggle="tab">Захоронение (Перезахоронение)</a>
                     </li>
                 </ul>
             </div>
             <div class="tab-content">
                 <div class="tab-pane" id="details">
-                    <div class="container">
+                    <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-4">
                                 <h4 class="info-text"> Личные данные</h4>
@@ -148,7 +149,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="mobilization">
-                    <div class="container">
+                    <div class="container-fluid">
                         <div class="row">
                             <h4 class="info-text">Мобилизация</h4>
                             <div class="col-sm-3">
@@ -269,7 +270,7 @@
                 <div class="tab-pane" id="fights">
                     <h4 class="info-text">Введите информацию об участии в сражениях</h4>
                     <div id="fights_list">
-                    <div id="fight_container" class="container">
+                    <div id="fight_container" class="container-fluid">
                         <div class="row">
                             
                             <div class="col-sm-2">
@@ -361,7 +362,7 @@
                 <div class="tab-pane" id="hospitals">
                     <h4 class="info-text">Информация о нахождении в лечебных учреждениях </h4>
                     <div id="hospitals_list">
-                    <div id="hospital_container" class="container">
+                    <div id="hospital_container" class="container-fluid">
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group">
@@ -464,7 +465,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="captivity">
-                    <div class="container">
+                    <div class="container-fluid">
                         <div class="row">
                             <h4 class="info-text">Данные о пленении и дальнейшем содержании</h4>
                             <div class="col-sm-3">
@@ -665,7 +666,7 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="burial">
-                    <div class="container">
+                    <div class="container-fluid">
                         <div class="row">
                             <h4 class="info-text">Имеющиеся данные о захоронении</h4>
                             <div class="col-sm-3">
@@ -873,4 +874,8 @@
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block footer %}
+
 {% endblock %}

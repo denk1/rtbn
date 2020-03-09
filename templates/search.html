@@ -20,10 +20,13 @@
 <div id="content_tags" class="inner" ><p class="sections_name">По разделам:</p>
     <div class="tags color_border_red">
     {% if type_search %}
+    {{ type_search  }}
+    {% endif %}
+    {% if type_search != 1  %}
         <a href="{% url 'search' %}1">
     {% endif %}
     Персональные данные
-    {% if type_search %}
+    {% if type_search != 1 %}
         </a>
     {% endif %}
     </div>

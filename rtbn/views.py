@@ -28,7 +28,7 @@ def persons_listing(request):
 
 def searching(requiest):
     return render(requiest, 'search.html')
-
+    
 
 def searching_param(requiest, type_search):
     return render(requiest, 'search.html', {'type_search': type_search})

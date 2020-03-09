@@ -19,13 +19,29 @@
 
 <div id="content_tags" class="inner" ><p class="sections_name">По разделам:</p>
     <div class="tags color_border_red">
-        <a href="{% url 'search' %}1">Персональные данные</a>
+    {% if type_search %}
+        <a href="{% url 'search' %}1">
+    {% endif %}
+    Персональные данные
+    {% if type_search %}
+        </a>
+    {% endif %}
     </div>
-    <div class="tags color_border_gray">Призыв</div>
-    <div class="tags color_border_gray">Боевые действия</div>
-    <div class="tags color_border_gray">Госпиталь</div>
-    <div class="tags color_border_gray">Плен</div>
-    <div class="tags color_border_gray">Захоронение</div>
+    <div class="tags color_border_gray">
+        <a href="{% url 'search' %}2">Призыв</a>
     </div>
+    <div class="tags color_border_gray">
+        <a href="{% url 'search' %}3">Боевые действия</a>
+    </div>
+    <div class="tags color_border_gray">
+        <a href="{% url 'search' %}4">Госпиталь</a>
+    </div>
+    <div class="tags color_border_gray">
+        <a href="{% url 'search' %}5">Плен</a>
+    </div>
+    <div class="tags color_border_gray">
+        <a href="{% url 'search' %}6">Захоронение</a>
+    </div>
+</div>
 
 {% endblock %}

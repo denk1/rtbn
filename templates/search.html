@@ -11,7 +11,26 @@
 
 {% block content %}
 
-
+<form>
+  <div class="form-group">
+    <input type="text" class="form-control" id="surname" aria-describedby="emailHelp" placeholder="Имя">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="name" placeholder="Фамилия">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" id="father_name" placeholder="Отчество">
+  </div>
+  <div class="form-group">
+    <p>Date: <input type="text" id="birthday"></p>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<script>
+  $( function() {
+    $( "#birthday" ).datepicker($.datepicker.regional[ "ru" ]);
+  } );
+  </script>
 
 {% endblock %}
 
@@ -22,28 +41,58 @@
     {% if type_search %}
     {{ type_search  }}
     {% endif %}
-    {% if type_search != 1  %}
+    {% if type_search != 1 and type_search %}
         <a href="{% url 'search' %}1">
     {% endif %}
-    Персональные данные
-    {% if type_search != 1 %}
+        Персональные данные
+    {% if type_search != 1 and type_search %}
         </a>
     {% endif %}
     </div>
     <div class="tags color_border_gray">
-        <a href="{% url 'search' %}2">Призыв</a>
+    {% if type_search != 2  %}
+        <a href="{% url 'search' %}2">
+    {% endif %}
+        Призыв
+    {% if type_search != 2 %}    
+        </a>
+    {% endif %}
     </div>
     <div class="tags color_border_gray">
-        <a href="{% url 'search' %}3">Боевые действия</a>
+    {% if type_search != 3 %}
+        <a href="{% url 'search' %}3">
+    {% endif %}    
+        Боевые действия
+    {% if type_search != 3 %}
+        </a>
+    {% endif %}
     </div>
     <div class="tags color_border_gray">
-        <a href="{% url 'search' %}4">Госпиталь</a>
+    {% if type_search != 4 %}
+        <a href="{% url 'search' %}4">
+    {% endif %}
+        Госпиталь
+    {% if type_search != 4 %}
+        </a>
+    {% endif %}
     </div>
     <div class="tags color_border_gray">
-        <a href="{% url 'search' %}5">Плен</a>
+    {% if type_search != 5 %}
+        <a href="{% url 'search' %}5">
+    {% endif %}
+        Плен
+    {% if type_search != 5 %}
+        </a>
+    {% endif %}
     </div>
     <div class="tags color_border_gray">
-        <a href="{% url 'search' %}6">Захоронение</a>
+    {% if type_search != 6 %}
+        <a href="{% url 'search' %}6">
+    {% endif %}
+        Захоронение
+    {% if type_search != 6 %}
+        </a>
+    {% endif %}
     </div>
 </div>
 

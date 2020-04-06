@@ -1,4 +1,4 @@
-{% extends 'authorized.html' %} 
+{% extends 'authorized.html' %}
 {% block title %}
 <div class="inner">
     <div class="search_border">
@@ -14,14 +14,14 @@
 </div>
 <script>
     var num = 1;
-    var registerEventButton = function() {
-    var fighting_minus = document.getElementById('fight_minus'),
-        fighting_plus  = document.getElementById('fight_plus'),
-        hospital_minus = document.getElementById('hospital_minus'),
-        hospital_plus = document.getElementById('hospital_plus');
+    var registerEventButton = function () {
+        var fighting_minus = document.getElementById('fight_minus'),
+            fighting_plus = document.getElementById('fight_plus'),
+            hospital_minus = document.getElementById('hospital_minus'),
+            hospital_plus = document.getElementById('hospital_plus');
 
         fighting_minus.onclick = delFormItem;
-    
+
         fighting_plus.onclick = addFormItem;
 
         hospital_minus.onclick = delFormItem;
@@ -30,44 +30,48 @@
     };
     addEventListener('load', registerEventButton);
 </script>
-{% endblock %} 
+{% endblock %}
 {% block content %}
-<div class="wizard-container">
-    <div class="card wizard-card" data-color="red" id="wizard">
+<script>
+    var settings = {
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        autoFocus: true,
+        stepsOrientation: 0,
+        onStepChanging: function (event, currentIndex, newIndex) {
+            alert('onStepChanging ' + currentIndex);
+            if(currentIndex == 3)
+                return false; 
+            return true; 
+        },
+        onStepChanged: function (event, currentIndex, priorIndex) {
+            alert('onStepChanged ' + currentIndex);
+        }, 
+        onFinishing: function(event, currentIndex) {
+            alert('onFinishing ' + currentIndex); 
+            return false; 
+        },
+        onFinished: function (event, currentIndex) {
+            alert('onFinished ' + currentIndex);
+        }
+    };
+
+    $(document).ready(function () {
+        $("#wizard-input").steps(settings);
+    });
+</script>
+<div class="content">
+    <div class="offset_content">
+        <h1>Персональные данные разыскиваемого</h1>
         <form action="{% url 'data_list' %}" method="POST"> {% csrf_token %}
-            <input type='hidden' name='is_new_item' value=1>
-            <div class="wizard-header">
-                <h3 class="wizard-title">Внесение данных</h3>
-                <h5>Персональные данные разыскиваемого</h5>
-            </div>
-            <div class="wizard-navigation">
-                <ul>
-                    <li>
-                        <a href="#details" data-toggle="tab">Персональные данные</a>
-                    </li>
-                    <li>
-                        <a href="#mobilization" data-toggle="tab">Данные о призыве</a>
-                    </li>
-                    <li>
-                        <a href="#fights" data-toggle="tab">Боевые действия</a>
-                    </li>
-                    <li>
-                        <a href="#hospitals" data-toggle="tab">Госпиталь</a>
-                    </li>
-                    <li>
-                        <a href="#captivity" data-toggle="tab">Плен(принудительные работы)</a>
-                    </li>
-                    <li>
-                        <a href="#burial" data-toggle="tab">Захоронение (Перезахоронение)</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="tab-pane" id="details">
+            <div class="card wizard-card" data-color="red" id="wizard-input">
+                <h3 class="info-text"> Личные данные</h3>
+                <section id="details">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-4">
-                                <h4 class="info-text"> Личные данные</h4>
+
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Имя" name="name" class="form-control">
                                 </div>
@@ -76,18 +80,20 @@
                                         class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Фамилия" name="surname" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Возможное искажение" name="surname_distortion"
+                                    <input type="text" value="" placeholder="Фамилия" name="surname"
                                         class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Отчество" name="father_name" class="form-control">
+                                    <input type="text" value="" placeholder="Возможное искажение"
+                                        name="surname_distortion" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Возможное искажение" name="father_name_distortion"
+                                    <input type="text" value="" placeholder="Отчество" name="father_name"
                                         class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Возможное искажение"
+                                        name="father_name_distortion" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" id="date_birthday" class="form-control floating-label"
@@ -103,20 +109,23 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="born_region_name" class="form-control">
-                                    <input type="hidden" value="3" name="born_region_type" >
+                                    <input type="text" value="" placeholder="Область" name="born_region_name"
+                                        class="form-control">
+                                    <input type="hidden" value="3" name="born_region_type">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="born_district_name" class="form-control">
-                                    <input type="hidden" value="2" name="born_district_type" >
+                                    <input type="text" value="" placeholder="Район" name="born_district_name"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="born_district_type">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт" name="born_locality_name" class="form-control">
-                                    <input type="hidden" value="1" name="born_locality_type" >
+                                    <input type="text" value="" placeholder="Населенный пункт" name="born_locality_name"
+                                        class="form-control">
+                                    <input type="hidden" value="1" name="born_locality_type">
                                 </div>
                             </div>
                         </div>
@@ -128,30 +137,33 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="live_region_name" class="form-control">
-                                    <input type="hidden" value=3 name="live_region_type" >
+                                    <input type="text" value="" placeholder="Область" name="live_region_name"
+                                        class="form-control">
+                                    <input type="hidden" value=3 name="live_region_type">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="live_district_name" class="form-control">
-                                    <input type="hidden" value=2 name="live_district_type" >
+                                    <input type="text" value="" placeholder="Район" name="live_district_name"
+                                        class="form-control">
+                                    <input type="hidden" value=2 name="live_district_type">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Населенный пункт" name="live_locality_name"
                                         class="form-control">
-                                    <input type="hidden" value=1 name="live_locality_type" >
+                                    <input type="hidden" value=1 name="live_locality_type">
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane" id="mobilization">
+                </section>
+                <h3 class="info-text">Мобилизация</h3>
+                <section id="mobilization">
                     <div class="container-fluid">
                         <div class="row">
-                            <h4 class="info-text">Мобилизация</h4>
+
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label>Дата:</label>
@@ -172,20 +184,22 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="region_military_enlistment_office" class="form-control">
-                                    <input type="hidden" value="3" name="region_type_military_enlistment_office" >
+                                    <input type="text" value="" placeholder="Область"
+                                        name="region_military_enlistment_office" class="form-control">
+                                    <input type="hidden" value="3" name="region_type_military_enlistment_office">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="district_military_enlistment_office" class="form-control">
-                                    <input type="hidden" value="2" name="district_type_military_enlistment_office" >
+                                    <input type="text" value="" placeholder="Район"
+                                        name="district_military_enlistment_office" class="form-control">
+                                    <input type="hidden" value="2" name="district_type_military_enlistment_office">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Название призывного пунка" name="military_enlistment_office"
-                                        class="form-control">
+                                    <input type="text" value="" placeholder="Название призывного пунка"
+                                        name="military_enlistment_office" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -197,7 +211,8 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="calling_team_name" class="form-control">
+                                    <input type="text" value="" placeholder="" name="calling_team_name"
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -209,17 +224,20 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Фронт" name="direction_front_name" class="form-control">
+                                    <input type="text" value="" placeholder="Фронт" name="direction_front_name"
+                                        class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Армия" name="direction_army_name" class="form-control">
+                                    <input type="text" value="" placeholder="Армия" name="direction_army_name"
+                                        class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Подразделение" name="warunit_name" class="form-control">
+                                    <input type="text" value="" placeholder="Подразделение" name="warunit_name"
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -231,21 +249,23 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="last_msg_region" class="form-control">
-                                    <input type="hidden" value="3" name="last_msg_region_type" >
+                                    <input type="text" value="" placeholder="Область" name="last_msg_region"
+                                        class="form-control">
+                                    <input type="hidden" value="3" name="last_msg_region_type">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="last_msg_district" class="form-control">
-                                    <input type="hidden" value="2" name="last_msg_district_type" >
+                                    <input type="text" value="" placeholder="Район" name="last_msg_district"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="last_msg_district_type">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Населенный пункт" name="last_msg_locality"
                                         class="form-control">
-                                    <input type="hidden" value="1" name="last_msg_locality_type" >
+                                    <input type="hidden" value="1" name="last_msg_locality_type">
                                 </div>
                             </div>
                         </div>
@@ -255,8 +275,8 @@
                         <div class="row">
                             <div class="col-sm-offset-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="**Дополнительная информация" name="adding_info"
-                                        class="form-control">
+                                    <input type="text" value="" placeholder="**Дополнительная информация"
+                                        name="adding_info" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -266,208 +286,224 @@
                         <p>**При наличие информации о переводе в другие подразделения, заполнять в порядке
                             последовательности</p>
                     </div>
-                </div>
-                <div class="tab-pane" id="fights">
-                    <h4 class="info-text">Введите информацию об участии в сражениях</h4>
+                </section>
+                <h3 class="info-text">Введите информацию об участии в сражениях</h3>
+                <section id="fights">
                     <div id="fights_list">
-                    <div id="fight_container" class="container-fluid">
-                        <div class="row">
-                            
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>Период: </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <input type="text" id="fight_since" class="form-control floating-label"
-                                        placeholder="с" name="fight_since[]">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <input type="text" id="fight_to" class="form-control floating-label" placeholder="по"
-                                        name="fight_to[]">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>В составе:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Фронт" name="front_name[]" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Армия" name="army_name[]" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Дивизия" name="division_name[]" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Полк" name="regiment_name[]" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Рота" name="company_name[]" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Взвод" name="platoon_name[]" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>Название боевой операции:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="military_operation_name[]" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-offset-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="**Дополнительная информация" name="battle_adding_info[]"
-                                        class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row top-buffer">
+                        <div id="fight_container" class="container-fluid">
+                            <div class="row">
 
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Период: </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="text" id="fight_since" class="form-control floating-label"
+                                            placeholder="с" name="fight_since[]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="text" id="fight_to" class="form-control floating-label"
+                                            placeholder="по" name="fight_to[]">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>В составе:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Фронт" name="front_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Армия" name="army_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Дивизия" name="division_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Полк" name="regiment_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Рота" name="company_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Взвод" name="platoon_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>Название боевой операции:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="" name="military_operation_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="**Дополнительная информация"
+                                            name="battle_adding_info[]" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row top-buffer">
+
+                            </div>
                         </div>
-                    </div> 
-                    </div>                  
-                    <div class="button_plus_minus">
-                    <p class="add_item plus" id="fight_plus">&#43;</p><p class="add_item minus" id="fight_minus">&#8722;</p>                   
                     </div>
-                     <p>**При наличие информации о переводе в другие подразделения, заполнять в порядке
-                            последовательности</p>
-                </div>
-                <div class="tab-pane" id="hospitals">
-                    <h4 class="info-text">Информация о нахождении в лечебных учреждениях </h4>
+                    <div class="button_plus_minus">
+                        <p class="add_item plus" id="fight_plus">&#43;</p>
+                        <p class="add_item minus" id="fight_minus">&#8722;</p>
+                    </div>
+                    <p>**При наличие информации о переводе в другие подразделения, заполнять в порядке
+                        последовательности</p>
+                </section>
+                <h3 class="info-text">Информация о нахождении в лечебных учреждениях </h3>
+                <section id="hospitals">
                     <div id="hospitals_list">
-                    <div id="hospital_container" class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Период:</label>
+                        <div id="hospital_container" class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Период:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" id="hospital_since" class="form-control floating-label"
+                                            placeholder="с" name="hospital_since[]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" id="hospital_to" class="form-control floating-label"
+                                            placeholder="по" name="hospital_to[]">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" id="hospital_since" class="form-control floating-label"
-                                        placeholder="с" name="hospital_since[]">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Наименование лечебного учреждения:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="" name="hospital_name[]"
+                                            class="form-control">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" id="hospital_to" class="form-control floating-label"
-                                        placeholder="по" name="hospital_to[]">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Место расположения:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Область" name="hospital_region_name[]"
+                                            class="form-control">
+                                        <input type="hidden" value="3" name="hospital_region_type[]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Район" name="hospital_distric_name[]"
+                                            class="form-control">
+                                        <input type="hidden" value="2" name="hospital_district_type[]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Населенный пункт"
+                                            name="hospital_locality_name[]" class="form-control">
+                                        <input type="hidden" value="1" name="hospital_locality_type[]">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Наименование лечебного учреждения:</label>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>В составе:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Армия" name="hospital_army_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Дивизия"
+                                            name="hospital_division_name[]" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Полк" name="hospital_regiment_name[]"
+                                            class="form-control">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="hospital_name[]" class="form-control">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>По окончанию лечения направлен в:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="" name="healthy_direction[]"
+                                            class="form-control">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Место расположения:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="hospital_region_name[]" class="form-control">
-                                    <input type="hidden" value="3" name="hospital_region_type[]" >
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="hospital_distric_name[]" class="form-control">
-                                    <input type="hidden" value="2" name="hospital_district_type[]" >
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт" name="hospital_locality_name[]"
-                                        class="form-control">
-                                    <input type="hidden" value="1" name="hospital_locality_type[]" >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>В составе:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Армия" name="hospital_army_name[]" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Дивизия" name="hospital_division_name[]"
-                                        class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Полк" name="hospital_regiment_name[]" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>По окончанию лечения направлен в:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="healthy_direction[]" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row top-buffer">
+                            <div class="row top-buffer">
 
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div class="button_plus_minus">
-                    <p class="add_item plus" id="hospital_plus">&#43;</p><p class="add_item minus" id="hospital_minus">&#8722;</p>                   
+                        <p class="add_item plus" id="hospital_plus">&#43;</p>
+                        <p class="add_item minus" id="hospital_minus">&#8722;</p>
                     </div>
-                </div>
-                <div class="tab-pane" id="captivity">
+                </section>
+                <h3 class="info-text">Данные о пленении и дальнейшем содержании</h3>
+                <section id="captivity">
                     <div class="container-fluid">
                         <div class="row">
-                            <h4 class="info-text">Данные о пленении и дальнейшем содержании</h4>
+
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label>Дата пленения:*</label>
@@ -488,21 +524,23 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="capt_region" class="form-control">
-                                    <input type="hidden" value="3" name="capt_region_type[]" >                           
+                                    <input type="text" value="" placeholder="Область" name="capt_region"
+                                        class="form-control">
+                                    <input type="hidden" value="3" name="capt_region_type[]">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="capt_district" class="form-control">
-                                    <input type="hidden" value="2" name="capt_distric_type[]" >
+                                    <input type="text" value="" placeholder="Район" name="capt_district"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="capt_distric_type[]">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Населенный пункт" name="capt_locality"
                                         class="form-control">
-                                    <input type="hidden" value="1" name="capt_locality_type[]" >
+                                    <input type="hidden" value="1" name="capt_locality_type[]">
                                 </div>
                             </div>
                         </div>
@@ -514,8 +552,8 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" id="camp_since" class="form-control floating-label" placeholder="с"
-                                        name="camp_since">
+                                    <input type="text" id="camp_since" class="form-control floating-label"
+                                        placeholder="с" name="camp_since">
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -545,7 +583,8 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="number_of_prisoners" class="form-control">
+                                    <input type="text" value="" placeholder="" name="number_of_prisoners"
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -557,8 +596,8 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" id="work_since" class="form-control floating-label" placeholder="с"
-                                        name="work_since">
+                                    <input type="text" id="work_since" class="form-control floating-label"
+                                        placeholder="с" name="work_since">
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -588,14 +627,14 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" id="infir_since" class="form-control floating-label" placeholder="с"
-                                        name="infir_since">
+                                    <input type="text" id="infir_since" class="form-control floating-label"
+                                        placeholder="с" name="infir_since">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" id="infir_to" class="form-control floating-label" placeholder="по"
-                                        name="infir_to">
+                                    <input type="text" id="infir_to" class="form-control floating-label"
+                                        placeholder="по" name="infir_to">
                                 </div>
                             </div>
                         </div>
@@ -653,8 +692,8 @@
                         <div class="row">
                             <div class="col-sm-offset-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="**Дополнительная информация" name="battle_adding_info"
-                                        class="form-control">
+                                    <input type="text" value="" placeholder="**Дополнительная информация"
+                                        name="battle_adding_info" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -664,11 +703,12 @@
                         <p>**При наличие информации о переводе в другие пункты, заводить в порядке
                             последовательности</p>
                     </div>
-                </div>
-                <div class="tab-pane" id="burial">
+                </section>
+                <h3 class="info-text">Имеющиеся данные о захоронении</h3>
+                <section id="burial">
                     <div class="container-fluid">
                         <div class="row">
-                            <h4 class="info-text">Имеющиеся данные о захоронении</h4>
+
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label>Дата:</label>
@@ -689,22 +729,24 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="burial_region_doc" class="form-control">
-                                    <input type="hidden" value="3" name="burial_region_doc_type" >
+                                    <input type="text" value="" placeholder="Область" name="burial_region_doc"
+                                        class="form-control">
+                                    <input type="hidden" value="3" name="burial_region_doc_type">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="burial_distric_doc" class="form-control">
-                                    <input type="hidden" value="2" name="burial_distric_doc_type" >
+                                    <input type="text" value="" placeholder="Район" name="burial_distric_doc"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="burial_distric_doc_type">
 
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт" name="burial_locality_doc"
-                                        class="form-control">
-                                    <input type="hidden" value="1" name="burial_locality_doc_type" >
+                                    <input type="text" value="" placeholder="Населенный пункт"
+                                        name="burial_locality_doc" class="form-control">
+                                    <input type="hidden" value="1" name="burial_locality_doc_type">
                                 </div>
                             </div>
                         </div>
@@ -716,21 +758,23 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="burial_region_act" class="form-control">
-                                    <input type="hidden" value="3" name="burial_region_act_type" >                                
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="burial_distric_act" class="form-control">
-                                    <input type="hidden" value="2" name="burial_district_act_type" >
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт" name="burial_locality_act"
+                                    <input type="text" value="" placeholder="Область" name="burial_region_act"
                                         class="form-control">
-                                    <input type="hidden" value="1" name="burial_locality_act_type" >
+                                    <input type="hidden" value="3" name="burial_region_act_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Район" name="burial_distric_act"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="burial_district_act_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Населенный пункт"
+                                        name="burial_locality_act" class="form-control">
+                                    <input type="hidden" value="1" name="burial_locality_act_type">
 
                                 </div>
                             </div>
@@ -814,7 +858,8 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                        <input type="text" value="" placeholder="" name="reburial_cause" class="form-control">
+                                    <input type="text" value="" placeholder="" name="reburial_cause"
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -826,50 +871,32 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="reburial_region_fact" class="form-control">
-                                    <input type="hidden" value="3" name="reburial_region_fact_type" >
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="reburial_distric_fact" class="form-control">
-                                    <input type="hidden" value="2" name="reburial_district_fact_type" >
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт" name="reburial_locality_fact"
+                                    <input type="text" value="" placeholder="Область" name="reburial_region_fact"
                                         class="form-control">
-                                    <input type="hidden" value="1" name="reburial_locality_fact_type" >
+                                    <input type="hidden" value="3" name="reburial_region_fact_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Район" name="reburial_distric_fact"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="reburial_district_fact_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Населенный пункт"
+                                        name="reburial_locality_fact" class="form-control">
+                                    <input type="hidden" value="1" name="reburial_locality_fact_type">
                                 </div>
                             </div>
                         </div>
                         <div class="row top-buffer">
 
-                            </div>
-                            <p>*Адрес захоронения на современной карте</p>
-                    </div>
-                </div>
-                <div class="wizard-footer">
-                    <div class="pull-right">
-                        <input type='button' class='btn btn-next btn-fill btn-danger btn-wd' name='next' value='Вперед' />
-                        <input type='submit' class='btn btn-finish btn-fill btn-danger btn-primary btn-wd btn-send' name='finish' value='Готово' />
-                
-                    </div>
-                    <div class="pull-left">
-                        <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Назад' />
-                        <div class="footer-checkbox">
-                            <div class="col-sm-12">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="optionsCheckboxes">
-                                    </label>
-                                    Subscribe to our newsletter </div>
-                            </div>
                         </div>
+                        <p>*Адрес захоронения на современной карте</p>
                     </div>
-                    <div class="clearfix"></div>
-                </div>
+                </section>
             </div>
         </form>
     </div>

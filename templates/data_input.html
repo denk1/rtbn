@@ -33,38 +33,66 @@
 {% endblock %}
 {% block content %}
 <script>
-    var settings = {
-        headerTag: "h3",
-        bodyTag: "section",
-        transitionEffect: "slideLeft",
-        autoFocus: true,
-        stepsOrientation: 0,
-        onStepChanging: function (event, currentIndex, newIndex) {
-            alert('onStepChanging ' + currentIndex);
-            if(currentIndex == 3)
-                return false; 
-            return true; 
-        },
-        onStepChanged: function (event, currentIndex, priorIndex) {
-            alert('onStepChanged ' + currentIndex);
-        }, 
-        onFinishing: function(event, currentIndex) {
-            alert('onFinishing ' + currentIndex); 
-            return false; 
-        },
-        onFinished: function (event, currentIndex) {
-            alert('onFinished ' + currentIndex);
-        }
-    };
-
     $(document).ready(function () {
-        $("#wizard-input").steps(settings);
+
+        var form = $("#personal_data");
+
+        $.validator.addMethod("lettersonly", function (value, element) {
+            return this.optional(element) || /^[a-zа-я][a-zа-я^\s{2}]+[a-zа-я]$/i.test(value);
+        }, "Letters only please");
+
+        form.validate({
+            errorPlacement: function errorPlacement(error, element) {
+                element.before(error);
+            },
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2,
+                    lettersonly: true
+                },
+                surname: "required",
+                father_name: "required",
+                birthday: "required"
+            },
+            messages: {
+                name: {
+                    required: "Пожалуйста введите имя",
+                    minlength: "Имя должно состоять из не менее 2 букв",
+                    lettersonly: "В имени должны содержаться только буквы"
+                },
+                surname: "Пожалуйста введите фамилию"
+            }
+        });
+        var settings = {
+            headerTag: "h3",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            autoFocus: true,
+            stepsOrientation: 0,
+            onStepChanging: function (event, currentIndex, newIndex) {
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+
+            },
+            onFinishing: function (event, currentIndex) {
+
+                return false;
+            },
+            onFinished: function (event, currentIndex) {
+
+            }
+        };
+
+        //$("#wizard-input").steps(settings);
+        form.children("div").steps(settings);
     });
 </script>
 <div class="content">
     <div class="offset_content">
         <h1>Персональные данные разыскиваемого</h1>
-        <form action="{% url 'data_list' %}" method="POST"> {% csrf_token %}
+        <form id="personal_data" action="{% url 'data_list' %}" method="POST"> {% csrf_token %}
             <div class="card wizard-card" data-color="red" id="wizard-input">
                 <h3 class="info-text"> Личные данные</h3>
                 <section id="details">

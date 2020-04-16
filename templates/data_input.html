@@ -33,13 +33,34 @@
 {% endblock %}
 {% block content %}
 <script>
+
+    function init_timepicker() {
+        $( "#date_birthday" ).datepicker();
+        $( "#date_mobilization" ).datepicker();
+        $( "#fight_since" ).datepicker();
+        $( "#fight_to" ).datepicker();
+        $( "#hospital_since").datepicker();
+        $( "#hospital_to").datepicker();
+        $("#date_of_captivity").datepicker();
+        $("#camp_since").datepicker();
+        $("#camp_to").datepicker();
+        $("#work_since").datepicker();
+        $("#work_to").datepicker();
+        $("#infir_since").datepicker();
+        $("#infir_to").datepicker();    
+    }
+
     $(document).ready(function () {
 
         var form = $("#personal_data");
 
         $.validator.addMethod("lettersonly", function (value, element) {
             return this.optional(element) || /^[a-zа-я][a-zа-я^\s{2}]+[a-zа-я]$/i.test(value);
-        }, "Letters only please");
+        }, "Неверные символы");
+
+        $.validator.addMethod("datecheck", function (value, element) {
+            return this.optional(element) || /^[0-9]{1,2}.$/i.test(value);
+        }, "Неверный формат даты");
 
         form.validate({
             errorPlacement: function errorPlacement(error, element) {
@@ -51,9 +72,21 @@
                     minlength: 2,
                     lettersonly: true
                 },
-                surname: "required",
-                father_name: "required",
-                birthday: "required"
+                name_distortion: "lettersonly",
+                surname: {
+                    required: true,
+                    minlength: 2,
+                    lettersonly: true
+                },
+                surname_distortion: "lettersonly",
+                father_name: {
+                    required: true,
+                    minlength: 2,
+                    lettersonly: true
+                },
+                father_name_distortion: "lettersonly",
+                birthday: "required",
+                date_birthday: "datecheck"
             },
             messages: {
                 name: {
@@ -87,6 +120,7 @@
 
         //$("#wizard-input").steps(settings);
         form.children("div").steps(settings);
+        init_timepicker();
     });
 </script>
 <div class="content">

@@ -118,8 +118,8 @@ class Person(models.Model):
     father_name = models.CharField(max_length=30, null=True)
     father_name_distortion = models.CharField(max_length=30, null=True)
     birthday = models.DateField(null=True)
-    born_locality = models.ForeignKey(AddressItem, related_name='born', on_delete=models.CASCADE)
-    live_locality = models.ForeignKey(AddressItem, related_name='live', on_delete=models.CASCADE)
+    born_locality = models.ForeignKey(AddressItem, related_name='born', on_delete=models.CASCADE, null=True )
+    live_locality = models.ForeignKey(AddressItem, related_name='live', on_delete=models.CASCADE, null=True )
     calling_teams = models.ManyToManyField(CallingTeam, through="CallingTeamDirection")
     call = models.ForeignKey(Call, on_delete=models.CASCADE)
     def __str__(self):

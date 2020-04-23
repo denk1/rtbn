@@ -220,3 +220,8 @@ h1 {
 .offset_content {
     margin-top: 150px;
 }
+
+.form-element {
+    margin-left: 0;
+    float: left;
+}

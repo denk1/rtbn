@@ -22,7 +22,10 @@
 
         fighting_minus.onclick = delFormItem;
 
-        fighting_plus.onclick = addFormItem;
+        var fightListAddFunction = add_table($("#fights_list"), $("#personal_data"));
+        //fighting_plus.onclick = addFormItem;
+
+        fighting_plus.onclick = fightListAddFunction;
 
         hospital_minus.onclick = delFormItem;
 
@@ -60,7 +63,7 @@
         $.validator.addMethod("datecheck", function (value, element) {
             return this.optional(element) || /^[0-9]{1,2}.[0-9]{2}.[0-9]{4}$/i.test(value);
         }, "Неверный формат даты");
-
+        
         form.validate({
             errorPlacement: function errorPlacement(error, element) {
                 element.before(error);
@@ -98,7 +101,19 @@
                 region_military_enlistment_office: "required",
                 district_military_enlistment_office: "required",
                 military_enlistment_office: "required",
-                calling_team_name: "required"
+                calling_team_name: "required",
+                direction_front_name: "required",
+                direction_army_name: "required",
+                warunit_name: "required",
+                "fight_since[]": "required",
+                "fight_to[]": "required",
+                "front_name[]": "required",
+                "army_name[]": "required",
+                "division_name[]": "required",
+                "regiment_name[]": "required",
+                "company_name[]": "required",
+                "platoon_name[]": "required",
+                "military_operation_name[]": "required"
             },
             messages: {
                 name: {
@@ -146,9 +161,46 @@
                 },
                 calling_team_name: { 
                     required: "Введите призывную команду" 
+                },
+                direction_front_name: {
+                    required: ""
+                },
+                direction_army_name: {
+                    required: ""
+                },
+                warunit_name: {
+                    required: ""
+                },
+                "fight_since[]": {
+                    required: ""
+                },
+                "fight_to[]": {
+                    required: ""
+                },
+                "front_name[]": {
+                    required: ""
+                },
+                "army_name[]": {
+                    required: ""
+                },
+                "division_name[]": {
+                    required: ""
+                },
+                "regiment_name[]": { 
+                    required: "" 
+                },
+                "company_name[]": {
+                    required: ""
+                },
+                "platoon_name[]": {
+                    required: ""
+                },
+                "military_operation_name[]": {
+                    required: ""
                 }
             }
         });
+
         var settings = {
             headerTag: "h3",
             bodyTag: "section",
@@ -157,6 +209,7 @@
             stepsOrientation: 0,
             onStepChanging: function (event, currentIndex, newIndex) {
                 return form.valid();
+                //return true;
             },
             onStepChanged: function (event, currentIndex, priorIndex) {
 
@@ -169,57 +222,72 @@
 
             }
         };
-
+        let test_id_label = $("#test_id_label");
+        let test_id_attr = $("#test_id_attr");
         var same_addr_div = $("#same_addr");
         var same_addr = same_addr_div.find("input[type=checkbox]");
+        //alert(test_id_label.text());
     
         var initial = same_addr.is(":checked");
         //alert($("#last_place")["addClass"]("minus"));
         var last_place = $("#last_place")[initial ? "addClass" : "removeClass"]("gray");
-        
-        
-        function set_disabled(v) {
-            var last_place_input = last_place.find("input[type='text']");
-            last_place_input.each(function () {
-                $(this).attr("disabled", v);
-            });
+
+        function set_disabled_input(v, r, d, l) {
+            if(v) {
+                r.disabled = true;
+                d.disabled = true;
+                l.disabled = true;
+                r.required = false;
+                d.required = false;
+                l.required = false;
+                r.value = "";
+                d.value = "";
+                l.value = "";
+
+            } else {
+                r.disabled = false;
+                d.disabled = false;
+                l.disabled = false;
+                r.required = true;
+                d.required = true;
+                l.required = true;
+            }
         }
 
-        function set_disabled2(v) {
+        function set_disabled_live_address(v) {
             let live_region_name = document.getElementsByName("live_region_name");
             let live_district_name = document.getElementsByName("live_district_name");
             let live_locality_name = document.getElementsByName("live_locality_name");
-            if(v) {
-                live_region_name[0].disabled = true;
-                live_district_name[0].disabled = true;
-                live_locality_name[0].disabled = true;
-                live_region_name[0].required = false;
-                live_district_name[0].required = false;
-                live_locality_name[0].required = false;
-                live_region_name[0].value = "";
-                live_district_name[0].value = "";
-                live_locality_name[0].value = "";
-
-            } else {
-                live_region_name[0].disabled = false;
-                live_district_name[0].disabled = false;
-                live_locality_name[0].disabled = false;
-                live_region_name[0].required = true;
-                live_district_name[0].required = true;
-                live_locality_name[0].required = true;
-            }
+            set_disabled_input(v, live_region_name[0], live_district_name[0], live_locality_name[0]);
         }
+
+        function set_disabled_last_msg(v) {
+            let last_msg_region = document.getElementsByName("last_msg_region"); 
+            let last_msg_district = document.getElementsByName("last_msg_district");
+            let last_msg_locality = document.getElementsByName("last_msg_locality");
+            set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
+        }
+
         //form.children("div").steps(settings);
         $("#wizard-input").steps(settings);
         
-        set_disabled2(false);
+        set_disabled_live_address(false);
+        set_disabled_last_msg(true);
 
         var t = $("#test_id");
+        var m = $("#chbox_last_msg");
+        var last_msg = $("#last_msg");
         
         t.click( "click", function(){
             var initial = t.is(":checked");
             last_place[this.checked ? "addClass" : "removeClass"]("gray");
-            set_disabled2(initial);
+            set_disabled_live_address(initial);
+        });
+
+        m.click("click", function() {
+            var initial = m.is(":checked");
+            last_msg[initial ? "addClass" : "removeClass"]("gray");
+            set_disabled_last_msg(!initial);
         });
         
         init_timepicker();
@@ -281,6 +349,7 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Область" name="born_region_name"
                                         class="form-control" required >
+                                    <label for="born_region_name" generated="true" class="error"></label>
                                     <input type="hidden" value="3" name="born_region_type">
                                 </div>
                             </div>
@@ -288,6 +357,7 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Район" name="born_district_name"
                                         class="form-control" required >
+                                    <label for="born_district_name" generated="true" class="error"></label>
                                     <input type="hidden" value="2" name="born_district_type">
                                 </div>
                             </div>
@@ -295,6 +365,7 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Населенный пункт" name="born_locality_name"
                                         class="form-control" required >
+                                    <label for="born_locality_name" generated="true" class="error"></label>
                                     <input type="hidden" value="1" name="born_locality_type">
                                 </div>
                             </div>
@@ -322,6 +393,7 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Область" name="live_region_name"
                                         class="form-control disabled">
+                                    <label for="live_region_name" generated="true" class="error"></label>
                                     <input type="hidden" value=3 name="live_region_type">
                                 </div>
                             </div>
@@ -329,6 +401,7 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Район" name="live_district_name"
                                         class="form-control">
+                                    <label for="live_district_name" generated="true" class="error"></label>
                                     <input type="hidden" value=2 name="live_district_type">
                                 </div>
                             </div>
@@ -336,6 +409,7 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Населенный пункт" name="live_locality_name"
                                         class="form-control">
+                                    <label for="live_locality_name" generated="true" class="error"></label>
                                     <input type="hidden" value=1 name="live_locality_type">
                                 </div>
                             </div>
@@ -403,46 +477,52 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Фронт" name="direction_front_name"
                                         class="form-control">
+                                    <label for="direction_front_name" generated="true" class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Армия" name="direction_army_name"
                                         class="form-control">
+                                    <label for="direction_army_name" generated="true" class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Подразделение" name="warunit_name"
                                         class="form-control">
+                                    <label for="warunit_name" generated="true" class="error"></label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label>Последнее письменное сообщение из:</label>
+                                    <label for="is_the_last_letter">Последнее письменное сообщение из:</label>
+                                    <input id="chbox_last_msg" type="checkbox" name="is_the_last_letter">
                                 </div>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="last_msg_region"
-                                        class="form-control">
-                                    <input type="hidden" value="3" name="last_msg_region_type">
+                            <div id="last_msg">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Область" name="last_msg_region"
+                                            class="form-control">
+                                        <input type="hidden" value="3" name="last_msg_region_type">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="last_msg_district"
-                                        class="form-control">
-                                    <input type="hidden" value="2" name="last_msg_district_type">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Район" name="last_msg_district"
+                                            class="form-control">
+                                        <input type="hidden" value="2" name="last_msg_district_type">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт" name="last_msg_locality"
-                                        class="form-control">
-                                    <input type="hidden" value="1" name="last_msg_locality_type">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Населенный пункт"
+                                            name="last_msg_locality" class="form-control">
+                                        <input type="hidden" value="1" name="last_msg_locality_type">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -468,6 +548,7 @@
                 <section id="fights">
                     <div id="fights_list">
                         <div id="fight_container" class="container-fluid">
+                            <table class="table"></table>
                             <div class="row">
 
                                 <div class="col-sm-2">
@@ -479,12 +560,14 @@
                                     <div class="form-group">
                                         <input type="text" id="fight_since" class="form-control floating-label"
                                             placeholder="с" name="fight_since[]">
+                                        <label for="fight_since[]" generated="true" class="error"></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <input type="text" id="fight_to" class="form-control floating-label"
                                             placeholder="по" name="fight_to[]">
+                                        <label for="fight_to[]" generated="true" class="error"></label>
                                     </div>
                                 </div>
                             </div>
@@ -498,48 +581,54 @@
                                     <div class="form-group">
                                         <input type="text" value="" placeholder="Фронт" name="front_name[]"
                                             class="form-control">
+                                        <label for="front_name[]" generated="true" class="error"></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <input type="text" value="" placeholder="Армия" name="army_name[]"
                                             class="form-control">
+                                        <label for="army_name[]" generated="true" class="error"></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <input type="text" value="" placeholder="Дивизия" name="division_name[]"
                                             class="form-control">
+                                        <label for="division_name[]" generated="true" class="error"></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <input type="text" value="" placeholder="Полк" name="regiment_name[]"
                                             class="form-control">
+                                        <label for="regiment_name[]" generated="true" class="error"></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <input type="text" value="" placeholder="Рота" name="company_name[]"
                                             class="form-control">
+                                        <label for="company_name[]" generated="true" class="error"></label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <input type="text" value="" placeholder="Взвод" name="platoon_name[]"
                                             class="form-control">
+                                        <label for="platoon_name[]" generated="true" class="error"></label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <label>Название боевой операции:</label>
+                                        <label id="test_id_label" for="military_operation_name[]">Название боевой операции:</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <input type="text" value="" placeholder="" name="military_operation_name[]"
+                                        <input id="test_id_attr" type="text" value="" placeholder="" name="military_operation_name[]"
                                             class="form-control">
                                     </div>
                                 </div>

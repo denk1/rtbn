@@ -95,6 +95,70 @@
 
     };
 
+
+    function add_input(n, v) {
+        return "<input type='hidden' name='" + n + "' value='" + v + "'>";
+    }
+
+    function add_table(t, form) {
+        return function () {
+            let tbl = t.find("table")[0];
+            inputs = t.find("input[type='text']");
+            let cols_count = inputs.length;
+            let rows_count = tbl.rows.length;
+            let input_hidden_string = "";
+            tbl = $(tbl);
+            if(!form.valid())
+                return;
+            tbl.append("<tr>");
+            tbl.append("<th scope='col'>#</th>");
+            if (rows_count == 0) {              
+                let name_of_col = "";
+                for (i = 0; i < cols_count; i++) {
+                    var inp = $(inputs[i]);
+                    input_hidden_string += add_input(inp.attr("name"), inp.val());
+                    tbl.append("<th scope='col'>");
+                    if (inp.attr("placeholder").length == 0) {
+                        if (inp.prev().is("label")) {
+                            name_of_col = inp.prev().text();
+                        } else if (inp.next().is("label")) {
+                            name_of_col = inp.next().text();
+                        } else {
+                            let labels = t.find("label");
+                            for (j = 0; j < labels.length; j++) {
+                                let lbl = $(labels[j]);
+                                if (lbl.attr("for") == inp.attr("name")) {
+                                    name_of_col = lbl.text();
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        name_of_col = inp.attr("placeholder");
+                    }
+
+                    tbl.append(name_of_col);
+                    name_of_col = "";
+                    tbl.append("</th>");
+                }
+                tbl.append(name_of_col);
+               
+            }
+            tbl.append("</tr>");
+            tbl.append("<tr>");
+            tbl.append("<th scope='col'></th>");
+            for (i = 0; i < cols_count; i++) {
+                tbl.append("<td>");
+                let inp = $(inputs[i]);
+                tbl.append(inp.val());
+                input_hidden_string += add_input(inp.attr("name"), inp.val());
+                tbl.append("</td>");
+            }
+            tbl.append("</tr>");
+            tbl.next().append(input_hidden_string);
+        }
+    }
+
     </script>
 </head>
 

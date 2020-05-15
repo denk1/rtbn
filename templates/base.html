@@ -100,22 +100,36 @@
         return "<input type='hidden' name='" + n + "' value='" + v + "'>";
     }
 
+    function create_del_row(pd) {
+        return function(r) {
+            let sec = pd.find('#' + $(r).attr('id').split('_name_of_section_del')[0]);
+            let tbl =  sec.find("#table_data");
+            let hidd = sec.find("#hidden_data");
+            var spec_row = $(tbl).find("#" + $(r).attr('id').split('butt_')[1]);
+            var spec_row_hidd = $(hidd).find("#" + $(r).attr('id').split('butt_')[1]);
+            spec_row.remove();
+            spec_row_hidd.remove();
+        }
+    }
+
     function add_table(t, form) {
         let n = 1;
         return function () {
             let tbl = t.find("table")[0];
+            let name_of_section = t.attr("id");
             inputs = t.find("input[type='text']");
             let cols_count = inputs.length;
             let rows_count = tbl.rows.length;
             let input_hidden_string = "";
+            let tr = "";
             tbl = $(tbl);
+
             if(!form.valid())
                 return;
            
             if (rows_count == 0) {   
-                tbl.append("<thead>");
-                tbl.append("<tr>");
-                tbl.append("<th scope='col'>#</th>");           
+                tr = "<tr>";
+                tr += "<th scope='col'>#</th>";           
                 let name_of_col = "";
                 for (i = 0; i < cols_count; i++) {
                     var inp = $(inputs[i]);
@@ -139,33 +153,36 @@
                         name_of_col = inp.attr("placeholder");
                     }
 
-                    tbl.append("<th scope='col'>" + name_of_col + "</th>");
+                    tr += "<th scope='col'>" + name_of_col + "</th>";
                     name_of_col = "";                  
                 }
-                tbl.append("<th scope='col'>удалить</th>");
-                tbl.append("</thead>");
+                tr += "<th scope='col'>удалить</th>";
+                tr += "</tr>";
+                tbl.append(tr);
             }
-            tbl.append("<tbody>");
-            tbl.append("</tr>");
-            let row_id = "row_" + n;
-            tbl.append("<tr id='" +  row_id + "'>");
             
-            tbl.append("<th scope='row'>" + n++ +"</th>");
+           
+            
+            let row_id = "row_" + n;
+            tr = "<tr id='" +  row_id + "'>";
+            
+            tr += "<th scope='row'>" + n++ + "</th>";
+            input_hidden_string = "";
+            input_hidden_string += "<div id='" + row_id +  "'>"
             for (i = 0; i < cols_count; i++) {
   
                 let inp = $(inputs[i]);
-                tbl.append('<td>' + inp.val() + '</td>');
+                tr += '<td>' + inp.val() + '</td>';
                 input_hidden_string += add_input(inp.attr("name"), inp.val());
                
             }
-            tbl.append("<td><img src='{% static 'img/del_row.png' %}' ></td>");
-            tbl.append("</tr>");
-            tbl.append("</tbody>");
+            tr += "<td><img onclick='del_row(this)' id='" + name_of_section +  "_name_of_section_del_butt_" + row_id + "' src='{% static 'img/del_row.png' %}' ></td>";
+            tr += "</tr>";
+            tbl.append(tr);
+            input_hidden_string += "</div>";
             tbl.next().append(input_hidden_string);
-            
         }
     }
-
     </script>
 </head>
 

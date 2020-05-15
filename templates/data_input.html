@@ -14,6 +14,7 @@
 </div>
 <script>
     var num = 1;
+    var del_row;
     var registerEventButton = function () {
         var fighting_minus = document.getElementById('fight_minus'),
             fighting_plus = document.getElementById('fight_plus'),
@@ -21,7 +22,7 @@
             hospital_plus = document.getElementById('hospital_plus');
 
         fighting_minus.onclick = delFormItem;
-
+        del_row = create_del_row($("#personal_data"));
         var fightListAddFunction = add_table($("#fights_list"), $("#personal_data"));
         //fighting_plus.onclick = addFormItem;
 
@@ -29,7 +30,8 @@
 
         hospital_minus.onclick = delFormItem;
 
-        hospital_plus.onclick = addFormItem;
+        //hospital_plus.onclick = addFormItem;
+        hospital_plus.onclick = add_table($("#hospitals_list"), $("#personal_data"));
     };
     addEventListener('load', registerEventButton);
 </script>
@@ -222,6 +224,7 @@
 
             }
         };
+        
         let test_id_label = $("#test_id_label");
         let test_id_attr = $("#test_id_attr");
         var same_addr_div = $("#same_addr");
@@ -548,7 +551,8 @@
                 <section id="fights">
                     <div id="fights_list">
                         <div id="fight_container" class="container-fluid">
-                            <table class="add_info"></table>
+                            <table id="table_data" class="add_info"></table>
+                            <div id="hidden_data"></div>
                             <div class="row">
 
                                 <div class="col-sm-2">
@@ -657,6 +661,8 @@
                 <section id="hospitals">
                     <div id="hospitals_list">
                         <div id="hospital_container" class="container-fluid">
+                            <table id="table_data" class="add_info"></table>
+                            <div id="hidden_data"></div>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="form-group">

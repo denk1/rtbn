@@ -183,6 +183,16 @@
             tbl.next().append(input_hidden_string);
         }
     }
+
+    function create_butt_meth(cat) {
+        return function(e) {
+            let event_button = $(e.target);
+            let cat_name = event_button.attr("id").split("_")[0];
+            let list_stages = event_button.parent('#' + cat_name + '_list');
+            list_stages.html(cat[cat_name]);
+        }
+    }
+
     </script>
 </head>
 

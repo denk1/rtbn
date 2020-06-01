@@ -15,7 +15,123 @@
 <script>
 
     let adding_info = {
-        "captivity" :            `<table id='table_data' class='add_info'></table>
+        "hospital" :       `<table id="table_data" class="add_info"></table>
+                            <div id="hidden_data"></div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Период:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" id="hospital_since" class="form-control floating-label"
+                                            placeholder="с" name="hospital_since[]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" id="hospital_to" class="form-control floating-label"
+                                            placeholder="по" name="hospital_to[]" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Наименование лечебного учреждения:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="" name="hospital_name[]"
+                                            class="form-control" required >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Место расположения:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Область" name="hospital_region_name[]"
+                                            class="form-control">
+                                        <input type="hidden" value="3" name="hospital_region_type[]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Район" name="hospital_distric_name[]"
+                                            class="form-control">
+                                        <input type="hidden" value="2" name="hospital_district_type[]">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Населенный пункт"
+                                            name="hospital_locality_name[]" class="form-control">
+                                        <input type="hidden" value="1" name="hospital_locality_type[]">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>В составе:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Армия" name="hospital_army_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Дивизия"
+                                            name="hospital_division_name[]" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Полк" name="hospital_regiment_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>По окончанию лечения направлен в:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="" name="healthy_direction[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='row'>
+                                <div class='col-sm-3'>
+                                    <div class='form-group'>
+                                        <label>добавить информацию о госпитализяциях:</label>
+                                    </div>
+                                </div>
+                                <div class='col-sm-3'>
+                                    <div class='button_plus_minus'>
+                                        <p class='add_item plus' id='hospital_plus'>&#43;</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row top-buffer">
+
+                            </div>`,
+
+        "captivity" :          `<table id='table_data' class='add_info'></table>
                                 <div id='hidden_data'></div>
                                 <div class='row'>
                                     <div class='col-sm-3'>
@@ -30,7 +146,8 @@
                                                 name='date_of_captivity'>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
+                                <div class='row'> 
                                     <div class='col-sm-3'>
                                         <div class='form-group'>
                                             <label>Место пленения:*</label>
@@ -38,7 +155,6 @@
                                     </div> 
                                     <div class='col-sm-3'>
                                         <div class='form-group'>
-                                <div class='row'>
                                             <input type='text' value='' placeholder='Область' name='capt_region'
                                                 class='form-control'>
                                             <input type='hidden' value='3' name='capt_region_type[]'>
@@ -72,20 +188,8 @@
                                     </div>
                                 </div>`,
 
-        "camp" :                   `<table id='table_data' class='add_info'></table> 
+        "camp" :               `<table id='table_data' class='add_info'></table> 
                                 <div id='hidden_data'></div> 
-                                    <div class='row'>
-                                    <div class='col-sm-3'>
-                                        <div class='form-group'>
-                                            <label>добавить информацию о лагере:</label>
-                                        </div>
-                                    </div>
-                                    <div class='col-sm-3'>
-                                        <div class='button_plus_minus'>
-                                            <p class='add_item plus' id='camp_plus'>&#43;</p>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class='row'> 
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
@@ -129,6 +233,18 @@
                                                 class='form-control'> 
                                         </div> 
                                     </div> 
+                                </div>
+                                <div class='row'>
+                                    <div class='col-sm-3'>
+                                        <div class='form-group'>
+                                            <label>добавить информацию о лагере:</label>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-3'>
+                                        <div class='button_plus_minus'>
+                                            <p class='add_item plus' id='camp_plus'>&#43;</p>
+                                        </div>
+                                    </div>
                                 </div>`,
 
         "team" :                   `<table id='table_data' class='add_info'></table> 
@@ -164,6 +280,18 @@
                                                 class='form-control'> 
                                         </div> 
                                     </div> 
+                                </div>
+                                <div class='row'>
+                                    <div class='col-sm-3'>
+                                        <div class='form-group'>
+                                            <label>добавить информацию о рабочей команде:</label>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-3'>
+                                        <div class='button_plus_minus'>
+                                            <p class='add_item plus' id='team_plus'>&#43;</p>
+                                        </div>
+                                    </div>
                                 </div>`,
                                 
         "infirmary" :          `<table id='table_data' class='add_info'></table> 
@@ -199,7 +327,188 @@
                                                 class='form-control' > 
                                         </div> 
                                     </div> 
-                                </div>`
+                                </div>
+                                <div class='row'>
+                                    <div class='col-sm-3'>
+                                        <div class='form-group'>
+                                            <label>добавить информацию о лазарете:</label>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-3'>
+                                        <div class='button_plus_minus'>
+                                            <p class='add_item plus' id='infirmary_plus'>&#43;</p>
+                                        </div>
+                                    </div>
+                                </div>`,
+
+        "datebureal" :          `<div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Дата:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" id="date_of_burial" class="form-control floating-label"
+                                            placeholder="" name="date_of_burial">
+                                    </div>
+                                </div>`,
+        
+        "docplacebureal":      `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Место захоронения по документам:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Область" name="burial_region_doc"
+                                        class="form-control">
+                                    <input type="hidden" value="3" name="burial_region_doc_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Район" name="burial_distric_doc"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="burial_distric_doc_type">
+
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Населенный пункт"
+                                        name="burial_locality_doc" class="form-control">
+                                    <input type="hidden" value="1" name="burial_locality_doc_type">
+                                </div>
+                            </div>`,
+        "factplacebureal":  `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Фактическое расположение*:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Область" name="burial_region_act"
+                                        class="form-control">
+                                    <input type="hidden" value="3" name="burial_region_act_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Район" name="burial_distric_act"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="burial_district_act_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Населенный пункт"
+                                        name="burial_locality_act" class="form-control">
+                                    <input type="hidden" value="1" name="burial_locality_act_type">
+
+                                </div>
+                            </div>`,
+        "definebureal" :    `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Кладбище:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="" name="cementary" class="form-control">
+                                </div>
+                            </div>`,
+        "fieldbureal"  :    `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Номер поля:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="" name="number_plot" class="form-control">
+                                </div>
+                            </div>`,
+        "linebureal"    :   `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Ряд:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="" name="number_line" class="form-control">
+                                </div>
+                            </div>`,
+        "tombbureal"    :   `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Номер могилы:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="" name="number_thumb" class="form-control">
+                                </div>
+                            </div>`,
+        "datereburial":     `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Дата:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" id="date_of_reburial" class="form-control floating-label"
+                                        placeholder="" name="date_of_burial">
+                                </div>
+                            </div>`,
+        "reasonreburial":    `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Причина:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="" name="reburial_cause"
+                                        class="form-control">
+                                </div>
+                            </div>`,
+        "actaddrreburial":  `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Актуальный адрес:</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Область" name="reburial_region_fact"
+                                        class="form-control">
+                                    <input type="hidden" value="3" name="reburial_region_fact_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Район" name="reburial_distric_fact"
+                                        class="form-control">
+                                    <input type="hidden" value="2" name="reburial_district_fact_type">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input type="text" value="" placeholder="Населенный пункт"
+                                        name="reburial_locality_fact" class="form-control">
+                                    <input type="hidden" value="1" name="reburial_locality_fact_type">
+                                </div>
+                            </div>`
+        
+    };
+
+    let msg_btn = {
+        "datebureal" : "добавить информацию о дате захоронения",
+        "docplacebureal" : "добавить информацию о месте захоронения по документам",
+        "factplacebureal" : "добавить информацию о фактическом месте захоронения",
+        "definebureal" : "добавить информацию о названии кладбища",
+        "fieldbureal" : "добавить информацию о номере поля на кладбище",
+        "linebureal" : "добавить информацию о номере ряда на кладбище",
+        "tombbureal" : "добавить информацию о номере могилы на кладбище",
+        "datereburial" : "добавить информацию о дате перезахоронения",
+        "reasonreburial" : "добавить информацию о причине перезахоронения",
+        "actaddrreburial" : "добавить информацию об актуальном адресе перезахоронения"
     };
 
     var num = 1;
@@ -207,13 +516,27 @@
     var registerEventButton = function () {
         var fighting_minus = document.getElementById('fight_minus'),
             fighting_plus = document.getElementById('fight_plus'),
-            hospital_minus = document.getElementById('hospital_minus'),
-            hospital_plus = document.getElementById('hospital_plus'),
             captivity_plus = document.getElementById('captivity_plus'),
             captivity_button = document.getElementById('captivity_button'),
-            camps_button = document.getElementById('camps_button'),
+            camps_button = document.getElementById('camp_button'),
             team_button = document.getElementById('team_button'),
-            infirmary_button = document.getElementById('infirmary_button');
+            infirmary_button = document.getElementById('infirmary_button'),
+            hospital_button = document.getElementById('hospital_button'),
+            datebureal_button = document.getElementById('datebureal_button'),
+            docplacebureal_button = document.getElementById('docplacebureal_button'),
+            factplacebureal_button = document.getElementById('factplacebureal_button'),
+            definebureal_button = document.getElementById('definebureal_button'),
+            fieldbureal_button = document.getElementById('fieldbureal_button'), 
+            linebureal_button = document.getElementById('linebureal_button'),
+            tombbureal_button = document.getElementById('tombbureal_button'),
+            datereburial_button = document.getElementById('datereburial_button'),
+            reasonreburial_button = document.getElementById('reasonreburial_button'),
+            actaddrreburial_button = document.getElementById('actaddrreburial_button');
+            
+
+
+
+        
 
         fighting_minus.onclick = delFormItem;
         del_row = create_del_row($("#personal_data"));
@@ -222,15 +545,23 @@
 
         fighting_plus.onclick = fightListAddFunction;
 
-        hospital_minus.onclick = delFormItem;
-
-        //hospital_plus.onclick = addFormItem;
-        hospital_plus.onclick = add_table($("#hospitals_list"), $("#personal_data"));
-        captivity_plus.onclick = add_table($("#captivity_list"), $("#personal_data"));
+        hospital_button.onclick = create_butt_meth(adding_info);
+        //captivity_plus.onclick = add_table($("#captivity_list"), $("#personal_data"));
         captivity_button.onclick = create_butt_meth(adding_info); 
         camps_button.onclick = create_butt_meth(adding_info);
         team_button.onclick = create_butt_meth(adding_info);
         infirmary_button.onclick = create_butt_meth(adding_info);
+        //bureal
+        datebureal_button.onclick = create_butt_meth(adding_info);
+        docplacebureal_button.onclick = create_butt_meth(adding_info);
+        factplacebureal_button.onclick = create_butt_meth(adding_info);
+        definebureal_button.onclick = create_butt_meth(adding_info);
+        fieldbureal_button.onclick = create_butt_meth(adding_info);
+        linebureal_button.onclick = create_butt_meth(adding_info);
+        tombbureal_button.onclick = create_butt_meth(adding_info);
+        datereburial_button.onclick = create_butt_meth(adding_info);
+        reasonreburial_button.onclick = create_butt_meth(adding_info);
+        actaddrreburial_button.onclick = create_butt_meth(adding_info);
     };
     addEventListener('load', registerEventButton);
 </script>
@@ -841,7 +1172,7 @@
                             <div class="row">
                                 <div class="col-sm-offset-3">
                                     <div class="form-group">
-                                        <input type="text" value="" placeholder="**Дополнительная информация"
+                                        <input type="text" value="" placeholder="**Дополнительная и��формация"
                                             name="battle_adding_info[]" class="form-control">
                                     </div>
                                 </div>
@@ -860,116 +1191,10 @@
                 </section>
                 <h3 class="info-text">Информация о нахождении в лечебных учреждениях </h3>
                 <section id="hospitals">
-                    <div id="hospitals_list">
-                        <div id="hospital_container" class="container-fluid">
-                            <table id="table_data" class="add_info"></table>
-                            <div id="hidden_data"></div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label>Период:</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" id="hospital_since" class="form-control floating-label"
-                                            placeholder="с" name="hospital_since[]">
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" id="hospital_to" class="form-control floating-label"
-                                            placeholder="по" name="hospital_to[]">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label>Наименование лечебного учреждения:</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="" name="hospital_name[]"
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label>Место расположения:</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="Область" name="hospital_region_name[]"
-                                            class="form-control">
-                                        <input type="hidden" value="3" name="hospital_region_type[]">
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="Район" name="hospital_distric_name[]"
-                                            class="form-control">
-                                        <input type="hidden" value="2" name="hospital_district_type[]">
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="Населенный пункт"
-                                            name="hospital_locality_name[]" class="form-control">
-                                        <input type="hidden" value="1" name="hospital_locality_type[]">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label>В составе:</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="Армия" name="hospital_army_name[]"
-                                            class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="Дивизия"
-                                            name="hospital_division_name[]" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="Полк" name="hospital_regiment_name[]"
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label>По окончанию лечения направлен в:</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <input type="text" value="" placeholder="" name="healthy_direction[]"
-                                            class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row top-buffer">
-
-                            </div>
+                    <div id="hospital_container" class="container-fluid">
+                        <div id="hospital_list">
+                            <p id="hospital_button">добавить информацию о пленении </p>
                         </div>
-                    </div>
-                    <div class="button_plus_minus">
-                        <p class="add_item plus" id="hospital_plus">&#43;</p>
-                        <p class="add_item minus" id="hospital_minus">&#8722;</p>
                     </div>
                 </section>
                 <h3 class="info-text">Данные о пленении и дальнейшем содержании</h3>
@@ -979,8 +1204,8 @@
                                 <p id="captivity_button">добавить информацию о пленении </p>
                                 
                             </div>
-                            <div id="camps_list">
-                                <p id="camps_button">добавить информацию о лагерях</p>
+                            <div id="camp_list">
+                                <p id="camp_button">добавить информацию о лагерях</p>
                             </div>
                             <div id="team_list">
                                 <p id="team_button">добавить информацию о рабочих командах</p>
@@ -1042,189 +1267,47 @@
                 <h3 class="info-text">Имеющиеся данные о захоронении</h3>
                 <section id="burial">
                     <div class="container-fluid">
-                        <div class="row">
-
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Дата:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" id="date_of_burial" class="form-control floating-label"
-                                        placeholder="" name="date_of_burial">
-                                </div>
-                            </div>
+                        <div id="datebureal_list" class="row">
+                            <p id="datebureal_button">добавить информацию о дате захоронения</p>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Место захоронения по документам:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="burial_region_doc"
-                                        class="form-control">
-                                    <input type="hidden" value="3" name="burial_region_doc_type">
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="burial_distric_doc"
-                                        class="form-control">
-                                    <input type="hidden" value="2" name="burial_distric_doc_type">
-
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт"
-                                        name="burial_locality_doc" class="form-control">
-                                    <input type="hidden" value="1" name="burial_locality_doc_type">
-                                </div>
-                            </div>
+                        <div id="docplacebureal_list" class="row">
+                            <p id="docplacebureal_button">добавить информацию о месте захоронения по документам</p>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Фактическое расположение*:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="burial_region_act"
-                                        class="form-control">
-                                    <input type="hidden" value="3" name="burial_region_act_type">
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="burial_distric_act"
-                                        class="form-control">
-                                    <input type="hidden" value="2" name="burial_district_act_type">
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт"
-                                        name="burial_locality_act" class="form-control">
-                                    <input type="hidden" value="1" name="burial_locality_act_type">
-
-                                </div>
-                            </div>
+                        <div id="factplacebureal_list" class="row">
+                            <p id="factplacebureal_button">добавить информацию о фактическом месте захоронения</p>
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
                                 <h5 class="info-text">Описание захоронения</h5>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Кладбище:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="cementary" class="form-control">
-                                </div>
-                            </div>
+                        <div  id="definebureal_list"  class="row">
+                            <p id="definebureal_button">добавить информацию о названии кладбища</p>
+                            
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Номер поля:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="number_plot" class="form-control">
-                                </div>
-                            </div>
+                        <div id="fieldbureal_list" class="row">
+                            <p id="fieldbureal_button">добавить информацию о номере поля на кладбище</p>
+                            
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Ряд:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="number_line" class="form-control">
-                                </div>
-                            </div>
+                        <div id="linebureal_list" class="row">
+                            <p id="linebureal_button">добавить информацию о номере ряда на кладбище</p>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Номер могилы:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="number_thumb" class="form-control">
-                                </div>
-                            </div>
+                        <div id="tombbureal_list" class="row">
+                            <p id="tombbureal_button">добавить информацию о номере могилы на кладбище</p>
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
                                 <h5 class="info-text">Перезахоронение</h5>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Дата:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" id="date_of_reburial" class="form-control floating-label"
-                                        placeholder="" name="date_of_burial">
-                                </div>
-                            </div>
+                        <div id="datereburial_list" class="row">
+                            <p id="datereburial_button">дата перезахоронения</p>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Причина:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="reburial_cause"
-                                        class="form-control">
-                                </div>
-                            </div>
+                        <div id="reasonreburial_list" class="row">
+                            <p id="reasonreburial_button">добавить информацию о причине перезахоронения</p>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Актуальный адрес:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="reburial_region_fact"
-                                        class="form-control">
-                                    <input type="hidden" value="3" name="reburial_region_fact_type">
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="reburial_distric_fact"
-                                        class="form-control">
-                                    <input type="hidden" value="2" name="reburial_district_fact_type">
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт"
-                                        name="reburial_locality_fact" class="form-control">
-                                    <input type="hidden" value="1" name="reburial_locality_fact_type">
-                                </div>
-                            </div>
+                        <div id="actaddrreburial_list" class="row">
+                            <p id="actaddrreburial_button">добавить информацию об актуальном адресе захоронения</p>
                         </div>
                         <div class="row top-buffer">
 

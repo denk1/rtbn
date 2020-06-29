@@ -53,6 +53,116 @@
     <script>
     let url_del_btn = "{% static 'img/del_row.png' %}";
        let adding_info = {
+        "fights"  :         `<table id="table_data" class="add_info"></table>
+                                <div id="hidden_data"></div>
+                                <div class="row">
+
+                                <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Период: </label>
+                                </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="text" id="fight_since" class="form-control floating-label"
+                                            placeholder="с" name="fight_since[]">
+                                        <label for="fight_since[]" generated="true" class="error"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="text" id="fight_to" class="form-control floating-label"
+                                            placeholder="по" name="fight_to[]">
+                                        <label for="fight_to[]" generated="true" class="error"></label>
+                                        <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>В составе:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Фронт" name="front_name[]"
+                                            class="form-control">
+                                        <label for="front_name[]" generated="true" class="error"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Армия" name="army_name[]"
+                                            class="form-control">
+                                        <label for="army_name[]" generated="true" class="error"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Дивизия" name="division_name[]"
+                                            class="form-control">
+                                        <label for="division_name[]" generated="true" class="error"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Полк" name="regiment_name[]"
+                                            class="form-control">
+                                        <label for="regiment_name[]" generated="true" class="error"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Рота" name="company_name[]"
+                                            class="form-control">
+                                        <label for="company_name[]" generated="true" class="error"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="Взвод" name="platoon_name[]"
+                                            class="form-control">
+                                        <label for="platoon_name[]" generated="true" class="error"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label id="test_id_label" for="military_operation_name[]">Название боевой операции:</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input id="test_id_attr" type="text" value="" placeholder="" name="military_operation_name[]"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-offset-3">
+                                    <div class="form-group">
+                                        <input type="text" value="" placeholder="**Дополнительная и��формация"
+                                            name="battle_adding_info[]" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='row'>
+                                <div class='col-sm-3'>
+                                    <div class='form-group'>
+                                        <label>добавить информацию о госпитализяциях:</label>
+                                    </div>
+                                </div>
+                                <div class='col-sm-3'>
+                                    <div class='button_plus_minus'>
+                                        <p class='add_item plus' id='fights_plus'>&#43;</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row top-buffer">
+                            </div>`, 
+
         "hospital" :       `<table id="table_data" class="add_info"></table>
                             <div id="hidden_data"></div>
                             <div class="row">
@@ -71,6 +181,7 @@
                                     <div class="form-group">
                                         <input type="text" id="hospital_to" class="form-control floating-label"
                                             placeholder="по" name="hospital_to[]" >
+                                        <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                     </div>
                                 </div>
                             </div>
@@ -556,6 +667,8 @@
 
 
     let msg_btn = {
+        "fights" : "добавить информацию об участии в сражениях",
+        "hospital" : "добавить информацию о госпитализяциях",
         "datebureal" : "добавить информацию о дате захоронения",
         "docplacebureal" : "добавить информацию о месте захоронения по документам",
         "factplacebureal" : "добавить информацию о фактическом месте захоронения",

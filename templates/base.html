@@ -292,9 +292,10 @@
                                         <div class='form-group'>
                                             <input type='text' id='date_of_captivity'
                                                 class='form-control floating-label' placeholder=''
-                                                name='date_of_captivity'>
+                                                name='date_of_captivity[]'>
                                         </div>
                                     </div>
+                                    <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                 </div>
                                 <div class='row'> 
                                     <div class='col-sm-3'>
@@ -348,15 +349,16 @@
                                     <div class='col-sm-3'> 
                                         <div class='form-group'>
                                             <input type='text' id='camp_since' class='form-control floating-label'  
-                                                placeholder='с' name='camp_since'> 
+                                                placeholder='с' name='camp_since[]'> 
                                         </div> 
                                     </div> 
                                     <div class='col-sm-3'> 
                                         <div class='form-group'>
                                             <input type='text' id='camp_to' class='form-control floating-label'
-                                                placeholder='по' name='camp_to'> 
+                                                placeholder='по' name='camp_to[]'> 
                                         </div> 
-                                    </div> 
+                                    </div>
+                                    <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" > 
                                 </div> 
                                 <div class='row'> 
                                     <div class='col-sm-3'> 
@@ -366,7 +368,7 @@
                                     </div> 
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
-                                            <input type='text' value='' placeholder='' name='camp' class='form-control'> 
+                                            <input type='text' value='' placeholder='' name='camp[]' class='form-control'> 
                                         </div> 
                                     </div> 
                                 </div> 
@@ -378,7 +380,7 @@
                                     </div> 
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
-                                            <input type='text' value='' placeholder='' name='number_of_prisoners' 
+                                            <input type='text' value='' placeholder='' name='number_of_prisoners[]'
                                                 class='form-control'> 
                                         </div> 
                                     </div> 
@@ -396,9 +398,9 @@
                                     </div>
                                 </div>`,
 
-        "team" :                   `<table id='table_data' class='add_info'></table> 
-                                    <div id='hidden_data'></div> 
-                                    <div class='row'> 
+        "team" :                `<table id='table_data' class='add_info'></table> 
+                                <div id='hidden_data'></div> 
+                                <div class='row'> 
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
                                             <label>В период:</label> 
@@ -407,15 +409,16 @@
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
                                             <input type='text' id='work_since' class='form-control floating-label' 
-                                                placeholder='с' name='work_since'> 
+                                                    placeholder='с' name='work_since[]'> 
                                         </div> 
                                     </div> 
                                     <div class='col-sm-3'>
                                         <div class='form-group'> 
                                             <input type='text' id='work_to' class='form-control floating-label' 
-                                                placeholder='по' name='work_to'> \
+                                                    placeholder='по' name='work_to[]'> \
                                         </div> 
-                                    </div> 
+                                    </div>
+                                    <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" > 
                                 </div> 
                                 <div class='row'> 
                                     <div class='col-sm-3'> 
@@ -425,8 +428,8 @@
                                     </div> 
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
-                                            <input type='text' value='' placeholder='' name='work_command' 
-                                                class='form-control'> 
+                                            <input type='text' value='' placeholder='' name='work_command[]' 
+                                                    class='form-control'> 
                                         </div> 
                                     </div> 
                                 </div>
@@ -454,15 +457,16 @@
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
                                             <input type='text' id='infir_since' class='form-control floating-label' 
-                                                placeholder='с' name='infir_since'> 
+                                                placeholder='с' name='infir_since[]'> 
                                         </div> 
                                     </div> 
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
                                             <input type='text' id='infir_to' class='form-control floating-label' 
-                                                placeholder='по' name='infir_to'> 
+                                                placeholder='по' name='infir_to[]'> 
                                         </div> 
-                                    </div> 
+                                    </div>
+                                    <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" > 
                                 </div> 
                                 <div class='row'> 
                                     <div class='col-sm-3'> 
@@ -472,7 +476,7 @@
                                     </div>
                                     <div class='col-sm-3'> 
                                         <div class='form-group'> 
-                                            <input type='text' value='' placeholder='' name='infirmary' 
+                                            <input type='text' value='' placeholder='' name='infirmary[]' 
                                                 class='form-control' > 
                                         </div> 
                                     </div> 
@@ -498,7 +502,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group form-inline" >
                                         <input type="text" id="date_of_burial" class="form-control d-inline p-2"
-                                            placeholder="" name="date_of_burial">
+                                            placeholder="" name="date_of_burial[]">
                                         <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                         
                                     </div>
@@ -513,21 +517,21 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Область" name="burial_region_doc"
                                         class="form-control">
-                                    <input type="hidden" value="3" name="burial_region_doc_type">
+                                    <input type="hidden" value="3" name="burial_region_doc_type[]">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Район" name="burial_distric_doc"
                                         class="form-control">
-                                    <input type="hidden" value="2" name="burial_distric_doc_type">
+                                    <input type="hidden" value="2" name="burial_distric_doc_type[]">
 
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Населенный пункт"
-                                        name="burial_locality_doc" class="form-control d-inline p-2">
+                                        name="burial_locality_doc[]" class="form-control d-inline p-2">
                                     <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                 </div>
                             </div>`,
@@ -541,12 +545,12 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Область" name="burial_region_act"
                                         class="form-control">
-                                    <input type="hidden" value="3" name="burial_region_act_type">
+                                    <input type="hidden" value="3" name="burial_region_act_type[]">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="burial_distric_act"
+                                    <input type="text" value="" placeholder="Район" name="burial_distric_act[]"
                                         class="form-control">
                                     
                                 </div>
@@ -556,7 +560,7 @@
                                     <input type="text" value="" placeholder="Населенный пункт"
                                         name="burial_locality_act" class="form-control d-inline p-2">
                                     <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
-                                    <input type="hidden" value="1" name="burial_locality_act_type">
+                                    <input type="hidden" value="1" name="burial_locality_act_type[]">
                                 </div>
                             </div>`,
 
@@ -567,7 +571,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="cementary" class="form-control d-inline p-2">
+                                    <input type="text" value="" placeholder="" name="cementary[]" class="form-control d-inline p-2">
                                     <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                             
                                 </div>
@@ -579,7 +583,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="number_plot" class="form-control d-inline p-2">
+                                    <input type="text" value="" placeholder="" name="number_plot[]" class="form-control d-inline p-2">
                                     <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                 </div>
                             </div>`,
@@ -591,7 +595,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="number_line" class="form-control d-inline p-2">
+                                    <input type="text" value="" placeholder="" name="number_line[]" class="form-control d-inline p-2">
                                     <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                 </div>
                             </div>`,
@@ -603,7 +607,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="number_thumb" class="form-control d-inline p-2">
+                                    <input type="text" value="" placeholder="" name="number_thumb[]" class="form-control d-inline p-2">
                                      <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                 </div>
                             </div>`,
@@ -616,7 +620,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <input type="text" id="date_of_reburial" class="form-control floating-label d-inline p-2"
-                                        placeholder="" name="date_of_burial">
+                                        placeholder="" name="date_of_burial[]">
                                     <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                 </div>
                             </div>`,
@@ -628,7 +632,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="" name="reburial_cause"
+                                    <input type="text" value="" placeholder="" name="reburial_cause[]"
                                         class="form-control d-inline p-2">
                                     <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
                                 </div>
@@ -641,7 +645,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="reburial_region_fact"
+                                    <input type="text" value="" placeholder="Область" name="reburial_region_fact[]"
                                         class="form-control">
                                     <input type="hidden" value="3" name="reburial_region_fact_type">
                                 </div>
@@ -650,7 +654,7 @@
                                 <div class="form-group">
                                     <input type="text" value="" placeholder="Район" name="reburial_distric_fact"
                                         class="form-control">
-                                    <input type="hidden" value="2" name="reburial_district_fact_type">
+                                    <input type="hidden" value="2" name="reburial_district_fact_type[]">
                                 </div>
                             </div>
                             <div class="col-sm-2">
@@ -658,7 +662,7 @@
                                     <input type="text" value="" placeholder="Населенный пункт"
                                         name="reburial_locality_fact" class="form-control d-inline p-2">
                                     <img  class="d-inline p-2" src="{% static 'img/del_row.png' %}" >
-                                    <input type="hidden" value="1" name="reburial_locality_fact_type">
+                                    <input type="hidden" value="1" name="reburial_locality_fact_type[]">
                                 </div>
                             </div>`
         
@@ -669,6 +673,10 @@
     let msg_btn = {
         "fights" : "добавить информацию об участии в сражениях",
         "hospital" : "добавить информацию о госпитализяциях",
+        "captivity" : "добавить информацию о пленении",
+        "camp" : "добавить информацию о лагерях",
+        "team" : "добавить информацию о рабочих командах",
+        "infirmary" : "добавить информацию о содержании лазаритах",
         "datebureal" : "добавить информацию о дате захоронения",
         "docplacebureal" : "добавить информацию о месте захоронения по документам",
         "factplacebureal" : "добавить информацию о фактическом месте захоронения",

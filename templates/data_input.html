@@ -58,6 +58,10 @@
         //team_button.onclick = create_butt_meth(adding_info);
         //infirmary_button.onclick = create_butt_meth(adding_info);
         //bureal
+        init_msg_form("captivity");
+        init_msg_form("camp");
+        init_msg_form("team");
+        init_msg_form("infirmary");
         init_msg_form("datebureal");
         init_msg_form("docplacebureal");
         init_msg_form("factplacebureal");
@@ -254,11 +258,10 @@
 
             },
             onFinishing: function (event, currentIndex) {
-
-                return false;
+                return form.valid();
             },
             onFinished: function (event, currentIndex) {
-
+                form.submit();
             }
         };
         
@@ -605,18 +608,18 @@
                 <h3 class="info-text">Данные о пленении и дальнейшем содержании</h3>
                 <section id="captivity">                   
                         <div class="container-fluid">
-                            <div id="captivity_list">
-                                <p id="captivity_button">добавить информацию о пленении </p>
+                            <div id="captivity_list" >
+                                <!-- <p id="captivity_button">добавить информацию о пленении </p> -->
                                 
                             </div>
-                            <div id="camp_list">
-                                <p id="camp_button">добавить информацию о лагерях</p>
+                            <div id="camp_list" >
+                                <!-- <p id="camp_button">добавить информацию о лагерях</p> -->
                             </div>
-                            <div id="team_list">
-                                <p id="team_button">добавить информацию о рабочих командах</p>
+                            <div id="team_list" >
+                                <!-- <p id="team_button">добавить информацию о рабочих командах</p> -->
                             </div>
-                            <div id="infirmary_list">
-                                <p id="infirmary_button">добавить информацию о содержании лазаритах</p> 
+                            <div id="infirmary_list" >
+                                <!-- <p id="infirmary_button">добавить информацию о содержании лазаритах</p> -->
                             </div>
                             <div class="row">
                                 <div class="col-sm-3">

@@ -23,6 +23,10 @@ from .models import Person, \
 
 from django.core.paginator import Paginator
 from django.forms import modelformset_factory, inlineformset_factory, formset_factory
+from django.http import JsonResponse
+from django.forms import formset_factory
+from django.views.decorators.csrf import csrf_exempt
+from .forms import PersonModelForm, AddressForm
 
 
 def index(request):
@@ -32,7 +36,10 @@ def index(request):
 
 @login_required
 def data_input(request):
-    return render(request, 'data_input.html')
+    person_form = PersonModelForm(initial={"name": None})
+    address_form = AddressItem()
+    context = {'person_form': person_form, 'address_form': address_form}
+    return render(request, 'data_input.html', context)
 
 
 def persons_listing(request):
@@ -108,3 +115,36 @@ def searching(requiest):
 
 def searching_param(requiest, type_search):
     return render(requiest, 'search.html', {'type_search': type_search})
+
+
+@csrf_exempt
+def region(request):
+
+    if request.is_ajax():
+        term = request.POST.get('term')
+        type_item = request.POST.get('type_item')
+        parent_id = request.POST.get('parent_id')
+        print('parent_id is %s' % parent_id)
+        if term is not None:
+            regions = AddressItem.objects.all().filter(
+                address_item_name__icontains=term, address_item_type=type_item, parent_address_unit_id=parent_id)
+            response_content = list(regions.values())
+            return JsonResponse(response_content, safe=False)
+
+
+@csrf_exempt
+def add_region(request):
+    id = -1
+    id_parent = None
+    if request.method == 'POST':
+        d = request.POST.dict()
+        if "" != d['parent_item']:
+            id_parent = d['parent_item']
+        parent_region = AddressItem.objects.all().filter(id=id_parent).first()
+        region = AddressItem.objects.create(
+            parent_address_unit=parent_region, address_item_name=d['text'], address_item_type=TypePlace(int(d['type_item'])))
+        region.save()
+        id = region.id
+        print(id)
+        print(type(id))
+    return JsonResponse({'result': True, 'id': id}, safe=False)

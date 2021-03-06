@@ -22,8 +22,8 @@ urlpatterns = [
     path('data_input/', views.data_input, name='data_input'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('list/', views.persons_listing, name='data_list'),
-    path('search/', views.searching, name='search'), 
-    path('search/<int:type_search>/', views.searching_param, name='search')
+    path('search/', views.searching, name='search'),
+    path('search/<int:type_search>/', views.searching_param, name='search'),
+    path("region/", views.region, name="region"),
+    path("add_region/", views.add_region, name="add_region")
 ]
-
-

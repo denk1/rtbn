@@ -1,17 +1,17 @@
 {% extends 'authorized.html' %}
 {% block title %}
-    <div class="inner">
-        <div class="search_border">
-            <div class="main_button"><a href="{% url 'search' %}"><b>Поиск</b></a></div>
-            <div class="main_button"><a href="{% url 'data_input' %}"><b>Внесение данных</b></a></div>
-        </div>
+<div class="inner">
+    <div class="search_border">
+        <div class="main_button"><a href="{% url 'search' %}"><b>Поиск</b></a></div>
+        <div class="main_button"><a href="{% url 'data_input' %}"><b>Внесение данных</b></a></div>
     </div>
+</div>
 {% endblock %}
 
 {% block content %}
-    <div>
-    
-    </div>
+<div>
+
+</div>
 {% endblock %}
 
 {% block list_update_persons %}
@@ -19,11 +19,11 @@
 <!-- <div id="test"> -->
 {% for person in persons_update %}
 <p>
-{{person.surname}}
+    {{person.surname}}
 
-{{person.name}}
+    {{person.name}}
 
-{{person.father_name}}
+    {{person.patronimic}}
 </p>
 {% endfor %}
 

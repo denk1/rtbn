@@ -509,22 +509,21 @@
                                     <label for="name" generated="true" class="error"></label>
                                 </div>
                                 <div class="form-group container-element">
-                                    {{ person_form.name_distortion }}
-                                    <label for="name_distortion" generated="true" class="error"></label>
+                                    {{ name_distortion_form.name_distortion }}
                                 </div>
                                 <div class="form-group container-element">
                                     {{ person_form.surname }}
                                     <label for="surname" generated="true" class="error"></label>
                                 </div>
                                 <div class="form-group container-element">
-                                    {{ person_form.surname_distortion }}
+                                    {{ surname_distortion_form.surname_distortion }}
                                 </div>
                                 <div class="form-group container-element">
                                     {{ person_form.patronimic }}
                                     <label for="father_name" generated="true" class="error"></label>
                                 </div>
                                 <div class="form-group container-element">
-                                    {{ person_form.patronimic_distortion }}
+                                    {{ patronimic_distortion_form.patronimic_distortion }}
                                 </div>
                                 <div class="form-group container-element">
                                     {{ person_form.birthday }}
@@ -538,21 +537,21 @@
                                     <label>Место рождения</label>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     {{ region_form.address_item_name }}
                                     <label for="born_region_name" generated="true" class="error"></label>
 
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     {{ district_form.address_item_name }}
                                     <label for="born_district_name" generated="true" class="error"></label>
                                     <input id="born_district_name" type="hidden" value="2" name="born_district_type">
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     {{ locality_form.address_item_name }}
                                     <label for="born_locality_name" generated="true" class="error"></label>

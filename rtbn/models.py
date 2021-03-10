@@ -114,11 +114,8 @@ class Person(models.Model):
     """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30, default='Неизвестно')
-    name_distortion = models.CharField(max_length=30, null=True)
     surname = models.CharField(max_length=30, default='Неизвестно')
-    surname_distortion = models.CharField(max_length=30, null=True)
     patronimic = models.CharField(max_length=30, null=True)
-    patronimic_distortion = models.CharField(max_length=30, null=True)
     birthday = models.DateField(null=True)
     born_locality = models.ForeignKey(
         AddressItem, related_name='born', on_delete=models.CASCADE, null=True)

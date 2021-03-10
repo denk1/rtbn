@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Person, \
+    TypePlace, \
     WarUnitType, \
     AddressItem,  \
     WarUnit, \
@@ -23,7 +24,13 @@ from django.forms import modelformset_factory, inlineformset_factory, formset_fa
 from django.http import JsonResponse
 from django.forms import formset_factory
 from django.views.decorators.csrf import csrf_exempt
-from .forms import PersonModelForm, RegionBornForm, DistrictBornForm, LocalityBornForm
+from .forms import PersonModelForm, \
+    RegionBornForm, \
+    DistrictBornForm, \
+    LocalityBornForm, \
+    NameDistortionForm, \
+    SurnameDistortionForm, \
+    PatronimicDistortionForm
 
 
 def index(request):
@@ -34,13 +41,20 @@ def index(request):
 @login_required
 def data_input(request):
     person_form = PersonModelForm(initial={"name": None})
-    region_form = RegionBornForm()
+    region_form = RegionBornForm(initial={'address_item_name': 'Регион'})
     district_form = DistrictBornForm()
     locality_form = LocalityBornForm()
+    name_distortion_form = NameDistortionForm()
+    surname_distortion_form = SurnameDistortionForm()
+    patronimic_distortion_form = PatronimicDistortionForm()
     context = {'person_form': person_form,
                'region_form': region_form,
                'district_form': district_form,
-               'locality_form': locality_form}
+               'locality_form': locality_form,
+               'name_distortion_form': name_distortion_form,
+               'surname_distortion_form': surname_distortion_form,
+               'patronimic_distortion_form': patronimic_distortion_form}
+
     return render(request, 'data_input.html', context)
 
 
@@ -54,15 +68,10 @@ def persons_listing(request):
         FormsetAddressItem = modelformset_factory(
             AddressItem, fields="__all__")
         FormsetWarUnit = modelformset_factory(WarUnit, fields="__all__")
-        FormsetWarServe = modelformset_factory(WarServe, fields="__all__")
         FormsetCallingTeam = modelformset_factory(
             CallingTeam, fields="__all__")
-        FormsetCallingTeamDirection = modelformset_factory(
-            CallingTeamDirection, fields="__all__")
         FormsetMilitaryEnlistmentOffice = modelformset_factory(
             MilitaryEnlistmentOffice, fields="__all__")
-        FormsetMobilization = modelformset_factory(
-            Mobilization, fields="__all__")
         FormsetCall = modelformset_factory(Call, fields="__all__")
         FormsetHospital = modelformset_factory(Hospital, fields="__all__")
         FormsetHospitalization = modelformset_factory(
@@ -72,8 +81,6 @@ def persons_listing(request):
         FormsetWarArchievement = modelformset_factory(
             WarArchievement, fields="__all__")
         FormsetCamp = modelformset_factory(Camp, fields="__all__")
-        FormsetCampArbeit = modelformset_factory(
-            CampArbeit, fields="__all__")
         FormsetInfirmaryCamp = modelformset_factory(
             InfirmaryCamp, fields="__all__")
         FormsetCaptivity = modelformset_factory(Captivity, fields="__all__")
@@ -82,15 +89,10 @@ def persons_listing(request):
 
         formset_person = FormsetPerson(request.POST, prefix="person")
         formset_warunit = FormsetWarUnit(request.POST, prefix="warunit")
-        formset_warserve = FormsetWarServe(request.POST, prefix="warserve")
         formset_calling_team = FormsetCallingTeam(
             request.POST, prefix="calling_team")
-        formset_calling_team_direction = FormsetCallingTeamDirection(
-            request.POST, prefix="calling_team_direction")
         formset_enlistment_office = FormsetMilitaryEnlistmentOffice(
             request.POST, prefix="military_enlistment_office")
-        formset_mobilization = FormsetMobilization(
-            request.POST, prefix="mobilization")
         formset_call = FormsetCall(request.POST, prefix="call")
         formset_hospital = FormsetHospital(request.POST, prefix="hospital")
         formset_hospitalization = FormsetHospitalization(
@@ -100,10 +102,6 @@ def persons_listing(request):
         formset_war_archievement = FormsetWarArchievement(
             request.POST, "wararchievement")
         formset_camp = FormsetCamp(request.POST, prefix="camp")
-        formset_camp_arbeit = FormsetCampArbeit(
-            request.POST, prefix="camp_arbeit")
-        formset_infirmary_camp = FormsetCampArbeit(
-            request.POST, prefix="infirmary_camp")
         formset_captivity = FormsetCaptivity(request.POST, prefix="captivity")
         formset_bureal = FormsetBureal(request.POST, prefix="bureal")
         formset_rebureal = FormsetBureal(request.POST, prefix="rebureal")

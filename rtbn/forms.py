@@ -53,7 +53,28 @@ class PersonModelForm(forms.ModelForm):
         }
 
 
-class AddressForm(forms.ModelForm):
+class RegionBornForm(forms.ModelForm):
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'born_region_name', 'name': 'born_region_name', 'style': 'width:100px'}),
+        }
+
+
+class DistrictBornForm(forms.ModelForm):
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'born_district_name', 'name': 'born_district_name', 'style': 'width:100px'}),
+        }
+
+
+class LocalityBornForm(forms.ModelForm):
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'born_locality_name', 'name': 'born_locality_name', 'style': 'width:100px'}),
+        }

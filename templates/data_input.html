@@ -360,7 +360,6 @@
         }
 
         function set_select2_region() {
-
             set_select_address('#born_locality_name', 1, '#born_district_name');
 
             set_select_address('#born_district_name', 2, '#born_region_name');
@@ -369,6 +368,7 @@
 
             $('#born_locality_name').attr("disabled", true);
             $('#born_district_name').attr("disabled", true);
+            console.log("test from set_select2_region");
         }
 
         function creation_tag(tag) {
@@ -540,26 +540,23 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="born_region_name"
-                                        class="form-control" required>
+                                    {{ region_form.address_item_name }}
                                     <label for="born_region_name" generated="true" class="error"></label>
-                                    <input id="#born_region_name" type="hidden" value="3" name="born_region_type">
+
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="born_district_name"
-                                        class="form-control" required>
+                                    {{ district_form.address_item_name }}
                                     <label for="born_district_name" generated="true" class="error"></label>
-                                    <input id="#born_district_name" type="hidden" value="2" name="born_district_type">
+                                    <input id="born_district_name" type="hidden" value="2" name="born_district_type">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт" name="born_locality_name"
-                                        class="form-control" required>
+                                    {{ locality_form.address_item_name }}
                                     <label for="born_locality_name" generated="true" class="error"></label>
-                                    <input id="#born_district_name" type="hidden" value="1" name="born_locality_type">
+                                    <input id="born_locality_name" type="hidden" value="1" name="born_locality_type">
                                 </div>
                             </div>
                         </div>

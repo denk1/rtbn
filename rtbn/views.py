@@ -4,18 +4,15 @@ from .models import Person, \
     WarUnitType, \
     AddressItem,  \
     WarUnit, \
-    WarServe, \
     CallingTeam, \
-    CallingTeamDirection, \
     MilitaryEnlistmentOffice, \
-    Mobilization, \
     Call, \
     Hospital, \
     Hospitalization, \
     WarOperation, \
     WarArchievement, \
     Camp, \
-    CampArbeit, \
+    ArbeitCamp, \
     InfirmaryCamp, \
     Captivity, \
     Burial, \
@@ -26,7 +23,7 @@ from django.forms import modelformset_factory, inlineformset_factory, formset_fa
 from django.http import JsonResponse
 from django.forms import formset_factory
 from django.views.decorators.csrf import csrf_exempt
-from .forms import PersonModelForm, AddressForm
+from .forms import PersonModelForm, RegionBornForm, DistrictBornForm, LocalityBornForm
 
 
 def index(request):
@@ -37,8 +34,13 @@ def index(request):
 @login_required
 def data_input(request):
     person_form = PersonModelForm(initial={"name": None})
-    address_form = AddressItem()
-    context = {'person_form': person_form, 'address_form': address_form}
+    region_form = RegionBornForm()
+    district_form = DistrictBornForm()
+    locality_form = LocalityBornForm()
+    context = {'person_form': person_form,
+               'region_form': region_form,
+               'district_form': district_form,
+               'locality_form': locality_form}
     return render(request, 'data_input.html', context)
 
 

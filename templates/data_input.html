@@ -301,14 +301,14 @@
             let live_region_name = document.getElementsByName("live_region_name");
             let live_district_name = document.getElementsByName("live_district_name");
             let live_locality_name = document.getElementsByName("live_locality_name");
-            set_disabled_input(v, live_region_name[0], live_district_name[0], live_locality_name[0]);
+            //set_disabled_input(v, live_region_name[0], live_district_name[0], live_locality_name[0]);
         }
 
         function set_disabled_last_msg(v) {
             let last_msg_region = document.getElementsByName("last_msg_region");
             let last_msg_district = document.getElementsByName("last_msg_district");
             let last_msg_locality = document.getElementsByName("last_msg_locality");
-            set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
+            //set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
         }
 
         //form.children("div").steps(settings);
@@ -317,7 +317,7 @@
         set_disabled_live_address(false);
         set_disabled_last_msg(true);
 
-        var t = $("#test_id");
+        var t = $("#chbox_living_place");
         var m = $("#chbox_last_msg");
         var last_msg = $("#last_msg");
 
@@ -369,6 +369,17 @@
             $('#born_locality_name').attr("disabled", true);
             $('#born_district_name').attr("disabled", true);
             console.log("test from set_select2_region");
+        }
+
+        function set_address(region_name, district_name, locality_name) {
+            set_select_address(locality_name, 1, district_name);
+
+            set_select_address(district_name, 2, region_name);
+
+            set_select_address(region_name, 3, null);
+
+            $(locality_name).attr("disabled", true);
+            $(district_name).attr("disabled", true);
         }
 
         function creation_tag(tag) {
@@ -489,7 +500,11 @@
             console.log('test');
 
         }
-        $(set_select2_region);
+
+        set_address('#born_region_name', '#born_district_name', '#born_locality_name');
+        set_address('#live_region_name', '#live_district_name', '#live_locality_name');
+
+        //$(set_select2_region);
     });
 </script>
 <div class="content">
@@ -539,21 +554,21 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ region_form.address_item_name }}
+                                    {{ region_born_form.address_item_name }}
                                     <label for="born_region_name" generated="true" class="error"></label>
 
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ district_form.address_item_name }}
+                                    {{ district_born_form.address_item_name }}
                                     <label for="born_district_name" generated="true" class="error"></label>
                                     <input id="born_district_name" type="hidden" value="2" name="born_district_type">
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ locality_form.address_item_name }}
+                                    {{ locality_born_form.address_item_name }}
                                     <label for="born_locality_name" generated="true" class="error"></label>
                                     <input id="born_locality_name" type="hidden" value="1" name="born_locality_type">
                                 </div>
@@ -565,7 +580,8 @@
                                     <div>
                                         <div id="same_addr">
                                             <label for="same_addr">совпадает</label>
-                                            <input id="test_id" class="check-data" type="checkbox" name="newsletter">
+                                            <input id="chbox_living_place" class="check-data" type="checkbox"
+                                                name="newsletter">
                                         </div>
                                     </div>
                                 </div>
@@ -577,26 +593,23 @@
                                     <label>Место последнего проживания до призыва</label>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область" name="live_region_name"
-                                        class="form-control disabled">
+                                    {{ region_live_form.address_item_name }}
                                     <label for="live_region_name" generated="true" class="error"></label>
                                     <input type="hidden" value=3 name="live_region_type">
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район" name="live_district_name"
-                                        class="form-control">
+                                    {{ district_live_form.address_item_name }}
                                     <label for="live_district_name" generated="true" class="error"></label>
                                     <input type="hidden" value=2 name="live_district_type">
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Населенный пункт" name="live_locality_name"
-                                        class="form-control">
+                                    {{ locality_live_form.address_item_name }}
                                     <label for="live_locality_name" generated="true" class="error"></label>
                                     <input type="hidden" value=1 name="live_locality_type">
                                 </div>

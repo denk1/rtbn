@@ -25,6 +25,9 @@ from django.http import JsonResponse
 from django.forms import formset_factory
 from django.views.decorators.csrf import csrf_exempt
 from .forms import PersonModelForm, \
+    RegionLiveForm, \
+    DistrictLiveForm, \
+    LocalityLiveForm, \
     RegionBornForm, \
     DistrictBornForm, \
     LocalityBornForm, \
@@ -41,16 +44,22 @@ def index(request):
 @login_required
 def data_input(request):
     person_form = PersonModelForm(initial={"name": None})
-    region_form = RegionBornForm(initial={'address_item_name': 'Регион'})
-    district_form = DistrictBornForm()
-    locality_form = LocalityBornForm()
+    region_born_form = RegionBornForm(initial={'address_item_name': 'Регион'})
+    district_born_form = DistrictBornForm()
+    locality_born_form = LocalityBornForm()
+    region_live_form = RegionLiveForm(initial={'address_item_name': 'Регион'})
+    district_live_form = DistrictLiveForm()
+    locality_live_form = LocalityLiveForm()
     name_distortion_form = NameDistortionForm()
     surname_distortion_form = SurnameDistortionForm()
     patronimic_distortion_form = PatronimicDistortionForm()
     context = {'person_form': person_form,
-               'region_form': region_form,
-               'district_form': district_form,
-               'locality_form': locality_form,
+               'region_born_form': region_born_form,
+               'district_born_form': district_born_form,
+               'locality_born_form': locality_born_form,
+               'region_live_form': region_live_form,
+               'district_live_form': district_live_form,
+               'locality_live_form': locality_live_form,
                'name_distortion_form': name_distortion_form,
                'surname_distortion_form': surname_distortion_form,
                'patronimic_distortion_form': patronimic_distortion_form}

@@ -43,7 +43,6 @@ class PersonModelForm(forms.ModelForm):
 
 
 class RegionBornForm(forms.ModelForm):
-
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
@@ -63,7 +62,8 @@ class DistrictBornForm(forms.ModelForm):
         widgets = {
             'address_item_name': forms.Select(attrs={'id': 'born_district_name',
                                                      'name': 'born_district_name',
-                                                     'style': 'width:200px'}, choices=[('', 'Область')])
+                                                     'style': 'width:200px',
+                                                     'class': 'mdb-select md-form'}, choices=[('', 'Область')])
         }
 
 
@@ -74,7 +74,45 @@ class LocalityBornForm(forms.ModelForm):
         widgets = {
             'address_item_name': forms.Select(attrs={'id': 'born_locality_name',
                                                      'name': 'born_locality_name',
-                                                     'style': 'width:200px'}, choices=[('', 'Район')])
+                                                     'style': 'width:200px',
+                                                     'class': 'mdb-select md-form'}, choices=[('', 'Район')])
+        }
+
+
+class RegionLiveForm(forms.ModelForm):
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'live_region_name',
+                                                     'name': 'live_region_name',
+                                                     'style': 'width:200px',
+                                                     'class': 'mdb-select md-form'}, choices=[('', 'Регион')]
+                                              )
+        }
+
+
+class DistrictLiveForm(forms.ModelForm):
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'live_district_name',
+                                                     'name': 'live_district_name',
+                                                     'style': 'width:200px',
+                                                     'class': 'mdb-select md-form'}, choices=[('', 'Область')])
+        }
+
+
+class LocalityLiveForm(forms.ModelForm):
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'live_locality_name',
+                                                     'name': 'live_locality_name',
+                                                     'style': 'width:200px',
+                                                     'class': 'mdb-select md-form'}, choices=[('', 'Район')])
         }
 
 

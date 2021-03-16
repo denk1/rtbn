@@ -298,17 +298,15 @@
         }
 
         function set_disabled_live_address(v) {
-            let live_region_name = document.getElementsByName("live_region_name");
-            let live_district_name = document.getElementsByName("live_district_name");
-            let live_locality_name = document.getElementsByName("live_locality_name");
-            //set_disabled_input(v, live_region_name[0], live_district_name[0], live_locality_name[0]);
+            $("#last_place").find("select").first().attr("disabled", v);
         }
 
         function set_disabled_last_msg(v) {
+
             let last_msg_region = document.getElementsByName("last_msg_region");
             let last_msg_district = document.getElementsByName("last_msg_district");
             let last_msg_locality = document.getElementsByName("last_msg_locality");
-            //set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
+            set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
         }
 
         //form.children("div").steps(settings);

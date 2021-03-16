@@ -117,6 +117,10 @@ class LocalityLiveForm(forms.ModelForm):
 
 
 class NameDistortionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name_distortion'].required = False
+
     class Meta:
         model = NameDistortion
         fields = ('name_distortion',)
@@ -127,6 +131,10 @@ class NameDistortionForm(forms.ModelForm):
 
 
 class SurnameDistortionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['surname_distortion'].required = False
+
     class Meta:
         model = SurnameDistortion
         fields = ('surname_distortion',)
@@ -137,6 +145,10 @@ class SurnameDistortionForm(forms.ModelForm):
 
 
 class PatronimicDistortionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['patronimic_distortion'].required = False
+
     class Meta:
         model = PatronimicDistortion
         fields = ('patronimic_distortion',)

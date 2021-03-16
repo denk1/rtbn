@@ -43,7 +43,7 @@ def index(request):
 
 @login_required
 def data_input(request):
-    person_form = PersonModelForm(initial={"name": None})
+    person_form = PersonModelForm(initial={"name": None, "surname": None})
     region_born_form = RegionBornForm(initial={'address_item_name': 'Регион'})
     district_born_form = DistrictBornForm()
     locality_born_form = LocalityBornForm()

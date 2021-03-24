@@ -17,7 +17,10 @@ from .models import Person, \
     InfirmaryCamp, \
     Captivity, \
     Burial, \
-    Reburial
+    Reburial, \
+    NameDistortion, \
+    PatronimicDistortion, \
+    SurnameDistortion
 
 from django.core.paginator import Paginator
 from django.forms import modelformset_factory, inlineformset_factory, formset_factory
@@ -33,7 +36,14 @@ from .forms import PersonModelForm, \
     LocalityBornForm, \
     NameDistortionForm, \
     SurnameDistortionForm, \
-    PatronimicDistortionForm
+    PatronimicDistortionForm, \
+    CallForm, \
+    RegionWarEnlistmentForm, \
+    DistrictWarEnlistmentForm, \
+    MilitaryEnlistmentOfficeForm, \
+    RegionLetterForm, \
+    DistrictLetterForm, \
+    LocalityLetterForm
 
 
 def index(request):
@@ -53,6 +63,14 @@ def data_input(request):
     name_distortion_form = NameDistortionForm()
     surname_distortion_form = SurnameDistortionForm()
     patronimic_distortion_form = PatronimicDistortionForm()
+    # moblization
+    call_form = CallForm()
+    region_war_enlistment_form = RegionWarEnlistmentForm()
+    district_war_enlistment_form = DistrictWarEnlistmentForm()
+    military_enlistment_office_form = MilitaryEnlistmentOfficeForm()
+    region_letter_form = RegionLetterForm()
+    district_letter_form = DistrictLetterForm()
+    locality_letter_form = LocalityLetterForm()
     context = {'person_form': person_form,
                'region_born_form': region_born_form,
                'district_born_form': district_born_form,
@@ -62,7 +80,15 @@ def data_input(request):
                'locality_live_form': locality_live_form,
                'name_distortion_form': name_distortion_form,
                'surname_distortion_form': surname_distortion_form,
-               'patronimic_distortion_form': patronimic_distortion_form}
+               'patronimic_distortion_form': patronimic_distortion_form,
+               'call_form': call_form,
+               'region_war_enlistment_form': region_war_enlistment_form,
+               'district_war_enlistment_form': district_war_enlistment_form,
+               'military_enlistment_office_form': military_enlistment_office_form,
+               'region_letter_form': region_letter_form,
+               'district_letter_form': district_letter_form,
+               'locality_letter_form': locality_letter_form,
+               }
 
     return render(request, 'data_input.html', context)
 
@@ -154,6 +180,52 @@ def add_region(request):
             parent_address_unit=parent_region, address_item_name=d['text'], address_item_type=TypePlace(int(d['type_item'])))
         region.save()
         id = region.id
+        print(id)
+        print(type(id))
+    return JsonResponse({'result': True, 'id': id}, safe=False)
+
+
+@csrf_exempt
+def distortion(request):
+    if request.is_ajax():
+        term = request.POST.get('term')
+        type_item = int(request.POST.get('type_item'))
+        print(term, type_item)
+        distortions = None
+        if type_item == 0:
+            if term is not None:
+                distortions = NameDistortion.objects.all().filter(
+                    name__icontains=term)
+        elif type_item == 1:
+            if term is not None:
+                distortions = PatronimicDistortion.objects.all().filter(
+                    name__icontains=term)
+        else:
+            if term is not None:
+                distortions = SurnameDistortion.objects.all().filter(
+                    name__icontains=term)
+        response_content = list(distortions.values())
+        return JsonResponse(response_content, safe=False)
+
+
+@csrf_exempt
+def add_distortion(request):
+    id = -1
+    id_parent = None
+    if request.method == 'POST':
+        d = request.POST.dict()
+        distortion = None
+        if int(d['type_item']) == 0:
+            distortion = NameDistortion.objects.create(
+                name=d['text'])
+        elif int(d['type_item']) == 1:
+            distortion = PatronimicDistortion.objects.create(
+                name=d['text'])
+        else:
+            distortion = SurnameDistortion.objects.create(
+                name=d['text'])
+        distortion.save()
+        id = distortion.id
         print(id)
         print(type(id))
     return JsonResponse({'result': True, 'id': id}, safe=False)

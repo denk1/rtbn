@@ -275,37 +275,15 @@
         //alert($("#last_place")["addClass"]("minus"));
         var last_place = $("#last_place")[initial ? "addClass" : "removeClass"]("gray");
 
-        function set_disabled_input(v, r, d, l) {
-            if (v) {
-                r.disabled = true;
-                d.disabled = true;
-                l.disabled = true;
-                r.required = false;
-                d.required = false;
-                l.required = false;
-                r.value = "";
-                d.value = "";
-                l.value = "";
-
-            } else {
-                r.disabled = false;
-                d.disabled = false;
-                l.disabled = false;
-                r.required = true;
-                d.required = true;
-                l.required = true;
-            }
-        }
-
         function set_disabled_live_address(v) {
             $("#last_place").find("select").first().attr("disabled", v);
         }
 
         function set_disabled_last_msg(v) {
 
-            let last_msg_region = document.getElementsByName("last_msg_region");
-            let last_msg_district = document.getElementsByName("last_msg_district");
-            let last_msg_locality = document.getElementsByName("last_msg_locality");
+            let last_msg_region = document.getElementsByName("letter_region_name");
+            let last_msg_district = document.getElementsByName("letter_district_name");
+            let last_msg_locality = document.getElementsByName("letter_locality_name");
             set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
         }
 
@@ -378,14 +356,6 @@
 
             $(locality_name).attr("disabled", true);
             $(district_name).attr("disabled", true);
-        }
-
-        function creation_tag(tag) {
-            return {
-                id: tag.term,
-                text: tag.term,
-                tag: true
-            };
         }
 
         function selection_tag(cur_item, evt, type_item, parent_item) {
@@ -499,8 +469,15 @@
 
         }
 
+        var set_select2_item = create_set_select2_item(result_func);
+
+        set_select2_item('#name_distortion', 0, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
+        set_select2_item('#patronimic_distortion', 1, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
+        set_select2_item('#surname_distortion', 2, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
+
         set_address('#born_region_name', '#born_district_name', '#born_locality_name');
         set_address('#live_region_name', '#live_district_name', '#live_locality_name');
+        set_address('#letter_region_name', '#letter_district_name', '#letter_locality_name');
 
         //$(set_select2_region);
     });
@@ -522,21 +499,21 @@
                                     <label for="name" generated="true" class="error"></label>
                                 </div>
                                 <div class="form-group container-element">
-                                    {{ name_distortion_form.name_distortion }}
+                                    {{ name_distortion_form.name }}
                                 </div>
                                 <div class="form-group container-element">
                                     {{ person_form.surname }}
                                     <label for="surname" generated="true" class="error"></label>
                                 </div>
                                 <div class="form-group container-element">
-                                    {{ surname_distortion_form.surname_distortion }}
+                                    {{ surname_distortion_form.name }}
                                 </div>
                                 <div class="form-group container-element">
                                     {{ person_form.patronimic }}
                                     <label for="father_name" generated="true" class="error"></label>
                                 </div>
                                 <div class="form-group container-element">
-                                    {{ patronimic_distortion_form.patronimic_distortion }}
+                                    {{ patronimic_distortion_form.name }}
                                 </div>
                                 <div class="form-group container-element">
                                     {{ person_form.birthday }}
@@ -621,8 +598,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group container-element">
-                                    <input type="text" id="date_mobilization" class="form-control form-element"
-                                        placeholder="Дата мобилизации" name="date_mobilization">
+                                    {{ call_form.mobilization }}
                                     <label for="date_mobilization" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -635,26 +611,21 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Область"
-                                        name="region_military_enlistment_office" class="form-control form-element">
+                                    {{ region_war_enlistment_form.address_item_name }}
                                     <label for="region_military_enlistment_office" generated="true"
                                         class="error"></label>
-                                    <input type="hidden" value="3" name="region_type_military_enlistment_office">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Район"
-                                        name="district_military_enlistment_office" class="form-control form-element">
+                                    {{ district_war_enlistment_form.address_item_name }}
                                     <label for="district_military_enlistment_office" generated="true"
                                         class="error"></label>
-                                    <input type="hidden" value="2" name="district_type_military_enlistment_office">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Название призывного пунка"
-                                        name="military_enlistment_office" class="form-control form-element">
+                                    {{ military_enlistment_office_form.name }}
                                     <label for="military_enlistment_office" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -706,23 +677,17 @@
                             <div id="last_msg">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <input type="text" value="" placeholder="Область" name="last_msg_region"
-                                            class="form-control">
-                                        <input type="hidden" value="3" name="last_msg_region_type">
+                                        {{ region_letter_form.address_item_name }}
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <input type="text" value="" placeholder="Район" name="last_msg_district"
-                                            class="form-control">
-                                        <input type="hidden" value="2" name="last_msg_district_type">
+                                        {{ district_letter_form.address_item_name }}
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <input type="text" value="" placeholder="Населенный пункт"
-                                            name="last_msg_locality" class="form-control">
-                                        <input type="hidden" value="1" name="last_msg_locality_type">
+                                        {{ locality_letter_form.address_item_name }}
                                     </div>
                                 </div>
                             </div>

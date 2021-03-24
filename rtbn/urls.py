@@ -25,5 +25,7 @@ urlpatterns = [
     path('search/', views.searching, name='search'),
     path('search/<int:type_search>/', views.searching_param, name='search'),
     path("region/", views.region, name="region"),
-    path("add_region/", views.add_region, name="add_region")
+    path("add_region/", views.add_region, name="add_region"),
+    path("distortion/", views.distortion, name="distortion"),
+    path("add_distortion/", views.add_distortion, name="add_distortion"),
 ]

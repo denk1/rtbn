@@ -3,7 +3,10 @@ from .models import Person, \
     AddressItem, \
     NameDistortion, \
     SurnameDistortion, \
-    PatronimicDistortion
+    PatronimicDistortion, \
+    MilitaryEnlistmentOffice, \
+    Call, \
+    CallingTeam
 
 
 class PersonModelForm(forms.ModelForm):
@@ -43,6 +46,15 @@ class PersonModelForm(forms.ModelForm):
 
 
 class RegionBornForm(forms.ModelForm):
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'born_region_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(RegionBornForm, self).add_prefix(field_name)
+
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
@@ -50,12 +62,21 @@ class RegionBornForm(forms.ModelForm):
             'address_item_name': forms.Select(attrs={'id': 'born_region_name',
                                                      'name': 'born_region_name',
                                                      'style': 'width:200px',
-                                                     'class': 'mdb-select md-form'}, choices=[('', 'Регион')]
+                                                     'class': 'form-control form-element'}, choices=[('', 'Регион')]
                                               )
         }
 
 
 class DistrictBornForm(forms.ModelForm):
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'born_district_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(DistrictBornForm, self).add_prefix(field_name)
+
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
@@ -63,11 +84,20 @@ class DistrictBornForm(forms.ModelForm):
             'address_item_name': forms.Select(attrs={'id': 'born_district_name',
                                                      'name': 'born_district_name',
                                                      'style': 'width:200px',
-                                                     'class': 'mdb-select md-form'}, choices=[('', 'Область')])
+                                                     'class': 'form-control form-element'}, choices=[('', 'Область')])
         }
 
 
 class LocalityBornForm(forms.ModelForm):
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'born_locality_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(LocalityBornForm, self).add_prefix(field_name)
+
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
@@ -75,11 +105,20 @@ class LocalityBornForm(forms.ModelForm):
             'address_item_name': forms.Select(attrs={'id': 'born_locality_name',
                                                      'name': 'born_locality_name',
                                                      'style': 'width:200px',
-                                                     'class': 'mdb-select md-form'}, choices=[('', 'Район')])
+                                                     'class': 'form-control form-element'}, choices=[('', 'Район')])
         }
 
 
 class RegionLiveForm(forms.ModelForm):
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'live_region_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(RegionLiveForm, self).add_prefix(field_name)
+
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
@@ -87,12 +126,21 @@ class RegionLiveForm(forms.ModelForm):
             'address_item_name': forms.Select(attrs={'id': 'live_region_name',
                                                      'name': 'live_region_name',
                                                      'style': 'width:200px',
-                                                     'class': 'mdb-select md-form'}, choices=[('', 'Регион')]
+                                                     'class': 'form-control form-element'}, choices=[('', 'Регион')]
                                               )
         }
 
 
 class DistrictLiveForm(forms.ModelForm):
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'live_district_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(DistrictLiveForm, self).add_prefix(field_name)
+
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
@@ -100,11 +148,20 @@ class DistrictLiveForm(forms.ModelForm):
             'address_item_name': forms.Select(attrs={'id': 'live_district_name',
                                                      'name': 'live_district_name',
                                                      'style': 'width:200px',
-                                                     'class': 'mdb-select md-form'}, choices=[('', 'Область')])
+                                                     'class': 'form-control form-element'}, choices=[('', 'Область')])
         }
 
 
 class LocalityLiveForm(forms.ModelForm):
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'live_locality_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(LocalityLiveForm, self).add_prefix(field_name)
+
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
@@ -112,49 +169,195 @@ class LocalityLiveForm(forms.ModelForm):
             'address_item_name': forms.Select(attrs={'id': 'live_locality_name',
                                                      'name': 'live_locality_name',
                                                      'style': 'width:200px',
-                                                     'class': 'mdb-select md-form'}, choices=[('', 'Район')])
+                                                     'class': 'form-control form-element'}, choices=[('', 'Район')])
         }
 
 
 class NameDistortionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name_distortion'].required = False
+        self.fields['name'].required = False
 
     class Meta:
         model = NameDistortion
-        fields = ('name_distortion',)
-        widgets = {"name_distortion": forms.TextInput(attrs={
+        fields = ('name',)
+        widgets = {"name": forms.Select(attrs={
             'placeholder': 'Возможное искажение',
             'class': 'form-control form-element',
-            'name': 'surname_distortion'})}
+            'name': 'name_distortion',
+            'id': 'name_distortion'})}
 
 
 class SurnameDistortionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['surname_distortion'].required = False
+        self.fields['name'].required = False
 
     class Meta:
         model = SurnameDistortion
-        fields = ('surname_distortion',)
-        widgets = {"surname_distortion": forms.TextInput(attrs={
+        fields = ('name',)
+        widgets = {'name': forms.Select(attrs={
             'placeholder': 'Возможное искажение',
             'class': 'form-control form-element',
-            'name': 'surname_distortion'})}
+            'name': 'surname_distortion',
+            'id': 'surname_distortion'})}
 
 
 class PatronimicDistortionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['patronimic_distortion'].required = False
+        self.fields['name'].required = False
 
     class Meta:
         model = PatronimicDistortion
-        fields = ('patronimic_distortion',)
+        fields = ('name',)
         widgets = {
-            "patronimic_distortion": forms.TextInput(attrs={
+            'name': forms.Select(attrs={
                 'placeholder': 'Возможное искажение',
                 'class': 'form-control form-element',
-                'name': 'patronimic_distortion'}),
+                'name': 'patronimic_distortion',
+                'id': 'patronimic_distortion'}),
+        }
+
+# mobilization
+
+
+class CallForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
+
+    class Meta:
+        model = Call
+        fields = ('mobilization',)
+        widgets = {
+            'mobilization': forms.TextInput(attrs={'id': 'date_mobilization', 'class': 'form-control form-element',
+                                                   'placeholder': 'Дата мобилизации',
+                                                   'name': 'date_mobilization'})
+        }
+
+
+class RegionWarEnlistmentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
+
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'region_military_enlistment_office',
+                                                     'name': 'region_military_enlistment_office',
+                                                     'style': 'width:100px',
+                                                     'class': 'form-control form-element'}, choices=[('', 'Область')])
+        }
+
+
+class DistrictWarEnlistmentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
+
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'region_military_enlistment_office',
+                                                     'name': 'region_military_enlistment_office',
+                                                     'style': 'width:100px',
+                                                     'class': 'form-control form-element'}, choices=[('', 'Район')])
+        }
+
+
+class MilitaryEnlistmentOfficeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
+
+    class Meta:
+        model = MilitaryEnlistmentOffice
+        fields = ('name',)
+        widgets = {
+            'name': forms.Select(attrs={
+                'placeholder': 'Название призывного пункта',
+                'class': 'form-control form-element',
+                'name': 'military_enlistment_office',
+                'id': 'military_enlistment_office'}),
+        }
+
+
+class CallingTeamForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
+
+    class Meta:
+        model = CallingTeam
+        fields = ('name',)
+        widgets = {
+            'name': forms.Select(attrs={
+                'placeholder': 'Призывная команда',
+                'class': 'form-control form-element',
+                'name': 'calling_team_name',
+                'id': 'calling_team_name'}),
+        }
+
+
+class RegionLetterForm(forms.ModelForm):
+
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'letter_region_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(RegionLetterForm, self).add_prefix(field_name)
+
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'letter_region_name',
+                                                     'name': 'letter_region_name',
+                                                     'style': 'width:200px',
+                                                     'class': 'form-control form-element'}, choices=[('', 'Регион')]
+                                              )
+        }
+
+
+class DistrictLetterForm(forms.ModelForm):
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'letter_district_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(DistrictLetterForm, self).add_prefix(field_name)
+
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'letter_district_name',
+                                                     'name': 'letter_district_name',
+                                                     'style': 'width:200px',
+                                                     'class': 'form-control form-element'}, choices=[('', 'Область')])
+        }
+
+
+class LocalityLetterForm(forms.ModelForm):
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'letter_locality_name',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(LocalityLetterForm, self).add_prefix(field_name)
+
+    class Meta:
+        model = AddressItem
+        fields = ('address_item_name',)
+        widgets = {
+            'address_item_name': forms.Select(attrs={'id': 'letter_locality_name',
+                                                     'name': 'letter_locality_name',
+                                                     'style': 'width:200px',
+                                                     'class': 'form-control form-element'}, choices=[('', 'Район')])
         }

@@ -66,6 +66,7 @@ class MilitaryEnlistmentOffice(models.Model):
     """
     Военкомат
     """
+    id = models.AutoField(primary_key=True)
     address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
 
@@ -200,15 +201,18 @@ class Reburial(models.Model):
 
 
 class NameDistortion(models.Model):
+    id = models.AutoField(primary_key=True)
     persons = models.ManyToManyField(Person)
-    name_distortion = models.CharField(max_length=60)
+    name = models.CharField(max_length=60)
 
 
 class SurnameDistortion(models.Model):
+    id = models.AutoField(primary_key=True)
     persons = models.ManyToManyField(Person)
-    surname_distortion = models.CharField(max_length=60)
+    name = models.CharField(max_length=60)
 
 
 class PatronimicDistortion(models.Model):
+    id = models.AutoField(primary_key=True)
     persons = models.ManyToManyField(Person)
-    patronimic_distortion = models.CharField(max_length=60)
+    name = models.CharField(max_length=60)

@@ -54,9 +54,9 @@ def index(request):
 @login_required
 def data_input(request):
     person_form = PersonModelForm(initial={"name": None, "surname": None})
-    region_born_form = RegionBornForm(initial={'address_item_name': 'Регион'})
-    district_born_form = DistrictBornForm()
-    locality_born_form = LocalityBornForm()
+    region_born_form = RegionBornForm(initial={'address_item_name': 'Регион'}, prefix="region_region")
+    district_born_form = DistrictBornForm(prefix="prefix_district")
+    locality_born_form = LocalityBornForm(prefix="prefix_locality")
     region_live_form = RegionLiveForm(initial={'address_item_name': 'Регион'})
     district_live_form = DistrictLiveForm()
     locality_live_form = LocalityLiveForm()

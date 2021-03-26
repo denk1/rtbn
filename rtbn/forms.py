@@ -237,8 +237,14 @@ class CallForm(forms.ModelForm):
 
 
 class RegionWarEnlistmentForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args)
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'region_military_enlistment_office',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(RegionWarEnlistmentForm, self).add_prefix(field_name)
 
     class Meta:
         model = AddressItem
@@ -252,15 +258,21 @@ class RegionWarEnlistmentForm(forms.ModelForm):
 
 
 class DistrictWarEnlistmentForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args)
+    FIELD_NAME_MAPPING = {
+        'address_item_name': 'district_military_enlistment_office',
+    }
+
+    def add_prefix(self, field_name):
+        # look up field name; return original if not found
+        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
+        return super(DistrictWarEnlistmentForm, self).add_prefix(field_name)
 
     class Meta:
         model = AddressItem
         fields = ('address_item_name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'region_military_enlistment_office',
-                                                     'name': 'region_military_enlistment_office',
+            'address_item_name': forms.Select(attrs={'id': 'district_military_enlistment_office',
+                                                     'name': 'district_military_enlistment_office',
                                                      'style': 'width:100px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Район')])
         }

@@ -43,14 +43,24 @@ class AddressItem(MPTTModel):
         parent_attr = 'parent_address_unit'
 
 
-class WarUnit(models.Model):
+class WarUnit(MPTTModel):
     """
     Подразделения
     """
-    above_war_unit = models.ForeignKey(
-        "WarUnit", null=True, on_delete=models.CASCADE)
-    name = models.CharField(max_length=60)
+    id = models.AutoField(primary_key=True)
+    above_war_unit = TreeForeignKey(
+        'self', on_delete=models.CASCADE,
+        null=True, blank=True,
+        related_name='main_unit')
+    unit_name = models.CharField(max_length=60)
     warunit_type = enum.EnumField(WarUnitType)
+
+    def __str__(self):
+        return self.unit_name
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+        parent_attr = 'above_war_unit'
 
 
 class CallingTeam(models.Model):
@@ -58,8 +68,17 @@ class CallingTeam(models.Model):
     Призывная команда
     """
     name = models.CharField(max_length=30, null=True)
-    war_unit_direction = models.ForeignKey(WarUnit, on_delete=models.CASCADE)
-    persons = models.ForeignKey("Person", on_delete=models.CASCADE)
+
+
+class CallingDirection(models.Model):
+    calling_team = models.ForeignKey(CallingTeam, on_delete=models.CASCADE)
+    person = models.ForeignKey('Person', on_delete=models.CASCADE)
+    war_unit = models.ForeignKey('WarUnit', on_delete=models.CASCADE)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['calling_team', 'person'], name='unique_team'),
+            models.UniqueConstraint(fields=['person', 'war_unit'], name='unique_direction'),
+        ]
 
 
 class MilitaryEnlistmentOffice(models.Model):

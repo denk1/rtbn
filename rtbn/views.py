@@ -6,6 +6,7 @@ from .models import Person, \
     AddressItem,  \
     WarUnit, \
     CallingTeam, \
+    CallingDirection, \
     MilitaryEnlistmentOffice, \
     Call, \
     Hospital, \
@@ -22,10 +23,11 @@ from .models import Person, \
     PatronimicDistortion, \
     SurnameDistortion
 
+from django import forms
 from django.core.paginator import Paginator
 from django.forms import modelformset_factory, inlineformset_factory, formset_factory
 from django.http import JsonResponse
-from django.forms import formset_factory
+from django.forms import formset_factory, modelform_factory
 from django.views.decorators.csrf import csrf_exempt
 from .forms import PersonModelForm, \
     RegionLiveForm, \
@@ -71,7 +73,21 @@ def data_input(request):
     region_letter_form = RegionLetterForm()
     district_letter_form = DistrictLetterForm()
     locality_letter_form = LocalityLetterForm()
-    context = {'person_form': person_form,
+    calling_team_form = modelform_factory(CallingDirection,
+        fields=('calling_team', 'war_unit',),
+        widgets={
+            'calling_team': forms.Select(attrs={
+                                                     'style': 'width:200px',
+                                                     'class': 'form-control form-element'}),
+            'war_unit': forms.Select(attrs={
+                                                     'style': 'width:200px',
+                                                     'class': 'form-control form-element'})
+
+            }
+    )
+
+    context = {
+               'person_form': person_form,
                'region_born_form': region_born_form,
                'district_born_form': district_born_form,
                'locality_born_form': locality_born_form,
@@ -88,6 +104,7 @@ def data_input(request):
                'region_letter_form': region_letter_form,
                'district_letter_form': district_letter_form,
                'locality_letter_form': locality_letter_form,
+               'calling_team_form': calling_team_form
                }
 
     return render(request, 'data_input.html', context)

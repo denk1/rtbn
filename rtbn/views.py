@@ -56,56 +56,102 @@ def index(request):
 @login_required
 def data_input(request):
     person_form = PersonModelForm(initial={"name": None, "surname": None})
-    region_born_form = RegionBornForm(initial={'address_item_name': 'Регион'}, prefix="region_region")
-    district_born_form = DistrictBornForm(prefix="prefix_district")
-    locality_born_form = LocalityBornForm(prefix="prefix_locality")
-    region_live_form = RegionLiveForm(initial={'address_item_name': 'Регион'})
-    district_live_form = DistrictLiveForm()
-    locality_live_form = LocalityLiveForm()
     name_distortion_form = NameDistortionForm()
     surname_distortion_form = SurnameDistortionForm()
     patronimic_distortion_form = PatronimicDistortionForm()
     # moblization
     call_form = CallForm()
-    region_war_enlistment_form = RegionWarEnlistmentForm()
-    district_war_enlistment_form = DistrictWarEnlistmentForm()
-    military_enlistment_office_form = MilitaryEnlistmentOfficeForm()
-    region_letter_form = RegionLetterForm()
-    district_letter_form = DistrictLetterForm()
-    locality_letter_form = LocalityLetterForm()
-    calling_team_form = modelform_factory(CallingDirection,
-        fields=('calling_team', 'war_unit',),
-        widgets={
-            'calling_team': forms.Select(attrs={
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}),
-            'war_unit': forms.Select(attrs={
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'})
+    district_born_form = modelform_factory(
+        AddressItem, fields=('parent_address_unit',), widgets={
+            'parent_address_unit': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+        })
+    district_born_form.prefix = 'born_region'
+    locality_born_form = modelform_factory(
+        AddressItem, fields=('parent_address_unit',), widgets={
+            'parent_address_unit': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+        })
+    locality_born_form.prefix = 'born_district'
 
-            }
+    district_live_form = modelform_factory(
+        AddressItem, fields=('parent_address_unit',), widgets={
+            'parent_address_unit': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+        })
+    district_live_form.prefix = 'live_region'
+    locality_live_form = modelform_factory(
+        AddressItem, fields=('parent_address_unit',), widgets={
+            'parent_address_unit': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+        })
+    locality_live_form.prefix = 'live_district'
+
+    calling_team_form = modelform_factory(CallingDirection,
+                                          fields=('calling_team', 'war_unit',),
+                                          widgets={
+                                              'calling_team': forms.Select(attrs={
+                                                  'style': 'width:200px',
+                                                  'class': 'form-control form-element'}),
+                                              'war_unit': forms.Select(attrs={
+                                                  'style': 'width:200px',
+                                                  'class': 'form-control form-element'})
+
+                                          }
+                                          )
+    military_enlistment_office_form = modelform_factory(
+        MilitaryEnlistmentOffice, fields=('address',),
+        widgets={
+            'address': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+        }
     )
 
+    address_war_enlistment_form = modelform_factory(
+        AddressItem, fields=('parent_address_unit',), widgets={
+            'parent_address_unit': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+        }
+    )
+    address_war_enlistment_form.prefix = 'enlistment_region'
+
+    district_letter_form = modelform_factory(
+        AddressItem, fields=('parent_address_unit',), widgets={
+            'parent_address_unit': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+        })
+    district_letter_form.prefix = 'letter_region'
+    locality_letter_form = modelform_factory(
+        AddressItem, fields=('parent_address_unit',), widgets={
+            'parent_address_unit': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+        })
+    locality_letter_form.prefix = 'letter_district'
+
     context = {
-               'person_form': person_form,
-               'region_born_form': region_born_form,
-               'district_born_form': district_born_form,
-               'locality_born_form': locality_born_form,
-               'region_live_form': region_live_form,
-               'district_live_form': district_live_form,
-               'locality_live_form': locality_live_form,
-               'name_distortion_form': name_distortion_form,
-               'surname_distortion_form': surname_distortion_form,
-               'patronimic_distortion_form': patronimic_distortion_form,
-               'call_form': call_form,
-               'region_war_enlistment_form': region_war_enlistment_form,
-               'district_war_enlistment_form': district_war_enlistment_form,
-               'military_enlistment_office_form': military_enlistment_office_form,
-               'region_letter_form': region_letter_form,
-               'district_letter_form': district_letter_form,
-               'locality_letter_form': locality_letter_form,
-               'calling_team_form': calling_team_form
-               }
+        'person_form': person_form,
+        'district_born_form': district_born_form,
+        'locality_born_form': locality_born_form,
+        'district_live_form': district_live_form,
+        'locality_live_form': locality_live_form,
+        'name_distortion_form': name_distortion_form,
+        'surname_distortion_form': surname_distortion_form,
+        'patronimic_distortion_form': patronimic_distortion_form,
+        'call_form': call_form,
+        'address_war_enlistment_form': address_war_enlistment_form,
+        'military_enlistment_office_form': military_enlistment_office_form,
+        'district_letter_form': district_letter_form,
+        'locality_letter_form': locality_letter_form,
+        'calling_team_form': calling_team_form
+    }
 
     return render(request, 'data_input.html', context)
 

@@ -19,7 +19,9 @@ class PersonModelForm(forms.ModelForm):
             'name',
             'surname',
             'patronimic',
-            'birthday')
+            'birthday',
+            'born_locality',
+            'live_locality')
 
         widgets = {
             "name": forms.TextInput(attrs={
@@ -42,6 +44,13 @@ class PersonModelForm(forms.ModelForm):
                 'class': 'form-control floating-label form-element',
                 'name': 'birthday',
                 'id': 'date_birthday'}),
+            'born_locality': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'}),
+            'live_locality': forms.Select(attrs={
+                'style': 'width:200px',
+                'class': 'form-control form-element'})
+
         }
 
 
@@ -228,11 +237,18 @@ class CallForm(forms.ModelForm):
 
     class Meta:
         model = Call
-        fields = ('mobilization',)
+        fields = ('mobilization', 'military_enlistment_office',
+                  'last_msg_locality')
         widgets = {
             'mobilization': forms.TextInput(attrs={'id': 'date_mobilization', 'class': 'form-control form-element',
                                                    'placeholder': 'Дата мобилизации',
-                                                   'name': 'date_mobilization'})
+                                                   'name': 'date_mobilization'}),
+            'military_enlistment_office': forms.Select(attrs={'id': 'military_enlistment_office', 'class': 'form-control form-element',
+                                                              'placeholder': 'Военкомат',
+                                                              'name': 'military_enlistment_office'}),
+            'last_msg_locality': forms.Select(attrs={'id': 'last_msg_locality', 'class': 'form-control form-element',
+                                                     'placeholder': 'Населенный пункт',
+                                                     'name': 'last_msg_locality'})
         }
 
 
@@ -284,9 +300,9 @@ class MilitaryEnlistmentOfficeForm(forms.ModelForm):
 
     class Meta:
         model = MilitaryEnlistmentOffice
-        fields = ('name',)
+        fields = ('address',)
         widgets = {
-            'name': forms.Select(attrs={
+            'address': forms.Select(attrs={
                 'placeholder': 'Название призывного пункта',
                 'class': 'form-control form-element',
                 'name': 'military_enlistment_office',

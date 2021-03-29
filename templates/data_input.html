@@ -281,9 +281,9 @@
 
         function set_disabled_last_msg(v) {
 
-            let last_msg_region = document.getElementsByName("letter_region_name");
-            let last_msg_district = document.getElementsByName("letter_district_name");
-            let last_msg_locality = document.getElementsByName("letter_locality_name");
+            let last_msg_region = document.getElementsByName("letter_region-parent_address_unit");
+            let last_msg_district = document.getElementsByName("letter_district-parent_address_unit");
+            let last_msg_locality = document.getElementsByName("last_msg_locality");
             set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
         }
 
@@ -474,10 +474,9 @@
         set_select2_item('#name_distortion', 0, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
         set_select2_item('#patronimic_distortion', 1, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
         set_select2_item('#surname_distortion', 2, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
-
-        set_address('#born_region_name', '#born_district_name', '#born_locality_name');
-        set_address('#live_region_name', '#live_district_name', '#live_locality_name');
-        set_address('#letter_region_name', '#letter_district_name', '#letter_locality_name');
+        set_address('#id_born_region-parent_address_unit', '#id_born_district-parent_address_unit', '#id_born_locality');
+        set_address('#id_live_region-parent_address_unit', '#id_live_district-parent_address_unit', '#id_live_locality');
+        set_address('#id_letter_region-parent_address_unit', '#id_letter_district-parent_address_unit', '#last_msg_locality');
 
         //$(set_select2_region);
     });
@@ -529,23 +528,21 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ region_born_form.address_item_name }}
+                                    {{ district_born_form.parent_address_unit }}
                                     <label for="born_region_name" generated="true" class="error"></label>
 
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ district_born_form.address_item_name }}
+                                    {{ locality_born_form.parent_address_unit }}
                                     <label for="born_district_name" generated="true" class="error"></label>
-                                    <input id="born_district_name" type="hidden" value="2" name="born_district_type">
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ locality_born_form.address_item_name }}
+                                    {{ person_form.born_locality }}
                                     <label for="born_locality_name" generated="true" class="error"></label>
-                                    <input id="born_locality_name" type="hidden" value="1" name="born_locality_type">
                                 </div>
                             </div>
                         </div>
@@ -570,23 +567,20 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ region_live_form.address_item_name }}
+                                    {{ district_live_form.parent_address_unit }}
                                     <label for="live_region_name" generated="true" class="error"></label>
-                                    <input type="hidden" value=3 name="live_region_type">
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ district_live_form.address_item_name }}
+                                    {{ locality_live_form.parent_address_unit }}
                                     <label for="live_district_name" generated="true" class="error"></label>
-                                    <input type="hidden" value=2 name="live_district_type">
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ locality_live_form.address_item_name }}
+                                    {{ person_form.live_locality }}
                                     <label for="live_locality_name" generated="true" class="error"></label>
-                                    <input type="hidden" value=1 name="live_locality_type">
                                 </div>
                             </div>
                         </div>
@@ -611,21 +605,21 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    {{ region_war_enlistment_form.address_item_name }}
+                                    {{ address_war_enlistment_form.parent_address_unit }}
                                     <label for="region_military_enlistment_office" generated="true"
                                         class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    {{ district_war_enlistment_form.address_item_name }}
+                                    {{ military_enlistment_office_form.address }}
                                     <label for="district_military_enlistment_office" generated="true"
                                         class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    {{ military_enlistment_office_form.name }}
+                                    {{ call_form.military_enlistment_office }}
                                     <label for="military_enlistment_office" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -676,17 +670,17 @@
                             <div id="last_msg">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {{ region_letter_form.address_item_name }}
+                                        {{ district_letter_form.parent_address_unit }}
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {{ district_letter_form.address_item_name }}
+                                        {{ locality_letter_form.parent_address_unit }}
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {{ locality_letter_form.address_item_name }}
+                                        {{ call_form.last_msg_locality }}
                                     </div>
                                 </div>
                             </div>

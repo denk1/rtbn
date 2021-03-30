@@ -217,7 +217,6 @@ def searching_param(requiest, type_search):
 
 @csrf_exempt
 def region(request):
-
     if request.is_ajax():
         term = request.POST.get('term')
         type_item = request.POST.get('type_item')
@@ -291,4 +290,35 @@ def add_distortion(request):
         id = distortion.id
         print(id)
         print(type(id))
+    return JsonResponse({'result': True, 'id': id}, safe=False)
+
+
+@csrf_exempt
+def enlistment_office(request):
+    if request.is_ajax():
+        term = request.POST.get('term')
+        type_item = request.POST.get('type_item')
+        parent_id = request.POST.get('parent_id')
+        print('parent_id is %s' % parent_id)
+        if term is not None:
+            military_enlistment_office = MilitaryEnlistmentOffice.objects.all().filter(
+                name__icontains=term, address=parent_id)
+            response_content = list(military_enlistment_office.values())
+            return JsonResponse(response_content, safe=False)
+
+
+@csrf_exempt
+def add_enlistment_office(request):
+    id = -1
+    id_parent = None
+    if request.method == 'POST':
+        d = request.POST.dict()
+        if "" != d['parent_item']:
+            id_parent = d['parent_item']
+        parent_region = AddressItem.objects.all().filter(id=id_parent).first()
+        military_enlistment_office = MilitaryEnlistmentOffice.objects.create(
+            address=parent_region, name=d['text'])
+        military_enlistment_office.save()
+        id = military_enlistment_office.id
+        print(id)
     return JsonResponse({'result': True, 'id': id}, safe=False)

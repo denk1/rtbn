@@ -348,14 +348,19 @@
         }
 
         function set_address(region_name, district_name, locality_name) {
-            set_select_address(locality_name, 1, district_name);
+            if (locality_name != null) {
+                set_select_address(locality_name, 1, district_name);
+                $(locality_name).attr("disabled", true);
+            }
 
-            set_select_address(district_name, 2, region_name);
+            if (district_name != null) {
+                set_select_address(district_name, 2, region_name);
+                $(district_name).attr("disabled", true);
+            }
 
-            set_select_address(region_name, 3, null);
-
-            $(locality_name).attr("disabled", true);
-            $(district_name).attr("disabled", true);
+            if (region_name != null) {
+                set_select_address(region_name, 3, null);
+            }
         }
 
         function selection_tag(cur_item, evt, type_item, parent_item) {
@@ -476,7 +481,10 @@
         set_select2_item('#surname_distortion', 2, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
         set_address('#id_born_region-parent_address_unit', '#id_born_district-parent_address_unit', '#id_born_locality');
         set_address('#id_live_region-parent_address_unit', '#id_live_district-parent_address_unit', '#id_live_locality');
+        //mobilization
         set_address('#id_letter_region-parent_address_unit', '#id_letter_district-parent_address_unit', '#last_msg_locality');
+        set_address('#id_enlistment_region-parent_address_unit', '#id_address', null);
+        set_select2_item('#military_enlistment_office', 4, '#id_address', "{% url 'enlistment_office' %}", "{% url 'add_enlistment_office' %}");
 
         //$(set_select2_region);
     });
@@ -603,21 +611,21 @@
                                     <label>Военкомат(ППП):</label>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     {{ address_war_enlistment_form.parent_address_unit }}
                                     <label for="region_military_enlistment_office" generated="true"
                                         class="error"></label>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     {{ military_enlistment_office_form.address }}
                                     <label for="district_military_enlistment_office" generated="true"
                                         class="error"></label>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     {{ call_form.military_enlistment_office }}
                                     <label for="military_enlistment_office" generated="true" class="error"></label>

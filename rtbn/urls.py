@@ -28,4 +28,7 @@ urlpatterns = [
     path("add_region/", views.add_region, name="add_region"),
     path("distortion/", views.distortion, name="distortion"),
     path("add_distortion/", views.add_distortion, name="add_distortion"),
+    path("enlistment_office/", views.enlistment_office, name="enlistment_office"),
+    path("add_enlistment_office/", views.add_enlistment_office,
+         name="add_enlistment_office"),
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Person, \
     TypePlace, \
@@ -153,7 +153,128 @@ def data_input(request):
         'calling_team_form': calling_team_form
     }
 
-    return render(request, 'data_input.html', context)
+    return render(request, 'person_form.html', context)
+
+
+"""
+@login_required
+def add_or_change_person(request, pk=None):
+    person = None
+    if pk:
+        person = get_object_or_404(Person, pk=pk)
+    CallingDirectionFormset = modelformset_factory(
+        CallingDirection, form=CallingDirectionForm, extra=0, can_delete=True)
+    if request.method == 'POST':
+        pass
+    else:
+        person_form = PersonModelForm(request, instance=person)
+        locality_born = AddressItem.objects.filter(id=person.born_locality)
+        district_born = AddressItem.objects.filter(
+            id=locality_born.parent_address_unit)
+        region_born = AddressItem.objects.filter(
+            id=district_born.parent_address_unit)
+        locality_live = AddressItem.objects.filter(id=person.live_locality)
+        district_live = AddressItem.objects.filter(
+            id=locality_live.parent_address_unit)
+        region_live = AddressItem.objects.filter(
+            id=district_live.parent_address_unit)
+        name_distortion = NameDistortion.objects.filter(persons=person)[0]
+        surname_distortion = SurnameDistortion.objects.filter(persons=person)[
+            0]
+        patronimic_distortion = PatronimicDistortion.objects.filter(persons=person)[
+            0]
+        call = Call.objects.filter(pk=person.call)
+        military_enlistment_office = MilitaryEnlistmentOffice.objects.filter(
+            pk=call.military_enlistment_office)
+        address_war_enlistment = AddressItem.objects.filter(
+            pk=military_enlistment_office.address)
+        last_msg_locality = AddressItem.objects.filter(
+            pk=call.last_msg_locality)
+        calling_team = CallingDirection.objects.filter(person=person)
+        last_msg_locality = AddressItem.objects.filter(
+            pk=call.last_msg_locality)
+        last_msg_district = AddressItem.objects.filter(
+            pk=last_msg_locality.parent_address_unit)
+
+        # forms
+        name_distortion_form = NameDistortionForm(
+            request, instance=name_distortion)
+        surname_distortion_form = SurnameDistortionForm(
+            request, instance=surname_distortion)
+        patronimic_distortion_form = PatronimicDistortionForm(
+            request, instance=patronimic_distortion)
+
+        district_born_form = modelform_factory(
+            AddressItem, fields=('parent_address_unit',), widgets={
+                'parent_address_unit': forms.Select(attrs={
+                    'style': 'width:200px',
+                    'class': 'form-control form-element'})
+            })
+        district_born_form.prefix = 'born_region'
+        district_born_form.instance = district_born
+
+        locality_born_form = modelform_factory(
+            AddressItem, fields=('parent_address_unit',), widgets={
+                'parent_address_unit': forms.Select(attrs={
+                    'style': 'width:200px',
+                    'class': 'form-control form-element'})
+            })
+        locality_born_form.prefix = 'born_district'
+        locality_born_form.instance = locality_born
+
+        district_live_form = modelform_factory(
+            AddressItem, fields=('parent_address_unit',), widgets={
+                'parent_address_unit': forms.Select(attrs={
+                    'style': 'width:200px',
+                    'class': 'form-control form-element'})
+            })
+        district_live_form.prefix = 'live_region'
+        district_live_form.instance = district_live
+
+        locality_live_form = modelform_factory(
+            AddressItem, fields=('parent_address_unit',), widgets={
+                'parent_address_unit': forms.Select(attrs={
+                    'style': 'width:200px',
+                    'class': 'form-control form-element'})
+            })
+        locality_live_form.prefix = 'live_district'
+        locality_live.instance = locality_live
+        military_enlistment_office_form = MilitaryEnlistmentOfficeForm(
+            request, instance=military_enlistment_office)
+
+        call_form = CallForm(request, instance=call)
+
+        calling_direction_formset = CallingDirectionFormset(
+            queryset=CallingDirection.objects.filter(person=person),
+            prefix="calling_direction",
+            form_kwarg={"request": request}
+        )
+
+        address_war_enlistment_form = DistrictWarEnlistmentForm(
+            request, instance=address_war_enlistment
+        )
+
+        district_letter_form =
+
+        context = {
+            'person_form': person_form,
+            'district_born_form': district_born_form,
+            'locality_born_form': locality_born_form,
+            'district_live_form': district_live_form,
+            'locality_live_form': locality_live_form,
+            'name_distortion_form': name_distortion_form,
+            'surname_distortion_form': surname_distortion_form,
+            'patronimic_distortion_form': patronimic_distortion_form,
+            'call_form': call_form,
+            'address_war_enlistment_form': address_war_enlistment_form,
+            'military_enlistment_office_form': military_enlistment_office_form,
+            'district_letter_form': district_letter_form,
+            'locality_letter_form': locality_letter_form,
+            'calling_direction_formset': calling_direction_formset,
+        }
+
+    return render(request, 'person_form.html', context)
+"""
 
 
 def persons_listing(request):

@@ -389,3 +389,30 @@ class LocalityLetterForm(forms.ModelForm):
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Район')])
         }
+
+
+"""
+class CallingDirectionForm(forms.ModelForm):
+    class Meta:
+        exclude = ('person',)
+
+
+class DistrictLetterForm(forms.ModelForm):
+    class Meta:
+        fields=('parent_address_unit',), 
+        widgets={
+            'parent_address_unit': forms.Select(attrs={
+            'style': 'width:200px',
+            'class': 'form-control form-element'})
+        }
+
+
+class LocalityLetterForm(forms.ModelForm):
+    class Meta:
+        fields=('parent_address_unit',), 
+        widgets={
+        'parent_address_unit': forms.Select(attrs={
+            'style': 'width:200px',
+            'class': 'form-control form-element'})
+        }
+"""

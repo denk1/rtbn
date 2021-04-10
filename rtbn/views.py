@@ -45,7 +45,9 @@ from .forms import PersonModelForm, \
     MilitaryEnlistmentOfficeForm, \
     RegionLetterForm, \
     DistrictLetterForm, \
-    LocalityLetterForm
+    LocalityLetterForm, \
+    CallingDirectionForm, \
+    AddressItemForm
 
 
 def index(request):
@@ -156,7 +158,6 @@ def data_input(request):
     return render(request, 'person_form.html', context)
 
 
-"""
 @login_required
 def add_or_change_person(request, pk=None):
     person = None
@@ -204,41 +205,6 @@ def add_or_change_person(request, pk=None):
         patronimic_distortion_form = PatronimicDistortionForm(
             request, instance=patronimic_distortion)
 
-        district_born_form = modelform_factory(
-            AddressItem, fields=('parent_address_unit',), widgets={
-                'parent_address_unit': forms.Select(attrs={
-                    'style': 'width:200px',
-                    'class': 'form-control form-element'})
-            })
-        district_born_form.prefix = 'born_region'
-        district_born_form.instance = district_born
-
-        locality_born_form = modelform_factory(
-            AddressItem, fields=('parent_address_unit',), widgets={
-                'parent_address_unit': forms.Select(attrs={
-                    'style': 'width:200px',
-                    'class': 'form-control form-element'})
-            })
-        locality_born_form.prefix = 'born_district'
-        locality_born_form.instance = locality_born
-
-        district_live_form = modelform_factory(
-            AddressItem, fields=('parent_address_unit',), widgets={
-                'parent_address_unit': forms.Select(attrs={
-                    'style': 'width:200px',
-                    'class': 'form-control form-element'})
-            })
-        district_live_form.prefix = 'live_region'
-        district_live_form.instance = district_live
-
-        locality_live_form = modelform_factory(
-            AddressItem, fields=('parent_address_unit',), widgets={
-                'parent_address_unit': forms.Select(attrs={
-                    'style': 'width:200px',
-                    'class': 'form-control form-element'})
-            })
-        locality_live_form.prefix = 'live_district'
-        locality_live.instance = locality_live
         military_enlistment_office_form = MilitaryEnlistmentOfficeForm(
             request, instance=military_enlistment_office)
 
@@ -254,7 +220,18 @@ def add_or_change_person(request, pk=None):
             request, instance=address_war_enlistment
         )
 
-        district_letter_form =
+        locality_born_form = AddressItemForm(
+            request, instance=locality_born, prefix="locality_born")
+        district_born_form = AddressItemForm(
+            request, instance=district_born, prefix="district_born")
+        locality_live_form = AddressItemForm(
+            request, instance=locality_live, prefix="locality_live")
+        district_live_form = AddressItemForm(
+            request, instance=district_live, prefix="district_live")
+        locality_lst_form = AddressItemForm(
+            request, instance=last_msg_locality, prefix="locality_lst")
+        district_lst_form = AddressItemForm(
+            request, instance=last_msg_district, prefix="district_lst")
 
         context = {
             'person_form': person_form,
@@ -274,7 +251,6 @@ def add_or_change_person(request, pk=None):
         }
 
     return render(request, 'person_form.html', context)
-"""
 
 
 def persons_listing(request):

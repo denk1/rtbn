@@ -520,7 +520,7 @@
                                     <label for="father_name" generated="true" class="error"></label>
                                 </div>
                                 <div class="form-group container-element">
-                                    {{ patronimic_distortion_form.name }}
+                                    <!-- {{ patronimic_distortion_form.name }} -->
                                 </div>
                                 <div class="form-group container-element">
                                     {{ person_form.birthday }}
@@ -536,14 +536,14 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ district_born_form.parent_address_unit }}
+                                    <!-- {{ district_born_form.parent_address_unit }} -->
                                     <label for="born_region_name" generated="true" class="error"></label>
 
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ locality_born_form.parent_address_unit }}
+                                    <!-- {{ locality_born_form.parent_address_unit }} -->
                                     <label for="born_district_name" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -575,13 +575,13 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ district_live_form.parent_address_unit }}
+                                    <!-- {{ district_live_form.parent_address_unit }} -->
                                     <label for="live_region_name" generated="true" class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ locality_live_form.parent_address_unit }}
+                                    <!-- {{ locality_live_form.parent_address_unit }} -->
                                     <label for="live_district_name" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -600,7 +600,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group container-element">
-                                    {{ call_form.mobilization }}
+                                    <!-- {{ call_form.mobilization }} -->
                                     <label for="date_mobilization" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -613,29 +613,32 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ address_war_enlistment_form.parent_address_unit }}
+                                    <!-- {{ address_war_enlistment_form.parent_address_unit }} -->
                                     <label for="region_military_enlistment_office" generated="true"
                                         class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ military_enlistment_office_form.address }}
+                                    <!-- {{ military_enlistment_office_form.address }} -->
                                     <label for="district_military_enlistment_office" generated="true"
                                         class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ call_form.military_enlistment_office }}
+                                    <!-- {{ call_form.military_enlistment_office }} -->
                                     <label for="military_enlistment_office" generated="true" class="error"></label>
                                 </div>
                             </div>
                         </div>
+                        <!--
+                        {{ calling_direction_formset.management_form }}
+                        {% for formset_form in calling_direction_formset %}
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group container-element">
-                                    {{ calling_team_form.calling_team }}
+                                    {{ formset_form.calling_team }}
                                     <label for="calling_team" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -662,12 +665,12 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" value="" placeholder="Подразделение" name="warunit_name"
-                                        class="form-control">
+                                    {{ formset_form.war_unit }}
                                     <label for="warunit_name" generated="true" class="error"></label>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %} -->
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group">
@@ -678,17 +681,17 @@
                             <div id="last_msg">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {{ district_letter_form.parent_address_unit }}
+                                        <!--{{ district_letter_form.parent_address_unit }} -->
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {{ locality_letter_form.parent_address_unit }}
+                                        <!-- {{ locality_letter_form.parent_address_unit }} -->
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {{ call_form.last_msg_locality }}
+                                        <!-- {{ call_form.last_msg_locality }} -->
                                     </div>
                                 </div>
                             </div>

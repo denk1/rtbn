@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  views.index, name='index'),
     path('data_input/', views.data_input, name='data_input'),
+    path('add/', views.add_or_change_person, name='add_person'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('list/', views.persons_listing, name='data_list'),
     path('search/', views.searching, name='search'),

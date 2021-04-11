@@ -10,7 +10,8 @@ from .models import Person, \
 
 
 class PersonModelForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         super().__init__(*args, **kwargs)
 
     class Meta:

@@ -6,7 +6,8 @@ from .models import Person, \
     PatronimicDistortion, \
     MilitaryEnlistmentOffice, \
     Call, \
-    CallingTeam
+    CallingTeam, \
+    CallingDirection
 
 
 class PersonModelForm(forms.ModelForm):
@@ -184,7 +185,8 @@ class LocalityLiveForm(forms.ModelForm):
 
 
 class NameDistortionForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         super().__init__(*args, **kwargs)
         self.fields['name'].required = False
 
@@ -199,7 +201,8 @@ class NameDistortionForm(forms.ModelForm):
 
 
 class SurnameDistortionForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         super().__init__(*args, **kwargs)
         self.fields['name'].required = False
 
@@ -214,7 +217,8 @@ class SurnameDistortionForm(forms.ModelForm):
 
 
 class PatronimicDistortionForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         super().__init__(*args, **kwargs)
         self.fields['name'].required = False
 
@@ -233,7 +237,8 @@ class PatronimicDistortionForm(forms.ModelForm):
 
 
 class CallForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         super().__init__(*args)
 
     class Meta:
@@ -275,14 +280,9 @@ class RegionWarEnlistmentForm(forms.ModelForm):
 
 
 class DistrictWarEnlistmentForm(forms.ModelForm):
-    FIELD_NAME_MAPPING = {
-        'address_item_name': 'district_military_enlistment_office',
-    }
-
-    def add_prefix(self, field_name):
-        # look up field name; return original if not found
-        field_name = self.FIELD_NAME_MAPPING.get(field_name, field_name)
-        return super(DistrictWarEnlistmentForm, self).add_prefix(field_name)
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = AddressItem
@@ -296,8 +296,9 @@ class DistrictWarEnlistmentForm(forms.ModelForm):
 
 
 class MilitaryEnlistmentOfficeForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args)
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
 
     class Meta:
         model = MilitaryEnlistmentOffice
@@ -307,7 +308,7 @@ class MilitaryEnlistmentOfficeForm(forms.ModelForm):
                 'placeholder': 'Название призывного пункта',
                 'class': 'form-control form-element',
                 'name': 'military_enlistment_office',
-                'id': 'military_enlistment_office'}),
+                'id': 'enlistment_office_address'}),
         }
 
 
@@ -393,6 +394,10 @@ class LocalityLetterForm(forms.ModelForm):
 
 
 class AddressItemForm(forms.ModelForm):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+
     class Meta:
         model = AddressItem
         fields = ('parent_address_unit',)
@@ -404,5 +409,10 @@ class AddressItemForm(forms.ModelForm):
 
 
 class CallingDirectionForm(forms.ModelForm):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+
     class Meta:
+        model = CallingDirection
         exclude = ('person',)

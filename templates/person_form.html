@@ -1,6 +1,7 @@
 {% extends 'authorized.html' %}
 {% load static %}
 {% block title %}
+{% load crispy_forms_tags %}
 
 <div class="inner">
     <div class="search_border">
@@ -96,7 +97,7 @@
 
 
     $(document).ready(function () {
-
+        window.WIDGET_INI_REGISTER = window.WIDGET_INI_REGISTER || []
         var form = $("#personal_data");
 
         $.validator.addMethod("lettersonly", function (value, element) {
@@ -281,8 +282,8 @@
 
         function set_disabled_last_msg(v) {
 
-            let last_msg_region = document.getElementsByName("letter_region-parent_address_unit");
-            let last_msg_district = document.getElementsByName("letter_district-parent_address_unit");
+            let last_msg_region = document.getElementsByName("district_lst-parent_address_unit");
+            let last_msg_district = document.getElementsByName("locality_lst-parent_address_unit");
             let last_msg_locality = document.getElementsByName("last_msg_locality");
             set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
         }
@@ -479,12 +480,12 @@
         set_select2_item('#name_distortion', 0, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
         set_select2_item('#patronimic_distortion', 1, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
         set_select2_item('#surname_distortion', 2, null, "{% url 'distortion' %}", "{% url 'add_distortion' %}");
-        set_address('#id_born_region-parent_address_unit', '#id_born_district-parent_address_unit', '#id_born_locality');
-        set_address('#id_live_region-parent_address_unit', '#id_live_district-parent_address_unit', '#id_live_locality');
+        set_address('#id_district_born-parent_address_unit', '#id_locality_born-parent_address_unit', '#id_born_locality');
+        set_address('#id_district_live-parent_address_unit', '#id_locality_live-parent_address_unit', '#id_live_locality');
         //mobilization
-        set_address('#id_letter_region-parent_address_unit', '#id_letter_district-parent_address_unit', '#last_msg_locality');
-        set_address('#id_enlistment_region-parent_address_unit', '#id_address', null);
-        set_select2_item('#military_enlistment_office', 4, '#id_address', "{% url 'enlistment_office' %}", "{% url 'add_enlistment_office' %}");
+        set_address('#id_district_lst-parent_address_unit', '#id_locality_lst-parent_address_unit', '#last_msg_locality');
+        set_address('#id_enlistment_office-parent_address_unit', '#enlistment_office_address', null);
+        set_select2_item('#military_enlistment_office', 4, '#enlistment_office_address', "{% url 'enlistment_office' %}", "{% url 'add_enlistment_office' %}");
 
         //$(set_select2_region);
     });
@@ -520,7 +521,7 @@
                                     <label for="father_name" generated="true" class="error"></label>
                                 </div>
                                 <div class="form-group container-element">
-                                    <!-- {{ patronimic_distortion_form.name }} -->
+                                    {{ patronimic_distortion_form.name }}
                                 </div>
                                 <div class="form-group container-element">
                                     {{ person_form.birthday }}
@@ -536,14 +537,14 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <!-- {{ district_born_form.parent_address_unit }} -->
+                                    {{ district_born_form.parent_address_unit }}
                                     <label for="born_region_name" generated="true" class="error"></label>
 
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <!-- {{ locality_born_form.parent_address_unit }} -->
+                                    {{ locality_born_form.parent_address_unit }}
                                     <label for="born_district_name" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -575,13 +576,13 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <!-- {{ district_live_form.parent_address_unit }} -->
+                                    {{ district_live_form.parent_address_unit }}
                                     <label for="live_region_name" generated="true" class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <!-- {{ locality_live_form.parent_address_unit }} -->
+                                    {{ locality_live_form.parent_address_unit }}
                                     <label for="live_district_name" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -600,7 +601,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group container-element">
-                                    <!-- {{ call_form.mobilization }} -->
+                                    {{ call_form.mobilization }}
                                     <label for="date_mobilization" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -613,26 +614,26 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <!-- {{ address_war_enlistment_form.parent_address_unit }} -->
+                                    {{ address_war_enlistment_form.parent_address_unit }}
                                     <label for="region_military_enlistment_office" generated="true"
                                         class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <!-- {{ military_enlistment_office_form.address }} -->
+                                    {{ military_enlistment_office_form.address }}
                                     <label for="district_military_enlistment_office" generated="true"
                                         class="error"></label>
                                 </div>
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <!-- {{ call_form.military_enlistment_office }} -->
+                                    {{ call_form.military_enlistment_office }}
                                     <label for="military_enlistment_office" generated="true" class="error"></label>
                                 </div>
                             </div>
                         </div>
-                        <!--
+
                         {{ calling_direction_formset.management_form }}
                         {% for formset_form in calling_direction_formset %}
                         <div class="row">
@@ -670,7 +671,12 @@
                                 </div>
                             </div>
                         </div>
-                        {% endfor %} -->
+                        {% endfor %}
+                        <button type="button" class="btn btn-primary btn-sm add-inline-form">Добавить
+                            направление</button>
+                        <div class="empty-form d-none">
+                            {% crispy calling_direction_formset.empty_form %}
+                        </div>
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group">
@@ -681,17 +687,17 @@
                             <div id="last_msg">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <!--{{ district_letter_form.parent_address_unit }} -->
+                                        {{ district_letter_form.parent_address_unit }}
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <!-- {{ locality_letter_form.parent_address_unit }} -->
+                                        {{ locality_letter_form.parent_address_unit }}
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <!-- {{ call_form.last_msg_locality }} -->
+                                        {{ call_form.last_msg_locality }}
                                     </div>
                                 </div>
                             </div>

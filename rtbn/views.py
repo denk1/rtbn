@@ -216,11 +216,11 @@ def add_or_change_person(request, pk=None):
         person_form = PersonModelForm(request, instance=person)
         #person_form = PersonModelForm(initial={"name": None, "surname": None})
         name_distortion_form = NameDistortionForm(
-            request, instance=name_distortion)
+            request, instance=name_distortion, prefix='name_dist')
         surname_distortion_form = SurnameDistortionForm(
-            request, instance=surname_distortion)
+            request, instance=surname_distortion, prefix='surname_dist')
         patronimic_distortion_form = PatronimicDistortionForm(
-            request, instance=patronimic_distortion)
+            request, instance=patronimic_distortion, prefix='patronimic_dist')
 
         military_enlistment_office_form = MilitaryEnlistmentOfficeForm(
             request, instance=military_enlistment_office)
@@ -233,8 +233,8 @@ def add_or_change_person(request, pk=None):
             form_kwargs={"request": request}
         )
 
-        address_war_enlistment_form = DistrictWarEnlistmentForm(
-            request, instance=address_war_enlistment
+        address_war_enlistment_form = AddressItemForm(
+            request, instance=address_war_enlistment, prefix='enlistment_office'
         )
 
         locality_born_form = AddressItemForm(
@@ -252,19 +252,19 @@ def add_or_change_person(request, pk=None):
 
         context = {
             'person_form': person_form,
-            # 'district_born_form': district_born_form,
-            # 'locality_born_form': locality_born_form,
-            # 'district_live_form': district_live_form,
-            # 'locality_live_form': locality_live_form,
-            # 'name_distortion_form': name_distortion_form,
-            # 'surname_distortion_form': surname_distortion_form,
-            # 'patronimic_distortion_form': patronimic_distortion_form,
-            # 'call_form': call_form,
-            # 'address_war_enlistment_form': address_war_enlistment_form,
-            # 'military_enlistment_office_form': military_enlistment_office_form,
-            # 'district_letter_form': district_letter_form,
-            # 'locality_letter_form': locality_letter_form,
-            # 'calling_direction_formset': calling_direction_formset,
+            'district_born_form': district_born_form,
+            'locality_born_form': locality_born_form,
+            'district_live_form': district_live_form,
+            'locality_live_form': locality_live_form,
+            'name_distortion_form': name_distortion_form,
+            'surname_distortion_form': surname_distortion_form,
+            'patronimic_distortion_form': patronimic_distortion_form,
+            'call_form': call_form,
+            'address_war_enlistment_form': address_war_enlistment_form,
+            'military_enlistment_office_form': military_enlistment_office_form,
+            'district_letter_form': district_letter_form,
+            'locality_letter_form': locality_letter_form,
+            'calling_direction_formset': calling_direction_formset,
         }
 
     return render(request, 'person_form.html', context)

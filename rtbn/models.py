@@ -74,10 +74,13 @@ class CallingDirection(models.Model):
     calling_team = models.ForeignKey(CallingTeam, on_delete=models.CASCADE)
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     war_unit = models.ForeignKey('WarUnit', on_delete=models.CASCADE)
+
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['calling_team', 'person'], name='unique_team'),
-            models.UniqueConstraint(fields=['person', 'war_unit'], name='unique_direction'),
+            models.UniqueConstraint(
+                fields=['calling_team', 'person'], name='unique_team'),
+            models.UniqueConstraint(
+                fields=['person', 'war_unit'], name='unique_direction'),
         ]
 
 
@@ -133,8 +136,8 @@ class Person(models.Model):
     ФИО, дата рождения, мобилизация, последнее сообщение
     """
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=30, default='Неизвестно')
-    surname = models.CharField(max_length=30, default='Неизвестно')
+    name = models.CharField(max_length=30)
+    surname = models.CharField(max_length=30)
     patronimic = models.CharField(max_length=30, null=True)
     birthday = models.DateField(null=True)
     born_locality = models.ForeignKey(

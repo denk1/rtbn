@@ -597,7 +597,7 @@
                 </section>
                 <h3 class="info-text">Мобилизация</h3>
                 <section id="mobilization">
-                    <div class="container-fluid">
+                    <div class="container-fluid formset">
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group container-element">
@@ -635,48 +635,54 @@
                         </div>
 
                         {{ calling_direction_formset.management_form }}
-                        {% for formset_form in calling_direction_formset %}
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div class="form-group container-element">
-                                    {{ formset_form.calling_team }}
-                                    <label for="calling_team" generated="true" class="error"></label>
+                        <div class="formset-forms">
+                            {% for formset_form in calling_direction_formset %}
+                            <div class="formset-form">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group container-element">
+                                            {{ formset_form.calling_team }}
+                                            <label for="calling_team" generated="true" class="error"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Направлен:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="text" value="" placeholder="Фронт" name="direction_front_name"
+                                                class="form-control">
+                                            <label for="direction_front_name" generated="true" class="error"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <input type="text" value="" placeholder="Армия" name="direction_army_name"
+                                                class="form-control">
+                                            <label for="direction_army_name" generated="true" class="error"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            {{ formset_form.war_unit }}
+                                            <label for="warunit_name" generated="true" class="error"></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Направлен:</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Фронт" name="direction_front_name"
-                                        class="form-control">
-                                    <label for="direction_front_name" generated="true" class="error"></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" value="" placeholder="Армия" name="direction_army_name"
-                                        class="form-control">
-                                    <label for="direction_army_name" generated="true" class="error"></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    {{ formset_form.war_unit }}
-                                    <label for="warunit_name" generated="true" class="error"></label>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
                         <button type="button" class="btn btn-primary btn-sm add-inline-form">Добавить
                             направление</button>
+
                         <div class="empty-form d-none">
                             {% crispy calling_direction_formset.empty_form %}
                         </div>
+
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group">
@@ -858,6 +864,7 @@
         </form>
     </div>
 </div>
+<script src="{% static 'js/inline.js' %}"></script>
 {% endblock %}
 
 {% block footer %}

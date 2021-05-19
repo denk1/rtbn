@@ -53,7 +53,6 @@ class WarUnit(MPTTModel):
         null=True, blank=True,
         related_name='main_unit')
     unit_name = models.CharField(max_length=60)
-    warunit_type = enum.EnumField(WarUnitType)
 
     def __str__(self):
         return self.unit_name

@@ -3,6 +3,7 @@ cb_dj_autocomplete/
 .vscode/
 static/*
 !static/js/rtbn.js
+!static/js/inline.js
 *.sqlite3
 remember_theirs_by_name_pro/migrations/
 remember_theirs_by_name_pro/__pycache__/

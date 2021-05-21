@@ -1,30 +1,20 @@
 from django import forms
+from crispy_forms import bootstrap, helper, layout
 from .models import Person, \
     AddressItem, \
     NameDistortion, \
     SurnameDistortion, \
     PatronimicDistortion, \
     MilitaryEnlistmentOffice, \
-    Call, \
     CallingTeam, \
     CallingDirection
 
 
 class PersonModelForm(forms.ModelForm):
-    def __init__(self, request, *args, **kwargs):
-        self.request = request
-        super().__init__(*args, **kwargs)
-
     class Meta:
         model = Person
-        fields = (
-            'name',
-            'surname',
-            'patronimic',
-            'birthday',
-            'born_locality',
-            'live_locality')
-
+        fields = ('__all__')
+        """
         widgets = {
             "name": forms.TextInput(attrs={
                 'placeholder': 'Имя',
@@ -54,7 +44,43 @@ class PersonModelForm(forms.ModelForm):
                 'class': 'form-control form-element'})
 
         }
+        """
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        name_field = layout.Field(
+            "name", css_class="input-block-level")
+        surname_field = layout.Field(
+            "surname", css_class="input-block-level")
+        patronimic_filed = layout.Field(
+            "patronimic", css_class="input-block-level")
+        bithday_field = layout.Field(
+            "bithday", css_class="input-block-level")
+        born_locality_field = layout.Field(
+            "born_locality", css_class="input-block-level")
+        live_locality_field = layout.Field(
+            "live_locality", css_class="input-block-level")
+        mobilization_field = layout.Field(
+            "mobilization", css_class="input-block-level")
+        military_enlistment_office_field = layout.Field(
+            "military_enlistment_office", css_class="input-block-level")
+        
+        last_msg_locality_field =layout.Field(
+            "last_msg_locality", css_class="input-block-level")
 
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            name_field,
+            surname_field,
+            patronimic_filed,
+            bithday_field,
+            born_locality_field,
+            mobilization_field,
+            military_enlistment_office_field,
+            last_msg_locality_field,
+        )   
 
 class RegionBornForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
@@ -235,29 +261,6 @@ class PatronimicDistortionForm(forms.ModelForm):
 
 # mobilization
 
-
-class CallForm(forms.ModelForm):
-    def __init__(self, request, *args, **kwargs):
-        self.request = request
-        super().__init__(*args)
-
-    class Meta:
-        model = Call
-        fields = ('mobilization', 'military_enlistment_office',
-                  'last_msg_locality')
-        widgets = {
-            'mobilization': forms.TextInput(attrs={'id': 'date_mobilization', 'class': 'form-control form-element',
-                                                   'placeholder': 'Дата мобилизации',
-                                                   'name': 'date_mobilization'}),
-            'military_enlistment_office': forms.Select(attrs={'id': 'military_enlistment_office', 'class': 'form-control form-element',
-                                                              'placeholder': 'Военкомат',
-                                                              'name': 'military_enlistment_office'}),
-            'last_msg_locality': forms.Select(attrs={'id': 'last_msg_locality', 'class': 'form-control form-element',
-                                                     'placeholder': 'Населенный пункт',
-                                                     'name': 'last_msg_locality'})
-        }
-
-
 class RegionWarEnlistmentForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
         'address_item_name': 'region_military_enlistment_office',
@@ -409,10 +412,47 @@ class AddressItemForm(forms.ModelForm):
 
 
 class CallingDirectionForm(forms.ModelForm):
+    
+    class Meta:
+        model = CallingDirection
+        exclude = ['programmer']
+
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
 
-    class Meta:
-        model = CallingDirection
-        exclude = ('person',)
+        calling_team_field = layout.Field(
+            "calling_team", css_class="input-block-level")
+        begin_modal_field = layout.HTML(
+            """
+            {% include "forms/begin_modal_wnd_warunit.html" %}
+            """
+        )
+        war_unit_field = layout.Field(
+            "war_unit", css_class="input-block-level invoke-modal")
+        end_modal_field = layout.HTML(
+            """
+            {% include "forms/end_modal_wnd_warunit.html" %}
+            """
+        )
+        war_unit_button = layout.ButtonHolder(layout.Button('war_unit_button',
+                                                            'Подразделение',
+                                                            css_class="input-block-level btn-unit"))
+
+        delete_field = layout.Field(
+            "DELETE", css_class="input-block-level")
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            calling_team_field,
+            begin_modal_field,
+            war_unit_field,
+            end_modal_field,
+            war_unit_button,
+            delete_field,
+        )
+

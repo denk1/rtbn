@@ -8,7 +8,6 @@ from .models import Person, \
     CallingTeam, \
     CallingDirection, \
     MilitaryEnlistmentOffice, \
-    Call, \
     Hospital, \
     Hospitalization, \
     WarOperation, \
@@ -39,7 +38,6 @@ from .forms import PersonModelForm, \
     NameDistortionForm, \
     SurnameDistortionForm, \
     PatronimicDistortionForm, \
-    CallForm, \
     RegionWarEnlistmentForm, \
     DistrictWarEnlistmentForm, \
     MilitaryEnlistmentOfficeForm, \
@@ -199,7 +197,6 @@ def add_or_change_person(request, pk=None):
             0]
         patronimic_distortion = PatronimicDistortion.objects.filter(persons=person)[
             0]
-        call = Call.objects.filter(pk=person.call)
         military_enlistment_office = MilitaryEnlistmentOffice.objects.filter(
             pk=call.military_enlistment_office)
         address_war_enlistment = AddressItem.objects.filter(
@@ -224,8 +221,6 @@ def add_or_change_person(request, pk=None):
 
         military_enlistment_office_form = MilitaryEnlistmentOfficeForm(
             request, instance=military_enlistment_office)
-
-        call_form = CallForm(request, instance=call)
 
         calling_direction_formset = CallingDirectionFormset(
             queryset=CallingDirection.objects.filter(person=person),
@@ -259,7 +254,6 @@ def add_or_change_person(request, pk=None):
             'name_distortion_form': name_distortion_form,
             'surname_distortion_form': surname_distortion_form,
             'patronimic_distortion_form': patronimic_distortion_form,
-            'call_form': call_form,
             'address_war_enlistment_form': address_war_enlistment_form,
             'military_enlistment_office_form': military_enlistment_office_form,
             'district_letter_form': district_letter_form,

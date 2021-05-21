@@ -4,7 +4,6 @@ from rtbn.models import Person, \
     AddressItem, \
     CallingTeam, \
     WarUnit, \
-    Call, \
     Hospital, \
     Hospitalization, \
     WarOperation, \
@@ -17,7 +16,6 @@ admin.site.register(CallingTeam)
 admin.site.register(MilitaryEnlistmentOffice)
 admin.site.register(Person)
 admin.site.register(WarUnit)
-admin.site.register(Call)
 admin.site.register(Hospital)
 admin.site.register(Hospitalization)
 admin.site.register(WarOperation)

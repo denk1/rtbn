@@ -91,13 +91,8 @@ class MilitaryEnlistmentOffice(models.Model):
     address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
 
-
-class Call(models.Model):
-    military_enlistment_office = models.ForeignKey(
-        MilitaryEnlistmentOffice, on_delete=models.CASCADE)
-    mobilization = models.DateField()
-    last_msg_locality = models.ForeignKey(
-        AddressItem, on_delete=models.CASCADE, null=True)
+    def __str__(self):
+        return self.name
 
 
 class Hospital(models.Model):
@@ -134,7 +129,6 @@ class Person(models.Model):
     """
     ФИО, дата рождения, мобилизация, последнее сообщение
     """
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
     patronimic = models.CharField(max_length=30, null=True)
@@ -143,7 +137,11 @@ class Person(models.Model):
         AddressItem, related_name='born', on_delete=models.CASCADE, null=True)
     live_locality = models.ForeignKey(
         AddressItem, related_name='live', on_delete=models.CASCADE, null=True)
-    call = models.ForeignKey(Call, on_delete=models.CASCADE)
+    military_enlistment_office = models.ForeignKey(
+        MilitaryEnlistmentOffice, on_delete=models.CASCADE)
+    mobilization = models.DateField()
+    last_msg_locality = models.ForeignKey(
+        AddressItem, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name + ' ' + self.surname + ' ' + self.father_name

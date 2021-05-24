@@ -3,16 +3,6 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.db import models
 
 
-class TypePlace(enum.Enum):
-    """
-    тип адресной компоненты
-    """
-    LOCALITY = 1
-    DISTRICT = 2
-    REGION = 3
-    REPUBLIC = 4
-
-
 class WarUnitType(enum.Enum):
     FRONT = 1
     ARMY = 2
@@ -32,7 +22,6 @@ class AddressItem(MPTTModel):
         null=True, blank=True,
         related_name='main_place')
     address_item_name = models.CharField(max_length=60)
-    address_item_type = enum.EnumField(TypePlace)
     objects = models.Manager()
 
     def __str__(self):

@@ -545,19 +545,6 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    {{ district_born_form.parent_address_unit }}
-                                    <label for="born_region_name" generated="true" class="error"></label>
-
-                                </div>
-                            </div>
-                            <div class="col-sm-3 list_item">
-                                <div class="form-group">
-                                    {{ locality_born_form.parent_address_unit }}
-                                    <label for="born_district_name" generated="true" class="error"></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 list_item">
-                                <div class="form-group">
                                     {{ person_form.born_locality|as_crispy_field  }}
                                     <label for="born_locality_name" generated="true" class="error"></label>
                                 </div>
@@ -577,23 +564,6 @@
                             </div>
                         </div>
                         <div id="last_place" class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label>Место последнего проживания до призыва</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 list_item">
-                                <div class="form-group">
-                                    {{ district_live_form.parent_address_unit }}
-                                    <label for="live_region_name" generated="true" class="error"></label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 list_item">
-                                <div class="form-group">
-                                    {{ locality_live_form.parent_address_unit }}
-                                    <label for="live_district_name" generated="true" class="error"></label>
-                                </div>
-                            </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     {{ person_form.live_locality|as_crispy_field  }}
@@ -605,6 +575,12 @@
                 </section>
                 <h3 class="info-text">Мобилизация</h3>
                 <section id="mobilization">
+                    <div class="form-row">
+                        {{ person_form.mobilization|as_crispy_field }}
+                    </div>
+                    <div class="form-row">
+                        {{ person_form.military_enlistment_office|as_crispy_field }}
+                    </div>
                     <div class="container-fluid formset">
                         {{ calling_direction_formset.management_form }}
                         <h3>Направление призыва</h3>
@@ -643,7 +619,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {{ call_form.last_msg_locality }}
+                                        {{ person_form.last_msg_locality }}
                                     </div>
                                 </div>
                             </div>

@@ -49,7 +49,7 @@ function add_delete_button($formset_form) {
         var $deleteLink = $(
             '<button class="delete btn btn-sm btn-danger mb-3">Remove</button>'
         );
-        var formset_form =$checkbox.closest(".formset-form");
+        var formset_form = $checkbox.closest(".formset-form");
 
         formset_form.append($deleteLink);
         $checkbox.closest('.form-group').hide();
@@ -82,7 +82,7 @@ function invoke_modal_window(formset, response) {
         'focus': true,
         'keyboard': true
     });
-    
+
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     modal_dynamic_content.html(response + modal_dynamic_content.html());
     modal_window.modal('show');
@@ -115,8 +115,10 @@ $(function () {
         $(this).on('click', function (e) {
             console.log(e + ": " + $(this).text());
             let uri = $(this).attr('id');
+            let cur_select_value = $(this).closest(":selected");
             e.preventDefault();
-            console.log(uri);
+            console.log(uri.split('-')[0]);
+            console.log(cur_select_value);
             /*
             $.ajax({
                 url: "/military_unit/" + cur_select_val,
@@ -132,7 +134,7 @@ $(function () {
                 console.log('always')
             });
             */
-            
+
         });
     });
     $('.btn-unit').each(function () {

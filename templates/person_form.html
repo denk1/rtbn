@@ -502,39 +502,39 @@
                     <div class="container-fluid">
                         <div>
                             <div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6 mb-0 container-element">
-                                    {{ person_form.name|as_crispy_field }}
-                                    <label for="name" generated="true" class="error"></label>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0 container-element">
+                                        {{ person_form.name|as_crispy_field }}
+                                        <label for="name" generated="true" class="error"></label>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0 container-element">
+                                        {{ name_distortion_form.name }}
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6 mb-0 container-element">
-                                    {{ name_distortion_form.name }}
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0 container-element">
+                                        {{ person_form.surname|as_crispy_field }}
+                                        <label for="surname" generated="true" class="error"></label>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0  container-element">
+                                        {{ surname_distortion_form.name }}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6 mb-0 container-element">
-                                    {{ person_form.surname|as_crispy_field }}
-                                    <label for="surname" generated="true" class="error"></label>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0 container-element">
+                                        {{ person_form.patronimic|as_crispy_field }}
+                                        <label for="father_name" generated="true" class="error"></label>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0 container-element">
+                                        {{ patronimic_distortion_form.name }}
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6 mb-0  container-element">
-                                    {{ surname_distortion_form.name }}
+                                <div class="form-row">
+                                    <div class="form-group container-element">
+                                        {{ person_form.birthday|as_crispy_field }}
+                                        <label for="date_birthday" generated="true" class="error"></label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-row">    
-                                <div class="form-group col-md-6 mb-0 container-element">
-                                    {{ person_form.patronimic|as_crispy_field }}
-                                    <label for="father_name" generated="true" class="error"></label>
-                                </div>
-                                <div class="form-group col-md-6 mb-0 container-element">
-                                    {{ patronimic_distortion_form.name }}
-                                </div>
-                            </div>
-                            <div class="form-row">    
-                                <div class="form-group container-element">
-                                    {{ person_form.birthday|as_crispy_field  }}
-                                    <label for="date_birthday" generated="true" class="error"></label>
-                                </div>
-                            </div>
                             </div>
                         </div>
                         <div class="row">
@@ -546,7 +546,7 @@
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     <button class="invoke-modal" id="address-btn">Адрес места рождения</button>
-                                    {{ person_form.born_locality|as_crispy_field  }}
+                                    {{ person_form.born_locality|as_crispy_field }}
                                     <label for="born_locality_name" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -568,7 +568,7 @@
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
                                     <button class="invoke-modal" id="address-btn">Адрес места жительства</button>
-                                    {{ person_form.live_locality|as_crispy_field  }}
+                                    {{ person_form.live_locality|as_crispy_field }}
                                     <label for="live_locality_name" generated="true" class="error"></label>
                                 </div>
                             </div>
@@ -587,17 +587,18 @@
                         {{ calling_direction_formset.management_form }}
                         <h3>Направление призыва</h3>
                         <div class="formset-forms">
-                        {% for formset_form in calling_direction_formset %}
-                        <div class="formset-form">
-                            {% crispy formset_form %}
+                            {% for formset_form in calling_direction_formset %}
+                            <div class="formset-form">
+                                {% crispy formset_form %}
+                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
+                        <button type="button" class="btn btn-primary btn-sm add-inline-form">Добавить
+                            направление</button>
+                        <div class="empty-form d-none">
+                            {% crispy calling_direction_formset.empty_form %}
                         </div>
-                    <button type="button" class="btn btn-primary btn-sm add-inline-form">Добавить направление</button>
-                    <div class="empty-form d-none">
-                        {% crispy calling_direction_formset.empty_form %}
-                    </div>
-                    
+
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group">
@@ -804,7 +805,7 @@
 </div>
 
 {% block js %}
-    <script src="{% static 'js/inline.js' %}"></script>
+<script src="{% static 'js/inline.js' %}"></script>
 {% endblock %}
 
 {% endblock %}

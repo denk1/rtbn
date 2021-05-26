@@ -93,7 +93,7 @@ function invoke_modal_window(formset, response) {
 }
 
 $(function () {
-
+    console.log('test');
     $('.add-inline-form').click(function (e) {
         e.preventDefault();
         var $formset = $(this).closest('.formset');
@@ -112,9 +112,27 @@ $(function () {
         reinit_widgets($formset_form);
     });
     $('.invoke-modal').each(function () {
-        $war_unit = $(this);
-        $war_unit.on('click', function (e) {
+        $(this).on('click', function (e) {
+            console.log(e + ": " + $(this).text());
+            let uri = $(this).attr('id');
             e.preventDefault();
+            console.log(uri);
+            /*
+            $.ajax({
+                url: "/military_unit/" + cur_select_val,
+                method: "GET",
+                //data: { id: menuId },
+                dataType: "html"
+            }).done(function (data) {
+                console.log("Sample of data:", data);
+                invoke_modal_window(cur_form, data);
+            }).fail(function () {
+                console.log("error");
+            }).always(function () {
+                console.log('always')
+            });
+            */
+            
         });
     });
     $('.btn-unit').each(function () {

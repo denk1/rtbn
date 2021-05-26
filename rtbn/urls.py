@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from address.views import address
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  views.index, name='index'),
@@ -32,4 +33,5 @@ urlpatterns = [
     path("enlistment_office/", views.enlistment_office, name="enlistment_office"),
     path("add_enlistment_office/", views.add_enlistment_office,
          name="add_enlistment_office"),
+    path("address/", address, name="address"),
 ]

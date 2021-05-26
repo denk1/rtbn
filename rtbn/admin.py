@@ -10,6 +10,8 @@ from rtbn.models import Person, \
     WarArchievement, \
     AddingInfo
 
+from address.models import AddressItem
+
 
 admin.site.register(AddressItem)
 admin.site.register(CallingTeam)

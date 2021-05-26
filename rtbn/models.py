@@ -1,6 +1,7 @@
 from django_enumfield import enum
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db import models
+from address.models import AddressItem
 
 
 class WarUnitType(enum.Enum):
@@ -10,26 +11,6 @@ class WarUnitType(enum.Enum):
     RGT = 4
     COY = 5
     UNIT = 6
-
-
-class AddressItem(MPTTModel):
-    """
-    Адрес 
-    """
-    id = models.AutoField(primary_key=True)
-    parent_address_unit = TreeForeignKey(
-        'self', on_delete=models.CASCADE,
-        null=True, blank=True,
-        related_name='main_place')
-    address_item_name = models.CharField(max_length=60)
-    objects = models.Manager()
-
-    def __str__(self):
-        return self.address_item_name
-
-    class MPTTMeta:
-        order_insertion_by = ['address_item_name']
-        parent_attr = 'parent_address_unit'
 
 
 class WarUnit(MPTTModel):

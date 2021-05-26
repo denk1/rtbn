@@ -20,6 +20,7 @@ from .models import Person, \
     NameDistortion, \
     PatronimicDistortion, \
     SurnameDistortion
+from address.models import AddressItem
 
 from django import forms
 from django.core.paginator import Paginator

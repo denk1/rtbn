@@ -76,7 +76,7 @@ function selection_choisen(cur_item, evt, type_item, parent_item, url_post) {
 }
 
 function result_func(item) {
-    return { id: item.id, text: item.name };
+    return { id: item.id, text: item.address_item_name };
 }
 
 function create_set_select2_item(result_func) {
@@ -119,4 +119,55 @@ function create_set_select2_item(result_func) {
             selection_choisen(item, evt, type_item, parent_item, url_post);
         });
     }
+}
+
+function create_select2_modal_wnd(result_func) {
+    return function (item_id, parent_item, url_get, url_post) {
+        //item = $(item);
+        item = $(item_id);
+        item.select2({
+            tags: true,
+            tokenSeparators: [",", " "],
+            createTag: creation_tag,
+            ajax: {
+                url: url_get,
+                dataType: 'json',
+                method: 'post',
+                params: { // extra parameters that will be passed to ajax
+                    contentType: "application/json; charset=utf-8",
+                },
+                data: function (term, page) {
+                    if (parent_item == null) {
+                        query_item = {
+                            term: term.term
+                        };
+                    } else {
+
+                        query_item = {
+                            term: term.term,
+                            parent_id: $(parent_item).val()
+                        };
+                    }
+                    return query_item;
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, result_func)
+                    }
+                },
+                selectionCssClass: "form-control custom-select",
+                dropdownCssClass: "form-control custom-select",
+                theme: 'bootstrap4'
+            }
+        }).on('select2:select', function (evt) {
+            selection_choisen(item, evt, null, parent_item, url_post);
+        });
+    }
+}
+
+let url_get_address = null;
+let url_post_address = null;
+function set_url_address(url_get, url_post) {
+    url_get_address = url_get;
+    url_post_address = url_post;
 }

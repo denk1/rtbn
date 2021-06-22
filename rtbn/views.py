@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Person, \
@@ -327,12 +328,12 @@ def searching_param(requiest, type_search):
 def region(request):
     if request.is_ajax():
         term = request.POST.get('term')
-        type_item = request.POST.get('type_item')
         parent_id = request.POST.get('parent_id')
+        print('term is %s' % term)
         print('parent_id is %s' % parent_id)
         if term is not None:
             regions = AddressItem.objects.all().filter(
-                address_item_name__icontains=term, address_item_type=type_item, parent_address_unit_id=parent_id)
+                address_item_name__icontains=term, parent_address_unit_id=parent_id)
             response_content = list(regions.values())
             return JsonResponse(response_content, safe=False)
 
@@ -347,7 +348,7 @@ def add_region(request):
             id_parent = d['parent_item']
         parent_region = AddressItem.objects.all().filter(id=id_parent).first()
         region = AddressItem.objects.create(
-            parent_address_unit=parent_region, address_item_name=d['text'], address_item_type=TypePlace(int(d['type_item'])))
+            parent_address_unit=parent_region, address_item_name=d['text'])
         region.save()
         id = region.id
         print(id)
@@ -430,3 +431,8 @@ def add_enlistment_office(request):
         id = military_enlistment_office.id
         print(id)
     return JsonResponse({'result': True, 'id': id}, safe=False)
+
+
+def test(request):
+    print('test')
+    return HttpResponse("test")

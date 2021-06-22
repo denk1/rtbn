@@ -14,42 +14,12 @@ class PersonModelForm(forms.ModelForm):
     class Meta:
         model = Person
         fields = ('__all__')
-        """
-        widgets = {
-            "name": forms.TextInput(attrs={
-                'placeholder': 'Имя',
-                'class': 'form-control form-element',
-                'name': 'name'}),
 
-            "surname": forms.TextInput(attrs={
-                'placeholder': 'Фамилия',
-                'class': 'form-control form-element',
-                'name': 'surname'}),
-
-            "patronimic": forms.TextInput(attrs={
-                'placeholder': 'Отчество',
-                'class': 'form-control form-element',
-                'name': 'patronimic'}),
-
-            "birthday": forms.TextInput(attrs={
-                'placeholder': 'Дата рождения',
-                'class': 'form-control floating-label form-element',
-                'name': 'birthday',
-                'id': 'date_birthday'}),
-            'born_locality': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'}),
-            'live_locality': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-
-        }
-        """
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
         name_field = layout.Field(
-            "name", css_class="input-block-level")
+            "name", css_class="input-block-level test")
         surname_field = layout.Field(
             "surname", css_class="input-block-level")
         patronimic_filed = layout.Field(
@@ -57,15 +27,15 @@ class PersonModelForm(forms.ModelForm):
         bithday_field = layout.Field(
             "bithday", css_class="input-block-level")
         born_locality_field = layout.Field(
-            "born_locality", css_class="input-block-level")
+            "born_locality", css_class="input-block-level d-none test-class")
         live_locality_field = layout.Field(
-            "live_locality", css_class="input-block-level")
+            "live_locality", css_class="input-block-level d-none")
         mobilization_field = layout.Field(
             "mobilization", css_class="input-block-level")
         military_enlistment_office_field = layout.Field(
             "military_enlistment_office", css_class="input-block-level")
-        
-        last_msg_locality_field =layout.Field(
+
+        last_msg_locality_field = layout.Field(
             "last_msg_locality", css_class="input-block-level")
 
         self.helper = helper.FormHelper()
@@ -80,7 +50,8 @@ class PersonModelForm(forms.ModelForm):
             mobilization_field,
             military_enlistment_office_field,
             last_msg_locality_field,
-        )   
+        )
+
 
 class RegionBornForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
@@ -261,6 +232,7 @@ class PatronimicDistortionForm(forms.ModelForm):
 
 # mobilization
 
+
 class RegionWarEnlistmentForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
         'address_item_name': 'region_military_enlistment_office',
@@ -412,7 +384,7 @@ class AddressItemForm(forms.ModelForm):
 
 
 class CallingDirectionForm(forms.ModelForm):
-    
+
     class Meta:
         model = CallingDirection
         exclude = ['programmer']
@@ -455,4 +427,3 @@ class CallingDirectionForm(forms.ModelForm):
             war_unit_button,
             delete_field,
         )
-

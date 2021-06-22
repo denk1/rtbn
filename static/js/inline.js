@@ -73,10 +73,9 @@ function init_warunit_form(modal_content) {
     });
 }
 
-function invoke_modal_window(formset, response) {
-    var modal_window = formset.find(".modal");
+function invoke_modal_window(modal_window, response, clone_select) {
     //alert(modal_window);
-    modal_window.modal();
+    //modal_window.modal();
     modal_window.modal({
         'show': true,
         'focus': true,
@@ -88,12 +87,29 @@ function invoke_modal_window(formset, response) {
     modal_window.modal('show');
     init_warunit_form(modal_dynamic_content);
     modal_window.on("hidden.bs.modal", function () {
+        modal_window.modal('hide');
         modal_dynamic_content.html("");
+    });
+
+    modal_window.on("shown.bs.modal", function () {
+        console.log("shown.bs.modal");
+        let items = modal_window.find(".address-item");
+        if (items.length > 0) {
+            console.log("there're some items");
+        } else {
+            let test_var = $("#id_born_locality-clone");
+            test_var = $(document).find(".custom-select");
+            let select_autocomplete = create_select2_modal_wnd(result_func);
+            select_autocomplete("#" + clone_select.attr("id"), null, url_get_address, url_post_address);
+        }
     });
 }
 
 $(function () {
-    console.log('test');
+    let cur_select = null;
+    let clone_select = null;
+    var modal_window = $(document).find(".modal");
+    var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     $('.add-inline-form').click(function (e) {
         e.preventDefault();
         var $formset = $(this).closest('.formset');
@@ -114,29 +130,38 @@ $(function () {
     $('.invoke-modal').each(function () {
         $(this).on('click', function (e) {
             console.log(e + ": " + $(this).text());
-            let uri = $(this).attr('id');
-            let cur_select_value = $(this).closest(":selected");
+            let uri = $(this).attr('action');
+            let address_modal_wnd = uri.replaceAll('/', '') + "_modal_wnd";
+            let parent_form_group = $(this).closest(".form-group");
+            cur_select = parent_form_group.find("select");
+
             e.preventDefault();
-            console.log(uri.split('-')[0]);
-            console.log(cur_select_value);
-            /*
+            clone_select = cur_select.clone();
+            clone_select.attr("id", cur_select.attr("id") + "-clone");
+            let data_select = clone_select.prop('outerHTML');
+            console.log(cur_select.val());
+            console.log(cur_select.text());
+            let cur_select_val = cur_select.val();
+            uri += cur_select.val();
+            console.log(uri);
             $.ajax({
-                url: "/military_unit/" + cur_select_val,
+                url: uri,
                 method: "GET",
                 //data: { id: menuId },
                 dataType: "html"
             }).done(function (data) {
-                console.log("Sample of data:", data);
-                invoke_modal_window(cur_form, data);
+                console.log("Sample of data:", data + data_select);
+                let modal_window = $('#' + address_modal_wnd);
+                invoke_modal_window(modal_window, data + data_select, clone_select);
             }).fail(function () {
                 console.log("error");
             }).always(function () {
                 console.log('always')
             });
-            */
 
         });
     });
+
     $('.btn-unit').each(function () {
         war_unit = $(this);
         war_unit.on('click', function (e) {
@@ -152,7 +177,7 @@ $(function () {
                 dataType: "html"
             }).done(function (data) {
                 console.log("Sample of data:", data);
-                invoke_modal_window(cur_form, data);
+                invoke_modal_window($(document), data);
             }).fail(function () {
                 console.log("error");
             }).always(function () {
@@ -167,5 +192,11 @@ $(function () {
         var $checkbox = $formset.find('input:checkbox[id$=DELETE]');
         $checkbox.attr("checked", "checked");
         $formset.hide();
+    });
+    $('.btn-primary').click(function () {
+        console.log('btn-primary pressed!');
+        cur_select.val(clone_select.val());
+        modal_window.modal('hide');
+        modal_dynamic_content.html("");
     });
 });

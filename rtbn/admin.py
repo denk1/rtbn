@@ -10,10 +10,11 @@ from rtbn.models import Person, \
     WarArchievement, \
     AddingInfo
 
+from mptt.admin import MPTTModelAdmin
 from address.models import AddressItem
 
 
-admin.site.register(AddressItem)
+admin.site.register(AddressItem, MPTTModelAdmin)
 admin.site.register(CallingTeam)
 admin.site.register(MilitaryEnlistmentOffice)
 admin.site.register(Person)

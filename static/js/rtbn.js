@@ -127,8 +127,11 @@ function create_select2_modal_wnd(result_func) {
         item = $(item_id);
         item.select2({
             tags: true,
-            tokenSeparators: [",", " "],
+            tokenSeparators: [","],
             createTag: creation_tag,
+            selectionCssClass: "form-control select2-allow-clear",
+            //dropdownCssClass: "select2-selection select2-selection--single",
+            theme: 'bootstrap4',
             ajax: {
                 url: url_get,
                 dataType: 'json',
@@ -154,10 +157,7 @@ function create_select2_modal_wnd(result_func) {
                     return {
                         results: $.map(data, result_func)
                     }
-                },
-                selectionCssClass: "form-control custom-select",
-                dropdownCssClass: "form-control custom-select",
-                theme: 'bootstrap4'
+                }
             }
         }).on('select2:select', function (evt) {
             selection_choisen(item, evt, null, parent_item, url_post);

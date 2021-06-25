@@ -73,7 +73,7 @@ function init_warunit_form(modal_content) {
     });
 }
 
-function invoke_modal_window(modal_window, response, clone_select) {
+function invoke_modal_window(modal_window, response, cur_select) {
     //alert(modal_window);
     //modal_window.modal();
     modal_window.modal({
@@ -97,17 +97,18 @@ function invoke_modal_window(modal_window, response, clone_select) {
         if (items.length > 0) {
             console.log("there're some items");
         } else {
-            let test_var = $("#id_born_locality-clone");
-            test_var = $(document).find(".custom-select");
+            cur_select.clone()
+                .show()
+                .attr("id", cur_select.attr("id") + "-clone")
+                .insertAfter(".formset-forms:last");
             let select_autocomplete = create_select2_modal_wnd(result_func);
-            select_autocomplete("#" + clone_select.attr("id"), null, url_get_address, url_post_address);
+            select_autocomplete(cur_select.attr("id") + "-clone", null, url_get_address, url_post_address);
         }
     });
 }
 
 $(function () {
     let cur_select = null;
-    let clone_select = null;
     var modal_window = $(document).find(".modal");
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     $('.add-inline-form').click(function (e) {
@@ -133,15 +134,9 @@ $(function () {
             let uri = $(this).attr('action');
             let address_modal_wnd = uri.replaceAll('/', '') + "_modal_wnd";
             let parent_form_group = $(this).closest(".form-group");
-            cur_select = parent_form_group.find("select");
+            cur_select = parent_form_group.find("select").eq(0);
 
             e.preventDefault();
-            clone_select = cur_select.clone();
-            clone_select.attr("id", cur_select.attr("id") + "-clone");
-            let data_select = clone_select.prop('outerHTML');
-            console.log(cur_select.val());
-            console.log(cur_select.text());
-            let cur_select_val = cur_select.val();
             uri += cur_select.val();
             console.log(uri);
             $.ajax({
@@ -150,9 +145,8 @@ $(function () {
                 //data: { id: menuId },
                 dataType: "html"
             }).done(function (data) {
-                console.log("Sample of data:", data + data_select);
                 let modal_window = $('#' + address_modal_wnd);
-                invoke_modal_window(modal_window, data + data_select, clone_select);
+                invoke_modal_window(modal_window, data, cur_select);
             }).fail(function () {
                 console.log("error");
             }).always(function () {
@@ -195,7 +189,12 @@ $(function () {
     });
     $('.btn-primary').click(function () {
         console.log('btn-primary pressed!');
-        cur_select.val(clone_select.val());
+
+        let current_parent_wnd = cur_select.parent();
+        let clonable_select_id = "#" + cur_select.attr("id") + "-clone";
+        let clone_select = $(clonable_select_id);
+        let test_value = clone_select.val();
+        cur_select.val(test_value);
         modal_window.modal('hide');
         modal_dynamic_content.html("");
     });

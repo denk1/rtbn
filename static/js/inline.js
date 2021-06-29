@@ -1,4 +1,5 @@
 /* register widget initialization for a formset form */
+var DEBUG = true;
 window.WIDGET_INIT_REGISTER = window.WIDGET_INIT_REGISTER || [];
 
 function reinit_widgets($formset_form) {
@@ -70,6 +71,8 @@ function init_warunit_form(modal_content) {
         add_delete_button($new_form);
         $total_forms.val(parseInt($total_forms.val(), 10) + 1);
         reinit_widgets($new_form);
+        //cheaking an upstear item 
+        revise_clonable_select(modal_content.parents(".modal"), revise_clonable_select);
     });
 }
 
@@ -100,12 +103,65 @@ function invoke_modal_window(modal_window, response, cur_select) {
             cur_select.clone()
                 .show()
                 .attr("id", cur_select.attr("id") + "-clone")
+                .addClass("clonable")
                 .insertAfter(".formset-forms:last");
             let select_autocomplete = create_select2_modal_wnd(result_func);
-            select_autocomplete(cur_select.attr("id") + "-clone", null, url_get_address, url_post_address);
+            select_autocomplete(
+                "#" + cur_select.attr("id") + "-clone",
+                null,
+                url_get_address,
+                url_post_address
+            );
         }
     });
 }
+
+function get_formset_forms(wnd) {
+    return wnd.find(".formset-forms");
+}
+
+function get_clonable_select(wnd) {
+    let formset_forms = get_formset_forms(wnd);
+    let formset_form = formset_forms.find(".formset-form");
+    let formset_form_last = formset_form.last();
+    if (formset_form_last.length == 1) {
+        let clonable_select = formset_form_last.find(".clonable");
+        if (clonable_select.length == 1) {
+            return clonable_select;
+        }
+    }
+    return null;
+}
+
+function is_selected_above_item(wnd) {
+    let formset_forms = get_formset_forms(wnd);
+    let formset_forms_list = formset_forms.find(".formset-form");
+    if (formset_forms_list.length > 0) {
+        let select = formset_form_last.find("select").last();
+        return select.val() != "";
+    }
+    else {
+        return false;
+    }
+}
+
+function revise_clonable_select(wnd, is_selected_above_item) {
+    let clonable_select = get_clonable_select(wnd);
+    if (clonable_select != null && is_selected_above_item != null) {
+        if (is_selected_above_item()) {
+            clonable_select.attr("disabled", "true");
+        }
+        else {
+            clonable_select.attr("disabled", "false");
+        }
+    } else {
+        if (DEBUG) {
+            console.log("get_clonable_select hasn't found by revise_clonable_select");
+        }
+    }
+}
+
+
 
 $(function () {
     let cur_select = null;
@@ -195,6 +251,7 @@ $(function () {
         let clone_select = $(clonable_select_id);
         let test_value = clone_select.val();
         cur_select.val(test_value);
+        test_value = cur_select.val();
         modal_window.modal('hide');
         modal_dynamic_content.html("");
     });

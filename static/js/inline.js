@@ -121,14 +121,10 @@ function get_formset_forms(wnd) {
 }
 
 function get_clonable_select(wnd) {
-    let formset_forms = get_formset_forms(wnd);
-    let formset_form = formset_forms.find(".formset-form");
-    let formset_form_last = formset_form.last();
-    if (formset_form_last.length == 1) {
-        let clonable_select = formset_form_last.find(".clonable");
-        if (clonable_select.length == 1) {
-            return clonable_select;
-        }
+    
+    let clonable_select = wnd.find(".clonable");
+    if (clonable_select.length == 1) {
+        return clonable_select;
     }
     return null;
 }

@@ -1,6 +1,8 @@
 /* register widget initialization for a formset form */
 var DEBUG = true;
+var cur_select = null;
 window.WIDGET_INIT_REGISTER = window.WIDGET_INIT_REGISTER || [];
+var tree_modal_window = null;
 
 function reinit_widgets($formset_form) {
     $(window.WIDGET_INIT_REGISTER).each(function (index, func) {
@@ -72,48 +74,17 @@ function init_warunit_form(modal_content) {
         $total_forms.val(parseInt($total_forms.val(), 10) + 1);
         reinit_widgets($new_form);
         //cheaking an upstear item 
-        revise_clonable_select(modal_content.parents(".modal"), revise_clonable_select);
+        revise_clonable_select(modal_content.parents(".modal"), is_selected_above_item);
     });
 }
 
 function invoke_modal_window(modal_window, response, cur_select) {
-    //alert(modal_window);
-    //modal_window.modal();
-    modal_window.modal({
-        'show': true,
-        'focus': true,
-        'keyboard': true
-    });
+    var clonable_select = null;
 
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     modal_dynamic_content.html(response + modal_dynamic_content.html());
     modal_window.modal('show');
     init_warunit_form(modal_dynamic_content);
-    modal_window.on("hidden.bs.modal", function () {
-        modal_window.modal('hide');
-        modal_dynamic_content.html("");
-    });
-
-    modal_window.on("shown.bs.modal", function () {
-        console.log("shown.bs.modal");
-        let items = modal_window.find(".address-item");
-        if (items.length > 0) {
-            console.log("there're some items");
-        } else {
-            cur_select.clone()
-                .show()
-                .attr("id", cur_select.attr("id") + "-clone")
-                .addClass("clonable")
-                .insertAfter(".formset-forms:last");
-            let select_autocomplete = create_select2_modal_wnd(result_func);
-            select_autocomplete(
-                "#" + cur_select.attr("id") + "-clone",
-                null,
-                url_get_address,
-                url_post_address
-            );
-        }
-    });
 }
 
 function get_formset_forms(wnd) {
@@ -121,7 +92,7 @@ function get_formset_forms(wnd) {
 }
 
 function get_clonable_select(wnd) {
-    
+
     let clonable_select = wnd.find(".clonable");
     if (clonable_select.length == 1) {
         return clonable_select;
@@ -133,7 +104,7 @@ function is_selected_above_item(wnd) {
     let formset_forms = get_formset_forms(wnd);
     let formset_forms_list = formset_forms.find(".formset-form");
     if (formset_forms_list.length > 0) {
-        let select = formset_form_last.find("select").last();
+        let select = formset_forms_list.find("select").last();
         return select.val() != "";
     }
     else {
@@ -144,7 +115,7 @@ function is_selected_above_item(wnd) {
 function revise_clonable_select(wnd, is_selected_above_item) {
     let clonable_select = get_clonable_select(wnd);
     if (clonable_select != null && is_selected_above_item != null) {
-        if (is_selected_above_item()) {
+        if (is_selected_above_item(wnd)) {
             clonable_select.attr("disabled", "true");
         }
         else {
@@ -157,10 +128,47 @@ function revise_clonable_select(wnd, is_selected_above_item) {
     }
 }
 
+function hidden_bs_modal() {
+    var modal_dynamic_content = tree_modal_window.find(".modal-dynamic-content");
+    modal_dynamic_content.html("");
+}
+
+function init_modal_wnd() {
+    tree_modal_window = $("#tree_modal_wnd");
+    tree_modal_window.modal({
+        'show': false,
+        'focus': true,
+        'keyboard': true
+    });
+    tree_modal_window.on("hidden.bs.modal", hidden_bs_modal);
+    tree_modal_window.on("shown.bs.modal", function () {
+        console.log("shown.bs.modal");
+        let items = tree_modal_window.find(".address-item");
+        if (items.length > 0) {
+            console.log("there're some items");
+        } else {
+
+            cur_select.clone()
+                .show()
+                .attr("id", cur_select.attr("id") + "-clone")
+                .addClass("clonable")
+                .insertAfter(".formset-forms:last");
+
+            let select_autocomplete = create_select2_modal_wnd(result_func);
+            select_autocomplete(
+                "#" + cur_select.attr("id") + "-clone",
+                null,
+                url_get_address,
+                url_post_address
+            );
+        }
+    });
+    return tree_modal_window;
+}
 
 
 $(function () {
-    let cur_select = null;
+    tree_modal_window = init_modal_wnd();
     var modal_window = $(document).find(".modal");
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     $('.add-inline-form').click(function (e) {
@@ -184,7 +192,6 @@ $(function () {
         $(this).on('click', function (e) {
             console.log(e + ": " + $(this).text());
             let uri = $(this).attr('action');
-            let address_modal_wnd = uri.replaceAll('/', '') + "_modal_wnd";
             let parent_form_group = $(this).closest(".form-group");
             cur_select = parent_form_group.find("select").eq(0);
 
@@ -197,8 +204,7 @@ $(function () {
                 //data: { id: menuId },
                 dataType: "html"
             }).done(function (data) {
-                let modal_window = $('#' + address_modal_wnd);
-                invoke_modal_window(modal_window, data, cur_select);
+                invoke_modal_window(tree_modal_window, data, cur_select);
             }).fail(function () {
                 console.log("error");
             }).always(function () {
@@ -214,7 +220,6 @@ $(function () {
             e.preventDefault();
             var cur_form = $(this).parents(".formset-form");
             var modal_window = cur_form.find(".modal-body")
-            var cur_select_text = modal_window.find(":selected").text();
             var cur_select_val = modal_window.find(":selected").val();
             $.ajax({
                 url: "/military_unit/" + cur_select_val,

@@ -75,6 +75,7 @@ function init_warunit_form(modal_content) {
         reinit_widgets($new_form);
         //cheaking an upstear item 
         revise_clonable_select(modal_content.parents(".modal"), is_selected_above_item);
+        //init_modal_wnd_fuctionality($new_form);
     });
 }
 
@@ -102,10 +103,12 @@ function get_clonable_select(wnd) {
 
 function is_selected_above_item(wnd) {
     let formset_forms = get_formset_forms(wnd);
-    let formset_forms_list = formset_forms.find(".formset-form");
+    let formset_forms_list = formset_forms.find(".formset-form").not(".d-none");
     if (formset_forms_list.length > 0) {
         let select = formset_forms_list.find("select").last();
-        return select.val() != "";
+        console.log("formset_forms_list.length=", formset_forms_list.length);
+        console.log("select.val() is ", select.val());
+        return select.val() === "";
     }
     else {
         return false;
@@ -115,11 +118,15 @@ function is_selected_above_item(wnd) {
 function revise_clonable_select(wnd, is_selected_above_item) {
     let clonable_select = get_clonable_select(wnd);
     if (clonable_select != null && is_selected_above_item != null) {
-        if (is_selected_above_item(wnd)) {
-            clonable_select.attr("disabled", "true");
+        let is_item = is_selected_above_item(wnd);
+        console.log("the result is ", is_item);
+        if (is_item) {
+            clonable_select.attr("disabled", true);
+            console.log("set true");
         }
         else {
-            clonable_select.attr("disabled", "false");
+            clonable_select.attr("disabled", false);
+            console.log("set false");
         }
     } else {
         if (DEBUG) {
@@ -166,6 +173,23 @@ function init_modal_wnd() {
     return tree_modal_window;
 }
 
+function init_modal_wnd_fuctionality($new_form) {
+    var address_section = $new_form.parents("#address_section");
+
+    if (address_section.length != 0) {
+        let delete_btn = $new_form.find(".delete");
+        delete_btn.on("click", function (e) {
+            var modal_wnd = $new_form.parents(".modal");
+            if (modal_wnd.length == 1) {
+                revise_clonable_select(modal_wnd, is_selected_above_item);
+            } else {
+                console.log("Something's gone wrong!");
+                console.log(" the modal address window is none or multiple");
+            }
+        });
+    }
+
+}
 
 $(function () {
     tree_modal_window = init_modal_wnd();
@@ -210,7 +234,6 @@ $(function () {
             }).always(function () {
                 console.log('always')
             });
-
         });
     });
 
@@ -242,7 +265,20 @@ $(function () {
         var $formset = $(this).closest('.formset-form');
         var $checkbox = $formset.find('input:checkbox[id$=DELETE]');
         $checkbox.attr("checked", "checked");
-        $formset.hide();
+        $formset.addClass("d-none");
+        console.log("click delete");
+        //$formset.hide();
+    });
+    $(document).on('click', '#address_section .delete', function (e) {
+        console.log(e.target);
+        e.preventDefault();
+        var modal_wnd = $(this).parents(".modal");
+        if (modal_wnd.length == 1) {
+            revise_clonable_select(modal_wnd, is_selected_above_item);
+        } else {
+            console.log("Something's gone wrong!");
+            console.log(" the modal address window is none or multiple");
+        }
     });
     $('.btn-primary').click(function () {
         console.log('btn-primary pressed!');

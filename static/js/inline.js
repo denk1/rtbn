@@ -2,7 +2,7 @@
 var DEBUG = true;
 var cur_select = null;
 window.WIDGET_INIT_REGISTER = window.WIDGET_INIT_REGISTER || [];
-var tree_modal_window = null;
+var tree_modal_window = $("#tree_modal_wnd");
 
 function reinit_widgets($formset_form) {
     $(window.WIDGET_INIT_REGISTER).each(function (index, func) {
@@ -139,7 +139,7 @@ function hidden_bs_modal() {
     var modal_dynamic_content = tree_modal_window.find(".modal-dynamic-content");
     modal_dynamic_content.html("");
 }
-
+/*
 function init_modal_wnd() {
     tree_modal_window = $("#tree_modal_wnd");
     tree_modal_window.modal({
@@ -148,8 +148,10 @@ function init_modal_wnd() {
         'keyboard': true
     });
     tree_modal_window.on("hidden.bs.modal", hidden_bs_modal);
+    
     tree_modal_window.on("shown.bs.modal", function () {
         console.log("shown.bs.modal");
+        
         let items = tree_modal_window.find(".address-item");
         if (items.length > 0) {
             console.log("there're some items");
@@ -172,6 +174,7 @@ function init_modal_wnd() {
     });
     return tree_modal_window;
 }
+*/
 
 function init_modal_wnd_fuctionality($new_form) {
     var address_section = $new_form.parents("#address_section");
@@ -192,7 +195,7 @@ function init_modal_wnd_fuctionality($new_form) {
 }
 
 $(function () {
-    tree_modal_window = init_modal_wnd();
+    //tree_modal_window = init_modal_wnd();
     var modal_window = $(document).find(".modal");
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     $('.add-inline-form').click(function (e) {
@@ -228,7 +231,7 @@ $(function () {
                 //data: { id: menuId },
                 dataType: "html"
             }).done(function (data) {
-                invoke_modal_window(tree_modal_window, data, cur_select);
+                invoke_modal_window($("#tree_modal_wnd"), data, cur_select);
             }).fail(function () {
                 console.log("error");
             }).always(function () {
@@ -280,6 +283,32 @@ $(function () {
             console.log(" the modal address window is none or multiple");
         }
     });
+
+    $(document).on("shown.bs.modal", "#tree_modal_wnd", function (e) {
+        console.log('shown.bs.modal');
+        let items = $(this).find(".address-item");
+        if (items.length > 0) {
+            console.log("there're some items");
+        } else {
+
+            cur_select.clone()
+                .show()
+                .attr("id", cur_select.attr("id") + "-clone")
+                .addClass("clonable")
+                .insertAfter(".formset-forms:last");
+
+            let select_autocomplete = create_select2_modal_wnd(result_func);
+            select_autocomplete(
+                "#" + cur_select.attr("id") + "-clone",
+                null,
+                url_get_address,
+                url_post_address
+            );
+        }
+    });
+
+    $(document).on("hidden.bs.modal", "#tree_modal_wnd", hidden_bs_modal);
+
     $('.btn-primary').click(function () {
         console.log('btn-primary pressed!');
 

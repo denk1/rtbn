@@ -547,7 +547,8 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <button class="invoke-modal" action="{% url 'address:add_address' %}">Адрес
+                                    <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
+                                        action="{% url 'address:add_address' %}">Адрес
                                         места рождения</button>
                                     <div class="d-none">
                                         {{ person_form.born_locality|as_crispy_field }}

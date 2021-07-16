@@ -122,9 +122,7 @@ function create_set_select2_item(result_func) {
 }
 
 function create_select2_modal_wnd(result_func) {
-    return function (item_id, parent_item, url_get, url_post) {
-        //item = $(item);
-        item = $(item_id);
+    return function (item, parent_item, url_get, url_post) {
         item.select2({
             tags: true,
             tokenSeparators: [","],

@@ -229,3 +229,7 @@ h1 {
 .add_info {
     font-size: xx-small;
 }
+
+.test-class {
+    background-color: coral;
+}

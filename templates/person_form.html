@@ -17,6 +17,27 @@
 </div>
 <script>
 
+    class Pathes {
+        constructor(data_url, source_url) {
+            this.data_url = data_url;
+            this.source_url = source_url;
+        }
+
+        get get_data_url() {
+            if (this.data_url != null && this.data_url != "")
+                return this.data_url;
+        }
+
+        get get_source_url() {
+            if (this.source_url != null && this.source_url != "")
+                return this.source_url;
+            else
+                throw new Error(
+                    "There is no any urls resources!"
+                );
+        }
+    }
+
     var num = 1;
     var del_row;
     var registerEventButton = function () {
@@ -490,7 +511,9 @@
 
         //$(set_select2_region);
         set_url_address("{% url 'region' %}", "{% url 'add_region' %}");
+
     });
+    const addressUrls = new Pathes("{% url 'region' %}", "{% url 'add_region' %}");
 </script>
 <div class="content">
     <div class="offset_content">
@@ -573,7 +596,8 @@
                         <div id="last_place" class="row">
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <button class="invoke-modal" action="{% url 'address:add_address' %}">Адрес места
+                                    <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
+                                        action="{% url 'address:add_address' %}">Адрес места
                                         жительства</button>
                                     {{ person_form.live_locality|as_crispy_field }}
                                     <label for="live_locality_name" generated="true" class="error"></label>

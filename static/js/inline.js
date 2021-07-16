@@ -4,6 +4,8 @@ var cur_select = null;
 window.WIDGET_INIT_REGISTER = window.WIDGET_INIT_REGISTER || [];
 var tree_modal_window = $("#tree_modal_wnd");
 
+var pathes = null;
+
 function reinit_widgets($formset_form) {
     $(window.WIDGET_INIT_REGISTER).each(function (index, func) {
         func($formset_form);
@@ -62,26 +64,9 @@ function add_delete_button($formset_form) {
 function init_warunit_form(modal_content) {
     var formset = modal_content.find(".formset-form");
     add_delete_button(formset);
-    $('.add-warunit-form').click(function (e) {
-        e.preventDefault();
-        var $formset = $(this).closest('.formset');
-        var $total_forms = $formset.find('[id$="TOTAL_FORMS"]');
-        var $new_form = $formset.find('.empty-warunit-form').clone(true).attr("id", null);
-        $new_form.removeClass('empty-warunit-form d-none').addClass('formset-form');
-        set_index_for_fields($new_form, parseInt($total_forms.val(), 10));
-        $formset.find('.formset-forms').append($new_form);
-        add_delete_button($new_form);
-        $total_forms.val(parseInt($total_forms.val(), 10) + 1);
-        reinit_widgets($new_form);
-        //cheaking an upstear item 
-        revise_clonable_select(modal_content.parents(".modal"), is_selected_above_item);
-        //init_modal_wnd_fuctionality($new_form);
-    });
 }
 
 function invoke_modal_window(modal_window, response, cur_select) {
-    var clonable_select = null;
-
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     modal_dynamic_content.html(response + modal_dynamic_content.html());
     modal_window.modal('show');
@@ -139,59 +124,49 @@ function hidden_bs_modal() {
     var modal_dynamic_content = tree_modal_window.find(".modal-dynamic-content");
     modal_dynamic_content.html("");
 }
-/*
-function init_modal_wnd() {
-    tree_modal_window = $("#tree_modal_wnd");
-    tree_modal_window.modal({
-        'show': false,
-        'focus': true,
-        'keyboard': true
-    });
-    tree_modal_window.on("hidden.bs.modal", hidden_bs_modal);
-    
-    tree_modal_window.on("shown.bs.modal", function () {
-        console.log("shown.bs.modal");
-        
-        let items = tree_modal_window.find(".address-item");
-        if (items.length > 0) {
-            console.log("there're some items");
-        } else {
 
-            cur_select.clone()
-                .show()
-                .attr("id", cur_select.attr("id") + "-clone")
-                .addClass("clonable")
-                .insertAfter(".formset-forms:last");
-
-            let select_autocomplete = create_select2_modal_wnd(result_func);
-            select_autocomplete(
-                "#" + cur_select.attr("id") + "-clone",
-                null,
-                url_get_address,
-                url_post_address
-            );
-        }
-    });
-    return tree_modal_window;
+function init_autocomplete(select_widget) {
+    var pathes = addressUrls;
+    let select_autocomplete = create_select2_modal_wnd(result_func);
+    select_autocomplete(
+        select_widget,
+        null,
+        pathes.get_data_url,
+        pathes.get_source_url
+    );
 }
-*/
 
-function init_modal_wnd_fuctionality($new_form) {
-    var address_section = $new_form.parents("#address_section");
 
-    if (address_section.length != 0) {
-        let delete_btn = $new_form.find(".delete");
-        delete_btn.on("click", function (e) {
-            var modal_wnd = $new_form.parents(".modal");
-            if (modal_wnd.length == 1) {
-                revise_clonable_select(modal_wnd, is_selected_above_item);
-            } else {
-                console.log("Something's gone wrong!");
-                console.log(" the modal address window is none or multiple");
-            }
-        });
+function init_select2($current_element) {
+    let items = $current_element.find(".address-item");
+    if (items.length > 0) {
+        console.log("there're some items");
+    } else {
+
+        let cur_clon_select = cur_select.clone()
+            .show()
+            .attr("id", cur_select.attr("id") + "-clone")
+            .addClass("clonable")
+            .insertAfter(".formset-forms:last");
+        init_autocomplete(cur_clon_select);
     }
+}
 
+function revise_tree_units(items) {
+    $(items[0]).find("select").attr("disabled", false);
+    for (let i = 1; i < items.length; i++) {
+        if ($(items[i - 1]).find("select").children("option:selected").val() === "")
+            $(items[i]).find("select").attr("disabled", true);
+        else
+            $(items[i]).find("select").attr("disabled", false);
+        console.log($(items[i]).find("select").children("option:selected").val());
+    }
+}
+
+function get_list_tree_units(wnd) {
+    let items = get_formset_forms(wnd).find(".formset-form").not(".d-none");
+    console.log("the length of formsets is " + items.length);
+    revise_tree_units(items);
 }
 
 $(function () {
@@ -263,6 +238,7 @@ $(function () {
 
         });
     });
+
     $(document).on('click', '.delete', function (e) {
         e.preventDefault();
         var $formset = $(this).closest('.formset-form');
@@ -270,6 +246,7 @@ $(function () {
         $checkbox.attr("checked", "checked");
         $formset.addClass("d-none");
         console.log("click delete");
+        get_list_tree_units($(this).parents(".modal"));
         //$formset.hide();
     });
     $(document).on('click', '#address_section .delete', function (e) {
@@ -286,25 +263,7 @@ $(function () {
 
     $(document).on("shown.bs.modal", "#tree_modal_wnd", function (e) {
         console.log('shown.bs.modal');
-        let items = $(this).find(".address-item");
-        if (items.length > 0) {
-            console.log("there're some items");
-        } else {
-
-            cur_select.clone()
-                .show()
-                .attr("id", cur_select.attr("id") + "-clone")
-                .addClass("clonable")
-                .insertAfter(".formset-forms:last");
-
-            let select_autocomplete = create_select2_modal_wnd(result_func);
-            select_autocomplete(
-                "#" + cur_select.attr("id") + "-clone",
-                null,
-                url_get_address,
-                url_post_address
-            );
-        }
+        init_select2($(this));
     });
 
     $(document).on("hidden.bs.modal", "#tree_modal_wnd", hidden_bs_modal);
@@ -320,5 +279,30 @@ $(function () {
         test_value = cur_select.val();
         modal_window.modal('hide');
         modal_dynamic_content.html("");
+    });
+
+    $(document).on("click", ".add-tree-form", function (e) {
+        pathes = addressUrls;
+        e.preventDefault();
+        var $formset = $(this).closest('.formset');
+        var $total_forms = $formset.find('[id$="TOTAL_FORMS"]');
+        let empty_form = $formset.find('.empty-warunit-form');
+        var $new_form = empty_form.clone(true).attr("id", null);
+        $new_form.removeClass('empty-warunit-form d-none').addClass('formset-form');
+        set_index_for_fields($new_form, parseInt($total_forms.val(), 10));
+        $formset.find('.formset-forms').append($new_form);
+        add_delete_button($new_form);
+        $total_forms.val(parseInt($total_forms.val(), 10) + 1);
+        reinit_widgets($new_form);
+        init_autocomplete($new_form.find("select"));
+        //cheaking an upstear item 
+        revise_clonable_select($(this).parents(".modal"), is_selected_above_item);
+        get_list_tree_units($formset.parents(".modal"));
+    });
+
+    $(document).on('change', '.formset-forms select', function (e) {
+        console.log("test of change");
+        get_list_tree_units($(this).parents(".modal"));
+        revise_clonable_select($(this).parents(".modal"), is_selected_above_item);
     });
 });

@@ -125,32 +125,41 @@ function hidden_bs_modal() {
     modal_dynamic_content.html("");
 }
 
-function init_autocomplete(select_widget) {
-    var pathes = addressUrls;
-    let select_autocomplete = create_select2_modal_wnd(result_func);
-    select_autocomplete(
-        select_widget,
-        null,
-        pathes.get_data_url,
-        pathes.get_source_url
-    );
-}
 
+function InitSelect2() {
+    this.wnd = null;
 
-function init_select2($current_element) {
-    let items = $current_element.find(".address-item");
-    if (items.length > 0) {
-        console.log("there're some items");
-    } else {
+    this.init_autocomplete = function (select_widget) {
+        var pathes = addressUrls;
+        let select_autocomplete = create_select2_modal_wnd(result_func);
+        let parent_length = get_formset_forms(this.wnd).find(".formset-form").not(".d-none").length;
+        let parent_element = parent_length == 0 ? null : get_formset_forms(this.wnd).find(".formset-form").not(".d-none").eq(-1);
+        select_autocomplete(
+            select_widget,
+            parent_element,
+            pathes.get_data_url,
+            pathes.get_source_url
+        );
+    }
 
-        let cur_clon_select = cur_select.clone()
-            .show()
-            .attr("id", cur_select.attr("id") + "-clone")
-            .addClass("clonable")
-            .insertAfter(".formset-forms:last");
-        init_autocomplete(cur_clon_select);
+    this.init_select2_clonable = function ($current_element) {
+        let items = $current_element.find(".address-item");
+        if (items.length > 0) {
+            console.log("there're some items");
+        } else {
+
+            let cur_clon_select = cur_select.clone()
+                .show()
+                .attr("id", cur_select.attr("id") + "-clone")
+                .addClass("clonable")
+                .insertAfter(".formset-forms:last");
+            this.init_autocomplete(cur_clon_select);
+
+        }
     }
 }
+
+var init_select2 = new InitSelect2();
 
 function revise_tree_units(items) {
     $(items[0]).find("select").attr("disabled", false);
@@ -167,6 +176,10 @@ function get_list_tree_units(wnd) {
     let items = get_formset_forms(wnd).find(".formset-form").not(".d-none");
     console.log("the length of formsets is " + items.length);
     revise_tree_units(items);
+}
+
+function Foo(i) {
+    console.log(i);
 }
 
 $(function () {
@@ -263,7 +276,8 @@ $(function () {
 
     $(document).on("shown.bs.modal", "#tree_modal_wnd", function (e) {
         console.log('shown.bs.modal');
-        init_select2($(this));
+        init_select2.wnd = $(this);
+        init_select2.init_select2_clonable($(this));
     });
 
     $(document).on("hidden.bs.modal", "#tree_modal_wnd", hidden_bs_modal);
@@ -284,7 +298,8 @@ $(function () {
     $(document).on("click", ".add-tree-form", function (e) {
         pathes = addressUrls;
         e.preventDefault();
-        var $formset = $(this).closest('.formset');
+        let $formset = $(this).closest('.formset');
+        let wnd = $formset.parents(".modal");
         var $total_forms = $formset.find('[id$="TOTAL_FORMS"]');
         let empty_form = $formset.find('.empty-warunit-form');
         var $new_form = empty_form.clone(true).attr("id", null);
@@ -294,10 +309,11 @@ $(function () {
         add_delete_button($new_form);
         $total_forms.val(parseInt($total_forms.val(), 10) + 1);
         reinit_widgets($new_form);
-        init_autocomplete($new_form.find("select"));
+        init_select2.wnd = wnd;
+        init_select2.init_autocomplete($new_form.find("select"));
         //cheaking an upstear item 
-        revise_clonable_select($(this).parents(".modal"), is_selected_above_item);
-        get_list_tree_units($formset.parents(".modal"));
+        revise_clonable_select(wnd, is_selected_above_item);
+        get_list_tree_units(wnd);
     });
 
     $(document).on('change', '.formset-forms select', function (e) {

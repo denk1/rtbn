@@ -133,7 +133,11 @@ function InitSelect2() {
         var pathes = addressUrls;
         let select_autocomplete = create_select2_modal_wnd(result_func);
         let parent_length = get_formset_forms(this.wnd).find(".formset-form").not(".d-none").length;
-        let parent_element = parent_length == 0 ? null : get_formset_forms(this.wnd).find(".formset-form").not(".d-none").eq(-1);
+        let parent_element = parent_length == 0 ? null : get_formset_forms(this.wnd)
+                            .find(".formset-form")
+                            .not(".d-none")
+                            .eq(-1)
+                            .find("select");
         select_autocomplete(
             select_widget,
             parent_element,

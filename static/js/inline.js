@@ -131,13 +131,15 @@ function InitSelect2() {
 
     this.init_autocomplete = function (select_widget) {
         var pathes = addressUrls;
+        let check_count = select_widget.hasClass("clonable") ? 0 : 1;
         let select_autocomplete = create_select2_modal_wnd(result_func);
         let parent_length = get_formset_forms(this.wnd).find(".formset-form").not(".d-none").length;
-        let parent_element = parent_length == 0 ? null : get_formset_forms(this.wnd)
-                            .find(".formset-form")
-                            .not(".d-none")
-                            .eq(-1)
-                            .find("select");
+        let parent_element = parent_length == check_count ? null : get_formset_forms(this.wnd)
+            .find(".formset-form")
+            .not(".d-none")
+            .last()
+            .prev()
+            .find("select");
         select_autocomplete(
             select_widget,
             parent_element,

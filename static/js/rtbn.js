@@ -122,7 +122,8 @@ function create_set_select2_item(result_func) {
 }
 
 function create_select2_modal_wnd(result_func) {
-    return function (item, parent_item, url_get, url_post) {
+    this.select_autocomplete = function (item, parent_item_in, url_get, url_post) {
+        var parent_item = parent_item_in;
         item.select2({
             tags: true,
             tokenSeparators: [","],

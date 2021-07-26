@@ -128,24 +128,40 @@ function hidden_bs_modal() {
 
 function InitSelect2() {
     this.wnd = null;
-
+    this.m_cur_clone_select = null;
     this.init_autocomplete = function (select_widget) {
         var pathes = addressUrls;
         let check_count = select_widget.hasClass("clonable") ? 0 : 1;
-        let select_autocomplete = create_select2_modal_wnd(result_func);
+        let select_autocomplete = new create_select2_modal_wnd(result_func);
         let parent_length = get_formset_forms(this.wnd).find(".formset-form").not(".d-none").length;
-        let parent_element = parent_length == check_count ? null : get_formset_forms(this.wnd)
-            .find(".formset-form")
-            .not(".d-none")
-            .last()
-            .prev()
-            .find("select");
-        select_autocomplete(
+        let parent_element = null;
+        if (select_widget.hasClass("clonable")) {
+            parent_element = parent_length == check_count ? null : get_formset_forms(this.wnd)
+                .find(".formset-form")
+                .not(".d-none")
+                .last()
+                .find("select");
+        }
+        else {
+            parent_element = parent_length == check_count ? null : get_formset_forms(this.wnd)
+                .find(".formset-form")
+                .not(".d-none")
+                .last()
+                .prev()
+                .find("select");
+        }
+        if (select_widget.hasClass("select2-hidden-accessible")) {
+            select_widget.select2('destroy').off('select2:select');
+            //select_widget.data('select2').destroy();
+            console.log('destroy');
+        }
+        select_autocomplete.select_autocomplete(
             select_widget,
             parent_element,
             pathes.get_data_url,
             pathes.get_source_url
         );
+        //select_widget.select2('destroy');
     }
 
     this.init_select2_clonable = function ($current_element) {
@@ -159,9 +175,17 @@ function InitSelect2() {
                 .attr("id", cur_select.attr("id") + "-clone")
                 .addClass("clonable")
                 .insertAfter(".formset-forms:last");
+            this.m_cur_clone_select = cur_clon_select;
             this.init_autocomplete(cur_clon_select);
 
         }
+    }
+
+    this.change_parent_clonable_item = function () {
+        if (this.m_cur_clone_select != null)
+            this.init_autocomplete(this.m_cur_clone_select);
+        else
+            console.log("the clonable select is null");
     }
 }
 
@@ -317,6 +341,7 @@ $(function () {
         reinit_widgets($new_form);
         init_select2.wnd = wnd;
         init_select2.init_autocomplete($new_form.find("select"));
+        init_select2.change_parent_clonable_item();
         //cheaking an upstear item 
         revise_clonable_select(wnd, is_selected_above_item);
         get_list_tree_units(wnd);

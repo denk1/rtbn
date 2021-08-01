@@ -69,7 +69,7 @@ function init_warunit_form(modal_content) {
 function invoke_modal_window(modal_window, response, cur_select) {
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     modal_dynamic_content.html(response + modal_dynamic_content.html());
-    modal_window.modal('show');
+    //modal_window.modal('show');
     init_warunit_form(modal_dynamic_content);
 }
 
@@ -143,12 +143,7 @@ function InitSelect2() {
                 .find("select");
         }
         else {
-            parent_element = parent_length == check_count ? null : get_formset_forms(this.wnd)
-                .find(".formset-form")
-                .not(".d-none")
-                .last()
-                .prev()
-                .find("select");
+            parent_element = select_widget.parents(".formset-form").prev().find("select");
         }
         if (select_widget.hasClass("select2-hidden-accessible")) {
             select_widget.select2('destroy').off('select2:select');
@@ -165,20 +160,16 @@ function InitSelect2() {
     }
 
     this.init_select2_clonable = function ($current_element) {
-        let items = $current_element.find(".address-item");
-        if (items.length > 0) {
-            console.log("there're some items");
-        } else {
+        let cur_clon_select = cur_select.clone(true)
+            .show()
+            .attr("id", cur_select.attr("id") + "-clone")
+            .addClass("clonable")
+            .insertAfter(".formset-forms:last");
+        this.m_cur_clone_select = cur_clon_select;
+        this.init_autocomplete(cur_clon_select);
+        console.log("cur_select.val=" + cur_select.val());
+        this.m_cur_clone_select.val(cur_select.val()).trigger('change');
 
-            let cur_clon_select = cur_select.clone()
-                .show()
-                .attr("id", cur_select.attr("id") + "-clone")
-                .addClass("clonable")
-                .insertAfter(".formset-forms:last");
-            this.m_cur_clone_select = cur_clon_select;
-            this.init_autocomplete(cur_clon_select);
-
-        }
     }
 
     this.change_parent_clonable_item = function () {
@@ -186,6 +177,17 @@ function InitSelect2() {
             this.init_autocomplete(this.m_cur_clone_select);
         else
             console.log("the clonable select is null");
+    }
+}
+
+function init_select2_list(init_obj) {
+    if (init_obj.wnd != null) {
+        let $formset_forms_list = get_formset_forms(init_obj.wnd).find(".formset-form");
+        $formset_forms_list.each(function () {
+            let select = $(this).find("select");
+            init_obj.init_autocomplete(select);
+            console.log(select);
+        });
     }
 }
 
@@ -207,6 +209,8 @@ function get_list_tree_units(wnd) {
     console.log("the length of formsets is " + items.length);
     revise_tree_units(items);
 }
+
+
 
 function Foo(i) {
     console.log(i);
@@ -250,6 +254,10 @@ $(function () {
                 dataType: "html"
             }).done(function (data) {
                 invoke_modal_window($("#tree_modal_wnd"), data, cur_select);
+                init_select2.wnd = $("#tree_modal_wnd");
+                init_select2.init_select2_clonable($("#tree_modal_wnd"));
+                init_select2_list(init_select2);
+
             }).fail(function () {
                 console.log("error");
             }).always(function () {
@@ -306,16 +314,14 @@ $(function () {
 
     $(document).on("shown.bs.modal", "#tree_modal_wnd", function (e) {
         console.log('shown.bs.modal');
-        init_select2.wnd = $(this);
-        init_select2.init_select2_clonable($(this));
+        //init_select2.wnd = $(this);
+        //init_select2.init_select2_clonable($(this));
     });
 
     $(document).on("hidden.bs.modal", "#tree_modal_wnd", hidden_bs_modal);
 
     $('.btn-primary').click(function () {
         console.log('btn-primary pressed!');
-
-        let current_parent_wnd = cur_select.parent();
         let clonable_select_id = "#" + cur_select.attr("id") + "-clone";
         let clone_select = $(clonable_select_id);
         let test_value = clone_select.val();

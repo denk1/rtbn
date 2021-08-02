@@ -325,8 +325,14 @@ $(function () {
         let clonable_select_id = "#" + cur_select.attr("id") + "-clone";
         let clone_select = $(clonable_select_id);
         let test_value = clone_select.val();
-        cur_select.val(test_value);
-        test_value = cur_select.val();
+        let $options = clone_select.find("option").clone();
+        cur_select
+            .find("option")
+            .remove()
+            .end()
+            .append($options)
+            .val(test_value);
+
         modal_window.modal('hide');
         modal_dynamic_content.html("");
     });

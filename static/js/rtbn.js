@@ -30,7 +30,7 @@ function creation_tag(tag) {
 
 function selection_choisen(cur_item, evt, type_item, parent_item, url_post) {
     var parent_val = null;
-    if (parent_item != null) {
+    if (parent_item != null && parent_item.length != 0) {
         parent_val = $(parent_item).val();
     }
 

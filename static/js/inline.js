@@ -210,10 +210,21 @@ function get_list_tree_units(wnd) {
     revise_tree_units(items);
 }
 
-
-
-function Foo(i) {
-    console.log(i);
+function create_get_ajax_request(uri, do_this) {
+    return function () {
+        $.ajax({
+            url: uri,
+            method: "GET",
+            //data: { id: menuId },
+            dataType: "html"
+        }).done(
+            do_this
+        ).fail(function () {
+            console.log("error");
+        }).always(function () {
+            console.log('always')
+        });
+    }
 }
 
 $(function () {
@@ -247,22 +258,14 @@ $(function () {
             e.preventDefault();
             uri += cur_select.val();
             console.log(uri);
-            $.ajax({
-                url: uri,
-                method: "GET",
-                //data: { id: menuId },
-                dataType: "html"
-            }).done(function (data) {
+            let get_ajax_request = create_get_ajax_request(uri, function (data) {
                 invoke_modal_window($("#tree_modal_wnd"), data, cur_select);
                 init_select2.wnd = $("#tree_modal_wnd");
                 init_select2.init_select2_clonable($("#tree_modal_wnd"));
                 init_select2_list(init_select2);
 
-            }).fail(function () {
-                console.log("error");
-            }).always(function () {
-                console.log('always')
             });
+            get_ajax_request();
         });
     });
 

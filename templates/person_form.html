@@ -570,9 +570,12 @@
                             </div>
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
-                                        action="{% url 'address:add_address' %}">Адрес
-                                        места рождения</button>
+                                    <div class="inform-box">
+                                        <p class="inform-box-label"></p>
+                                        <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
+                                            action="{% url 'address:add_address' %}">Адрес
+                                            места рождения</button>
+                                    </div>
                                     <div class="d-none">
                                         {{ person_form.born_locality|as_crispy_field }}
                                     </div>
@@ -596,10 +599,13 @@
                         <div id="last_place" class="row">
                             <div class="col-sm-3 list_item">
                                 <div class="form-group">
-                                    <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
-                                        action="{% url 'address:add_address' %}">Адрес места
-                                        жительства</button>
-                                    {{ person_form.live_locality|as_crispy_field }}
+                                    <div class="inform-box">
+                                        <p class="inform-box-label"></p>
+                                        <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
+                                            action="{% url 'address:add_address' %}">Адрес места
+                                            жительства</button>
+                                        {{ person_form.live_locality|as_crispy_field }}
+                                    </div>
                                     <label for="live_locality_name" generated="true" class="error"></label>
                                 </div>
                             </div>

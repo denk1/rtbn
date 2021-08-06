@@ -1,6 +1,7 @@
 /* register widget initialization for a formset form */
 var DEBUG = true;
 var cur_select = null;
+var $cur_btn_tree = null;
 window.WIDGET_INIT_REGISTER = window.WIDGET_INIT_REGISTER || [];
 var tree_modal_window = $("#tree_modal_wnd");
 
@@ -227,6 +228,37 @@ function create_get_ajax_request(uri, do_this) {
     }
 }
 
+function init_btn_primary(wnd, uri) {
+    let btn_primary = wnd.find(".btn-primary");
+    btn_primary.attr("action", uri);
+}
+
+function get_btn_primary_action(btn) {
+    return btn.attr("action");
+}
+
+function init_btn_box_inform(btn, select, uri) {
+    let get_ajax_request = create_get_ajax_request(uri, function (data) {
+        let str_val = "";
+        console.log(str_val);
+        let selects = $(data)
+            .find(".formset-forms")
+            .find("select")
+            .not("d-none");
+        selects.each( function(item) {
+            let str = $(this).find("option:selected").text().split(" ")[1];
+            if(typeof str !== "undefined")
+                str_val += $(this).find("option:selected").text().split(" ")[1] + ", ";
+        });
+        str_val += select.find("option:selected").text();
+        if(btn != null) {
+            console.log("cur_btn_tree");
+            console.log($cur_btn_tree.prev(".inform-box-label").text(str_val));
+        }
+    });
+    get_ajax_request();
+}
+
 $(function () {
     //tree_modal_window = init_modal_wnd();
     var modal_window = $(document).find(".modal");
@@ -248,26 +280,36 @@ $(function () {
         add_delete_button($formset_form);
         reinit_widgets($formset_form);
     });
-    $('.invoke-modal').each(function () {
-        $(this).on('click', function (e) {
+
+    $('.invoke-modal')
+        .on('click', function (e) {
+            $cur_btn_tree = $(this);
             console.log(e + ": " + $(this).text());
             let uri = $(this).attr('action');
             let parent_form_group = $(this).closest(".form-group");
             cur_select = parent_form_group.find("select").eq(0);
-
+            var modal_wnd = $("#tree_modal_wnd");
+            init_btn_primary(modal_wnd, uri);
             e.preventDefault();
             uri += cur_select.val();
             console.log(uri);
             let get_ajax_request = create_get_ajax_request(uri, function (data) {
-                invoke_modal_window($("#tree_modal_wnd"), data, cur_select);
-                init_select2.wnd = $("#tree_modal_wnd");
-                init_select2.init_select2_clonable($("#tree_modal_wnd"));
+                invoke_modal_window(modal_wnd, data, cur_select);
+                init_select2.wnd = modal_wnd;
+                init_select2.init_select2_clonable(modal_wnd);
                 init_select2_list(init_select2);
 
             });
             get_ajax_request();
+        })
+        .each(function () {
+            let select = $(this).parents(".form-group").find("select");
+            if(select.length == 1 && select.val() != "") {
+                console.log($(this).attr("action"));
+                let str_uri = $(this).attr("action") + select.val();
+                init_btn_box_inform($(this), select, str_uri);
+            }
         });
-    });
 
     $('.btn-unit').each(function () {
         war_unit = $(this);
@@ -322,13 +364,16 @@ $(function () {
     });
 
     $(document).on("hidden.bs.modal", "#tree_modal_wnd", hidden_bs_modal);
-
+    
     $('.btn-primary').click(function () {
-        console.log('btn-primary pressed!');
         let clonable_select_id = "#" + cur_select.attr("id") + "-clone";
         let clone_select = $(clonable_select_id);
         let test_value = clone_select.val();
         let $options = clone_select.find("option").clone();
+        let str_uri = "";
+        
+        if(DEBUG)
+            console.log('btn-primary pressed!');
         cur_select
             .find("option")
             .remove()
@@ -338,7 +383,11 @@ $(function () {
 
         modal_window.modal('hide');
         modal_dynamic_content.html("");
+        str_uri = get_btn_primary_action($(this)) + clone_select.val();
+        init_btn_box_inform($cur_btn_tree, cur_select, str_uri);
     });
+
+
 
     $(document).on("click", ".add-tree-form", function (e) {
         pathes = addressUrls;

@@ -25,13 +25,12 @@ def add_or_change_address(request, pk=None):
             address_queryset = AddressItem.objects.filter(pk=address.id)
 
             address_queryset_result |= address_queryset
-            print("address_queryset[0].parent_address_unit={0}".format(
-                address_queryset[0].pk))
-            while address_queryset:
-                above_address = AddressItem.objects.filter(
-                    Q(pk=address_queryset[0].parent_address_unit.id)).exclude(parent_address_unit=None)
-                address_queryset_result |= above_address
-                address_queryset = above_address
+            if len(address_queryset) != 0 and address_queryset[0].parent_address_unit is not None:
+                while address_queryset:
+                    above_address = AddressItem.objects.filter(
+                        Q(pk=address_queryset[0].parent_address_unit.id)).exclude(parent_address_unit=None)
+                    address_queryset_result |= above_address
+                    address_queryset = above_address
 
         address_formset = AddressItemFormSet(
             queryset=address_queryset_result,

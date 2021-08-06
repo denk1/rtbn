@@ -615,7 +615,9 @@
                 <h3 class="info-text">Мобилизация</h3>
                 <section id="mobilization">
                     <div class="form-row">
-                        {{ person_form.mobilization|as_crispy_field }}
+                        <div class="col-sm-3">
+                            {{ person_form.mobilization|as_crispy_field }}
+                        </div>
                     </div>
                     <div class="form-row">
                         {{ person_form.military_enlistment_office|as_crispy_field }}

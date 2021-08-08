@@ -245,13 +245,13 @@ function init_btn_box_inform(btn, select, uri) {
             .find(".formset-forms")
             .find("select")
             .not("d-none");
-        selects.each( function(item) {
+        selects.each(function (item) {
             let str = $(this).find("option:selected").text().split(" ")[1];
-            if(typeof str !== "undefined")
+            if (typeof str !== "undefined")
                 str_val += $(this).find("option:selected").text().split(" ")[1] + ", ";
         });
         str_val += select.find("option:selected").text();
-        if(btn != null) {
+        if (btn != null) {
             console.log("cur_btn_tree");
             console.log($cur_btn_tree.prev(".inform-box-label").text(str_val));
         }
@@ -291,7 +291,8 @@ $(function () {
             var modal_wnd = $("#tree_modal_wnd");
             init_btn_primary(modal_wnd, uri);
             e.preventDefault();
-            uri += cur_select.val();
+            if (cur_select.val() != null && typeof cur_select.val() !== 'undefined')
+                uri += cur_select.val();
             console.log(uri);
             let get_ajax_request = create_get_ajax_request(uri, function (data) {
                 invoke_modal_window(modal_wnd, data, cur_select);
@@ -304,7 +305,7 @@ $(function () {
         })
         .each(function () {
             let select = $(this).parents(".form-group").find("select");
-            if(select.length == 1 && select.val() != "") {
+            if (select.length == 1 && select.val() != "" && select.val() != null) {
                 console.log($(this).attr("action"));
                 let str_uri = $(this).attr("action") + select.val();
                 init_btn_box_inform($(this), select, str_uri);
@@ -364,15 +365,15 @@ $(function () {
     });
 
     $(document).on("hidden.bs.modal", "#tree_modal_wnd", hidden_bs_modal);
-    
+
     $('.btn-primary').click(function () {
         let clonable_select_id = "#" + cur_select.attr("id") + "-clone";
         let clone_select = $(clonable_select_id);
         let test_value = clone_select.val();
         let $options = clone_select.find("option").clone();
         let str_uri = "";
-        
-        if(DEBUG)
+
+        if (DEBUG)
             console.log('btn-primary pressed!');
         cur_select
             .find("option")
@@ -415,5 +416,20 @@ $(function () {
         console.log("test of change");
         get_list_tree_units($(this).parents(".modal"));
         revise_clonable_select($(this).parents(".modal"), is_selected_above_item);
+    });
+
+    $("#id_military_enlistment_office_address").on("change", function (e) {
+        if ($(this).val() === null || $(this).val() === "") {
+            $("#id_military_enlistment_office")
+                .val("")
+                .trigger("change")
+                .attr("disabled", true);
+
+        } else {
+            $("#id_military_enlistment_office")
+                .attr("disabled", false);
+        }
+
+        console.log("change!");
     });
 });

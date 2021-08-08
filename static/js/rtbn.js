@@ -79,6 +79,10 @@ function result_func(item) {
     return { id: item.id, text: item.address_item_name };
 }
 
+function result_enlistment_office(item) {
+    return { id: item.id, text: item.name };
+}
+
 function create_set_select2_item(result_func) {
     return function (item_name, type_item, parent_item, url_get, url_post) {
         item = $(item_name)
@@ -139,7 +143,7 @@ function create_select2_modal_wnd(result_func) {
                     contentType: "application/json; charset=utf-8",
                 },
                 data: function (term, page) {
-                    if (parent_item == null) {
+                    if (parent_item == null || $(parent_item).val() === null || $(parent_item).val() === "") {
                         query_item = {
                             term: term.term
                         };

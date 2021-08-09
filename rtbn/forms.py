@@ -410,7 +410,7 @@ class CallingDirectionForm(forms.ModelForm):
         )
         war_unit_button = layout.ButtonHolder(layout.Button('war_unit_button',
                                                             'Подразделение',
-                                                            css_class="input-block-level btn-unit"))
+                                                            css_class="input-block-level btn-unit invoke-modal"))
 
         delete_field = layout.Field(
             "DELETE", css_class="input-block-level")

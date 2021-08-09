@@ -312,6 +312,7 @@ $(function () {
             }
         });
 
+    /*
     $('.btn-unit').each(function () {
         war_unit = $(this);
         war_unit.on('click', function (e) {
@@ -334,7 +335,9 @@ $(function () {
             });
 
         });
+    
     });
+    */
 
     $(document).on('click', '.delete', function (e) {
         e.preventDefault();
@@ -366,7 +369,7 @@ $(function () {
 
     $(document).on("hidden.bs.modal", "#tree_modal_wnd", hidden_bs_modal);
 
-    $('.btn-primary').click(function () {
+    $('.btn-save').click(function () {
         let clonable_select_id = "#" + cur_select.attr("id") + "-clone";
         let clone_select = $(clonable_select_id);
         let test_value = clone_select.val();
@@ -374,7 +377,7 @@ $(function () {
         let str_uri = "";
 
         if (DEBUG)
-            console.log('btn-primary pressed!');
+            console.log('btn-save pressed!');
         cur_select
             .find("option")
             .remove()
@@ -432,4 +435,15 @@ $(function () {
 
         console.log("change!");
     });
+
+    $(".btn-unit")
+        .attr(
+            "data-toggle", "modal"
+        )
+        .attr(
+            "data-target", "#tree_modal_wnd"
+        )
+        .attr(
+            "action", "/war_unit/"
+        );
 });

@@ -8,6 +8,7 @@ from .models import Person, \
     MilitaryEnlistmentOffice, \
     CallingTeam, \
     CallingDirection
+from war_unit.models import WarUnit
 
 
 class PersonModelForm(forms.ModelForm):

@@ -34,5 +34,6 @@ urlpatterns = [
     path("add_enlistment_office/", views.add_enlistment_office,
          name="add_enlistment_office"),
     path("address/", include("address.urls", namespace="address")),
+    path("war_unit/", include("war_unit.urls", namespace="war_unit")),
     #path("add/address/", views.test, name='test'),
 ]

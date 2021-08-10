@@ -2,34 +2,9 @@ from django_enumfield import enum
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db import models
 from address.models import AddressItem
+from war_unit.models import WarUnit
 
 
-class WarUnitType(enum.Enum):
-    FRONT = 1
-    ARMY = 2
-    DIVISION = 3
-    RGT = 4
-    COY = 5
-    UNIT = 6
-
-
-class WarUnit(MPTTModel):
-    """
-    Подразделения
-    """
-    id = models.AutoField(primary_key=True)
-    above_war_unit = TreeForeignKey(
-        'self', on_delete=models.CASCADE,
-        null=True, blank=True,
-        related_name='main_unit')
-    unit_name = models.CharField(max_length=60)
-
-    def __str__(self):
-        return self.unit_name
-
-    class MPTTMeta:
-        order_insertion_by = ['name']
-        parent_attr = 'above_war_unit'
 
 
 class CallingTeam(models.Model):
@@ -42,7 +17,7 @@ class CallingTeam(models.Model):
 class CallingDirection(models.Model):
     calling_team = models.ForeignKey(CallingTeam, on_delete=models.CASCADE)
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    war_unit = models.ForeignKey('WarUnit', on_delete=models.CASCADE)
+    war_unit = models.ForeignKey(WarUnit, on_delete=models.CASCADE)
 
     class Meta:
         constraints = [

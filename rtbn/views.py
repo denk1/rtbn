@@ -2,9 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Person, \
-    WarUnitType, \
     AddressItem,  \
-    WarUnit, \
     CallingTeam, \
     CallingDirection, \
     MilitaryEnlistmentOffice, \
@@ -22,6 +20,7 @@ from .models import Person, \
     PatronimicDistortion, \
     SurnameDistortion
 from address.models import AddressItem
+from war_unit.models import WarUnit
 
 from django import forms
 from django.core.paginator import Paginator

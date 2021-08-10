@@ -1,0 +1,17 @@
+{% load crispy_forms_tags %}
+<section id="address_section" class="formset my-3">
+    {{ address_formset.management_form }}
+    <h1>Подразделение</h1>
+    <div class="formset-forms">
+        {% for form in address_formset %}
+        <div class="formset-form address-item">
+            {{ form.parent_address_unit|as_crispy_field }}
+            {{ form.DELETE|as_crispy_field}}
+        </div>
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-primary btn-sm add-tree-form">Добавить подразделение</button>
+    <div class="empty-warunit-form d-none">
+        {% crispy address_formset.empty_form %}
+    </div>
+</section>

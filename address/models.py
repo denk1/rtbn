@@ -4,7 +4,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 class AddressItem(MPTTModel):
     """
-    Адрес 
+    address  
     """
     id = models.AutoField(primary_key=True)
     parent_address_unit = TreeForeignKey(

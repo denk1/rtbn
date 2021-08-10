@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mptt',
     'address',
+    'war_unit',
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"

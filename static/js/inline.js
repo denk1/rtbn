@@ -312,33 +312,6 @@ $(function () {
             }
         });
 
-    /*
-    $('.btn-unit').each(function () {
-        war_unit = $(this);
-        war_unit.on('click', function (e) {
-            e.preventDefault();
-            var cur_form = $(this).parents(".formset-form");
-            var modal_window = cur_form.find(".modal-body")
-            var cur_select_val = modal_window.find(":selected").val();
-            $.ajax({
-                url: "/military_unit/" + cur_select_val,
-                method: "GET",
-                //data: { id: menuId },
-                dataType: "html"
-            }).done(function (data) {
-                console.log("Sample of data:", data);
-                invoke_modal_window($(document), data);
-            }).fail(function () {
-                console.log("error");
-            }).always(function () {
-                console.log('always')
-            });
-
-        });
-    
-    });
-    */
-
     $(document).on('click', '.delete', function (e) {
         e.preventDefault();
         var $formset = $(this).closest('.formset-form');

@@ -94,6 +94,9 @@
         init_msg_form("reasonreburial");
         init_msg_form("actaddrreburial");
     };
+    const addressUrls = new Pathes("{% url 'region' %}", "{% url 'add_region' %}"); 
+    const war_unitUrs = new Pathes("{% url 'war_unit:get_war_units' %}", "{% url 'war_unit:add_war_unit' %}");
+    const pathes_obj = {address: addressUrls, war_unit: war_unitUrs};
     addEventListener('load', registerEventButton);
 </script>
 {% endblock %}
@@ -514,7 +517,6 @@
         set_url_address("{% url 'region' %}", "{% url 'add_region' %}");
 
     });
-    const addressUrls = new Pathes("{% url 'region' %}", "{% url 'add_region' %}");
 </script>
 <div class="content">
     <div class="offset_content">

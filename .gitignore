@@ -1,3 +1,4 @@
+.gitignore
 cb_dj_autocomplete/
 .idea/
 .vscode/
@@ -5,9 +6,11 @@ static/*
 !static/js/rtbn.js
 !static/js/inline.js
 *.sqlite3
-remember_theirs_by_name_pro/migrations/
-remember_theirs_by_name_pro/__pycache__/
+rtbn/migrations/
+rtbn/__pycache__/
 __pycache__
 nohup2.out
 address/migrations/
 address/__pycache__/
+war_unit/migrations/
+war_unit/__pycache__/

@@ -5,7 +5,7 @@ var $cur_btn_tree = null;
 window.WIDGET_INIT_REGISTER = window.WIDGET_INIT_REGISTER || [];
 var tree_modal_window = $("#tree_modal_wnd");
 
-var pathes = null;
+var patches = null;
 
 function reinit_widgets($formset_form) {
     $(window.WIDGET_INIT_REGISTER).each(function (index, func) {
@@ -419,4 +419,7 @@ $(function () {
         .attr(
             "action", "/war_unit/"
         );
+    
+    let test_element = $(".hidden-select").parent().addClass("inform-box");
+    console.log(test_element);
 });

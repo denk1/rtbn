@@ -397,18 +397,11 @@ class CallingDirectionForm(forms.ModelForm):
 
         calling_team_field = layout.Field(
             "calling_team", css_class="input-block-level")
-        begin_modal_field = layout.HTML(
-            """
-            {% include "forms/begin_modal_wnd_warunit.html" %}
-            """
-        )
+    
+        
         war_unit_field = layout.Field(
-            "war_unit", css_class="input-block-level invoke-modal")
-        end_modal_field = layout.HTML(
-            """
-            {% include "forms/end_modal_wnd_warunit.html" %}
-            """
-        )
+            "war_unit", css_class="input-block-level invoke-modal hidden-select")
+    
         war_unit_button = layout.ButtonHolder(layout.Button('war_unit_button',
                                                             'Подразделение',
                                                             css_class="input-block-level btn-unit invoke-modal"))
@@ -422,9 +415,9 @@ class CallingDirectionForm(forms.ModelForm):
         self.helper.layout = layout.Layout(
             id_field,
             calling_team_field,
-            begin_modal_field,
+            # begin_modal_field,
             war_unit_field,
-            end_modal_field,
+            # end_modal_field,
             war_unit_button,
             delete_field,
         )

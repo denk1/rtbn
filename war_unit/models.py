@@ -15,6 +15,9 @@ class WarUnit(MPTTModel):
     def __str__(self):
         return self.unit_name
 
+    def get_parent(self):
+        return self.above_war_unit
+
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ['unit_name']
         parent_attr = 'above_war_unit'

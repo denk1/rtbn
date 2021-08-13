@@ -40,6 +40,7 @@
 
     var num = 1;
     var del_row;
+    var action_war_unit = null, action_address = null; 
     var registerEventButton = function () {
         var fighting_minus = document.getElementById('fight_minus'),
             fighting_plus = document.getElementById('fight_plus'),
@@ -94,6 +95,9 @@
         init_msg_form("reasonreburial");
         init_msg_form("actaddrreburial");
     };
+    const addressUrls = new Pathes("{% url 'region' %}", "{% url 'add_region' %}"); 
+    const war_unitUrs = new Pathes("{% url 'war_unit:get_war_units' %}", "{% url 'war_unit:add_war_unit' %}");
+    pathes_obj = null; 
     addEventListener('load', registerEventButton);
 </script>
 {% endblock %}
@@ -514,7 +518,6 @@
         set_url_address("{% url 'region' %}", "{% url 'add_region' %}");
 
     });
-    const addressUrls = new Pathes("{% url 'region' %}", "{% url 'add_region' %}");
 </script>
 <div class="content">
     <div class="offset_content">
@@ -573,7 +576,7 @@
                                 <div class="form-group">
                                     <div class="inform-box">
                                         <p class="inform-box-label"></p>
-                                        <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
+                                        <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal btn-address"
                                             action="{% url 'address:add_address' %}">Адрес
                                             места рождения</button>
                                     </div>
@@ -602,7 +605,7 @@
                                 <div class="form-group">
                                     <div class="inform-box">
                                         <p class="inform-box-label"></p>
-                                        <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
+                                        <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal btn-address"
                                             action="{% url 'address:add_address' %}">Адрес места
                                             жительства</button>
                                         {{ person_form.live_locality|as_crispy_field }}
@@ -626,7 +629,7 @@
                                 <div class="form-group">
                                     <div class="inform-box">
                                         <p class="inform-box-label"></p>
-                                        <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal"
+                                        <button data-toggle="modal" data-target="#tree_modal_wnd" class="invoke-modal btn-address"
                                             action="{% url 'address:add_address' %}">Адрес
                                             военкомата</button>
                                     </div>

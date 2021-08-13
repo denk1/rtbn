@@ -5,7 +5,7 @@ var $cur_btn_tree = null;
 window.WIDGET_INIT_REGISTER = window.WIDGET_INIT_REGISTER || [];
 var tree_modal_window = $("#tree_modal_wnd");
 
-var patches = null;
+var pathes = null;
 
 function reinit_widgets($formset_form) {
     $(window.WIDGET_INIT_REGISTER).each(function (index, func) {
@@ -131,7 +131,6 @@ function InitSelect2() {
     this.wnd = null;
     this.m_cur_clone_select = null;
     this.init_autocomplete = function (select_widget) {
-        var pathes = addressUrls;
         let check_count = select_widget.hasClass("clonable") ? 0 : 1;
         let select_autocomplete = new create_select2_modal_wnd(result_func);
         let parent_length = get_formset_forms(this.wnd).find(".formset-form").not(".d-none").length;
@@ -259,10 +258,43 @@ function init_btn_box_inform(btn, select, uri) {
     get_ajax_request();
 }
 
+function init_btn_war_unit() {
+    let $paragraph_inform_box = $("<p class='inform-box-label'></p>");
+    let $button_war_unit =$(`<input type="button" name="war_unit_button"
+                            value="Подразделение"
+                            class="btn input-block-level btn-unit invoke-modal"
+                            data-toggle="modal" 
+                            data-target="#tree_modal_wnd" 
+                            action="/war_unit/">`);
+    let div_inform_box = $('<div></div>')
+                        .addClass("inform-box")
+                        .append($paragraph_inform_box)
+                        .append($button_war_unit);
+
+    let test_element = $(".hidden-select")
+                        .parent()
+                        .addClass("d-none")
+                        .parent()
+                        .append(div_inform_box);
+                        
+    console.log(test_element);
+
+
+}
+
+function init_action_btns() {
+    let address = $(".btn-address").attr("action");
+    let war_unit = $(".btn-unit").attr("action");
+
+    pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs};
+}
+
 $(function () {
     //tree_modal_window = init_modal_wnd();
     var modal_window = $(document).find(".modal");
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
+    init_btn_war_unit();
+    init_action_btns();
     $('.add-inline-form').click(function (e) {
         e.preventDefault();
         var $formset = $(this).closest('.formset');
@@ -286,6 +318,7 @@ $(function () {
             $cur_btn_tree = $(this);
             console.log(e + ": " + $(this).text());
             let uri = $(this).attr('action');
+            pathes = pathes_obj[uri];
             let parent_form_group = $(this).closest(".form-group");
             cur_select = parent_form_group.find("select").eq(0);
             var modal_wnd = $("#tree_modal_wnd");
@@ -419,7 +452,4 @@ $(function () {
         .attr(
             "action", "/war_unit/"
         );
-    
-    let test_element = $(".hidden-select").parent().addClass("inform-box");
-    console.log(test_element);
 });

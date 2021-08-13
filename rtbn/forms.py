@@ -418,6 +418,6 @@ class CallingDirectionForm(forms.ModelForm):
             # begin_modal_field,
             war_unit_field,
             # end_modal_field,
-            war_unit_button,
+            # war_unit_button,
             delete_field,
         )

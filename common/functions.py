@@ -7,10 +7,10 @@ def get_tree_items(item, query_set):
         item_queryset = query_set.objects.filter(pk=item.id)
 
         item_queryset_result |= item_queryset
-        if len(item_queryset) != 0 and item_queryset[0].parent_item_unit is not None:
+        if len(item_queryset) != 0 and item_queryset[0].get_parent() is not None:
             while item_queryset:
                 above_item = query_set.objects.filter(
-                    Q(pk=item_queryset[0].parent_item_unit.id)).exclude(parent_item_unit=None)
+                    Q(pk=item_queryset[0].get_parent.id)).exclude(above_war_unit=None)
                 item_queryset_result |= above_item
                 item_queryset = above_item
     return item_queryset_result

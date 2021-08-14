@@ -5,7 +5,10 @@ var $cur_btn_tree = null;
 window.WIDGET_INIT_REGISTER = window.WIDGET_INIT_REGISTER || [];
 var tree_modal_window = $("#tree_modal_wnd");
 
-var pathes = null;
+var pathes = null,
+    func_result = null,
+    pathes_obj = null,
+    func_resul_obj = null;
 
 function reinit_widgets($formset_form) {
     $(window.WIDGET_INIT_REGISTER).each(function (index, func) {
@@ -132,7 +135,7 @@ function InitSelect2() {
     this.m_cur_clone_select = null;
     this.init_autocomplete = function (select_widget) {
         let check_count = select_widget.hasClass("clonable") ? 0 : 1;
-        let select_autocomplete = new create_select2_modal_wnd(result_func);
+        let select_autocomplete = new create_select2_modal_wnd(func_result);
         let parent_length = get_formset_forms(this.wnd).find(".formset-form").not(".d-none").length;
         let parent_element = null;
         if (select_widget.hasClass("clonable")) {
@@ -260,23 +263,23 @@ function init_btn_box_inform(btn, select, uri) {
 
 function init_btn_war_unit() {
     let $paragraph_inform_box = $("<p class='inform-box-label'></p>");
-    let $button_war_unit =$(`<input type="button" name="war_unit_button"
+    let $button_war_unit = $(`<input type="button" name="war_unit_button"
                             value="Подразделение"
                             class="btn input-block-level btn-unit invoke-modal"
                             data-toggle="modal" 
                             data-target="#tree_modal_wnd" 
                             action="/war_unit/">`);
     let div_inform_box = $('<div></div>')
-                        .addClass("inform-box")
-                        .append($paragraph_inform_box)
-                        .append($button_war_unit);
+        .addClass("inform-box")
+        .append($paragraph_inform_box)
+        .append($button_war_unit);
 
     let test_element = $(".hidden-select")
-                        .parent()
-                        .addClass("d-none")
-                        .parent()
-                        .append(div_inform_box);
-                        
+        .parent()
+        .addClass("d-none")
+        .parent()
+        .append(div_inform_box);
+
     console.log(test_element);
 
 
@@ -286,7 +289,8 @@ function init_action_btns() {
     let address = $(".btn-address").attr("action");
     let war_unit = $(".btn-unit").attr("action");
 
-    pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs};
+    pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs };
+    func_resul_obj = { [address]: result_func, [war_unit]: result_warunit };
 }
 
 $(function () {
@@ -319,6 +323,7 @@ $(function () {
             console.log(e + ": " + $(this).text());
             let uri = $(this).attr('action');
             pathes = pathes_obj[uri];
+            func_result = func_resul_obj[uri];
             let parent_form_group = $(this).closest(".form-group");
             cur_select = parent_form_group.find("select").eq(0);
             var modal_wnd = $("#tree_modal_wnd");
@@ -400,7 +405,6 @@ $(function () {
 
 
     $(document).on("click", ".add-tree-form", function (e) {
-        pathes = addressUrls;
         e.preventDefault();
         let $formset = $(this).closest('.formset');
         let wnd = $formset.parents(".modal");

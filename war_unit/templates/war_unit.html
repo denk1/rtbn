@@ -3,7 +3,7 @@
     {{ warunit_formset.management_form }}
     <h1>Подразделение</h1>
     <div class="formset-forms">
-        {% for form in address_formset %}
+        {% for form in warunit_formset %}
         <div class="formset-form address-item">
             {{ form.above_war_unit|as_crispy_field }}
             {{ form.DELETE|as_crispy_field}}

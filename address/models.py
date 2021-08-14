@@ -2,6 +2,7 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 # Create your models here.
 
+
 class AddressItem(MPTTModel):
     """
     address  
@@ -16,6 +17,10 @@ class AddressItem(MPTTModel):
 
     def __str__(self):
         return self.address_item_name
+
+    @property
+    def name(self):
+        return self.name
 
     class MPTTMeta:
         order_insertion_by = ['address_item_name']

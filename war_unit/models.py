@@ -1,6 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+
 class WarUnit(MPTTModel):
     """
     war units
@@ -15,6 +16,11 @@ class WarUnit(MPTTModel):
     def __str__(self):
         return self.unit_name
 
+    @property
+    def name(self):
+        return self.unit_name
+
+    @property
     def get_parent(self):
         return self.above_war_unit
 

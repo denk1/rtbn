@@ -83,6 +83,10 @@ function result_enlistment_office(item) {
     return { id: item.id, text: item.name };
 }
 
+function result_warunit(item) {
+    return { id: item.id, text: item.unit_name };
+}
+
 function create_set_select2_item(result_func) {
     return function (item_name, type_item, parent_item, url_get, url_post) {
         item = $(item_name)

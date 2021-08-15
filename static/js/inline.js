@@ -291,6 +291,22 @@ function init_action_btns() {
 
     pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs };
     func_resul_obj = { [address]: result_func, [war_unit]: result_warunit };
+    change_depended_select($("#id_military_enlistment_office_address"), $("#id_military_enlistment_office"));
+}
+
+function change_depended_select($element_checked, $purpose_element) {
+    if ($element_checked.val() === null || $element_checked.val() === "") {
+        $purpose_element
+            .val("")
+            .trigger("change")
+            .attr("disabled", true);
+
+    } else {
+        $purpose_element
+            .attr("disabled", false);
+    }
+
+    console.log("change!");
 }
 
 $(function () {
@@ -432,19 +448,10 @@ $(function () {
     });
 
     $("#id_military_enlistment_office_address").on("change", function (e) {
-        if ($(this).val() === null || $(this).val() === "") {
-            $("#id_military_enlistment_office")
-                .val("")
-                .trigger("change")
-                .attr("disabled", true);
-
-        } else {
-            $("#id_military_enlistment_office")
-                .attr("disabled", false);
-        }
-
-        console.log("change!");
+        change_depended_select($(this), $("#id_military_enlistment_office"));
     });
+
+    $()
 
     $(".btn-unit")
         .attr(

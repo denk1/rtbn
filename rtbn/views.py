@@ -47,6 +47,8 @@ from .forms import PersonModelForm, \
     CallingDirectionForm, \
     AddressItemForm
 
+# dict_fileds_calling_team =
+
 
 def index(request):
     persons = Person.objects.all()[:5]

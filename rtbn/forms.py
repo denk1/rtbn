@@ -396,12 +396,11 @@ class CallingDirectionForm(forms.ModelForm):
         id_field = layout.Field("id")
 
         calling_team_field = layout.Field(
-            "calling_team", css_class="input-block-level")
-    
-        
+            "calling_team", css_class="input-block-level calling-team")
+
         war_unit_field = layout.Field(
             "war_unit", css_class="input-block-level invoke-modal hidden-select")
-    
+
         war_unit_button = layout.ButtonHolder(layout.Button('war_unit_button',
                                                             'Подразделение',
                                                             css_class="input-block-level btn-unit invoke-modal"))

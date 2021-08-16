@@ -11,19 +11,15 @@ class WarUnit(MPTTModel):
         'self', on_delete=models.CASCADE,
         null=True, blank=True,
         related_name='main_unit')
-    unit_name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60)
 
     def __str__(self):
-        return self.unit_name
-
-    @property
-    def name(self):
-        return self.unit_name
+        return self.name
 
     @property
     def get_parent(self):
         return self.above_war_unit
 
     class MPTTMeta:
-        order_insertion_by = ['unit_name']
+        order_insertion_by = ['name']
         parent_attr = 'above_war_unit'

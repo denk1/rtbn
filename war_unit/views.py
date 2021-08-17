@@ -5,7 +5,8 @@ from django.forms import modelformset_factory
 from common.functions import get_tree_items, get_items, add_item
 from django.views.decorators.csrf import csrf_exempt
 
-data_dict = {'above_war_unit_id': None, 'unit_name__icontains': None}
+data_dict_get = {'above_war_unit_id': None, 'name__icontains': None}
+data_dict_add = {'above_war_unit': None, 'name': None}
 
 
 def add_or_change_warunit(request, pk=None):
@@ -16,7 +17,7 @@ def add_or_change_warunit(request, pk=None):
         WarUnit, form=WarUnitForm, extra=0, can_delete=True
     )
     if request.method == 'POST':
-        war_unit_formset = WarUnitFormSet(
+        warunit_formset = WarUnitFormSet(
             data=request.POST,
             prefix="warunit",
             form_kwargs={"request": request},
@@ -36,9 +37,9 @@ def add_or_change_warunit(request, pk=None):
 
 @csrf_exempt
 def get_war_units(request):
-    return get_items(request, WarUnit, data_dict)
+    return get_items(request, WarUnit, data_dict_get)
 
 
 @csrf_exempt
 def add_war_unit(request):
-    return add_item(request, WarUnit, data_dict)
+    return add_item(request, WarUnit, data_dict_add)

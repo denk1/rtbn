@@ -84,7 +84,7 @@ function result_enlistment_office(item) {
 }
 
 function result_warunit(item) {
-    return { id: item.id, text: item.unit_name };
+    return { id: item.id, text: item.name };
 }
 
 function create_set_select2_item(result_func) {

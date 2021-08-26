@@ -473,7 +473,7 @@
                     processResults: function (data) {
                         return {
                             results: $.map(data, function (item) {
-                                return { id: item.id, text: item.address_item_name };
+                                return { id: item.id, text: item.name };
                             })
                         }
                     }
@@ -489,7 +489,7 @@
                 if (next_item != null) {
                     console.log("it is not null");
                     next_item.val(null).trigger('change');
-                    //$("#id_form-1-address_item_name").val("");
+                    //$("#id_form-1-name").val("");
                 }
             });
 

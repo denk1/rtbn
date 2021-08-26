@@ -56,7 +56,7 @@ class PersonModelForm(forms.ModelForm):
 
 class RegionBornForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'born_region_name',
+        'name': 'born_region_name',
     }
 
     def add_prefix(self, field_name):
@@ -66,9 +66,9 @@ class RegionBornForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'born_region_name',
+            'name': forms.Select(attrs={'id': 'born_region_name',
                                                      'name': 'born_region_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Регион')]
@@ -78,7 +78,7 @@ class RegionBornForm(forms.ModelForm):
 
 class DistrictBornForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'born_district_name',
+        'name': 'born_district_name',
     }
 
     def add_prefix(self, field_name):
@@ -88,9 +88,9 @@ class DistrictBornForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'born_district_name',
+            'name': forms.Select(attrs={'id': 'born_district_name',
                                                      'name': 'born_district_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Область')])
@@ -99,7 +99,7 @@ class DistrictBornForm(forms.ModelForm):
 
 class LocalityBornForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'born_locality_name',
+        'name': 'born_locality_name',
     }
 
     def add_prefix(self, field_name):
@@ -109,9 +109,9 @@ class LocalityBornForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'born_locality_name',
+            'name': forms.Select(attrs={'id': 'born_locality_name',
                                                      'name': 'born_locality_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Район')])
@@ -120,7 +120,7 @@ class LocalityBornForm(forms.ModelForm):
 
 class RegionLiveForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'live_region_name',
+        'name': 'live_region_name',
     }
 
     def add_prefix(self, field_name):
@@ -130,9 +130,9 @@ class RegionLiveForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'live_region_name',
+            'name': forms.Select(attrs={'id': 'live_region_name',
                                                      'name': 'live_region_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Регион')]
@@ -142,7 +142,7 @@ class RegionLiveForm(forms.ModelForm):
 
 class DistrictLiveForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'live_district_name',
+        'name': 'live_district_name',
     }
 
     def add_prefix(self, field_name):
@@ -152,9 +152,9 @@ class DistrictLiveForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'live_district_name',
+            'name': forms.Select(attrs={'id': 'live_district_name',
                                                      'name': 'live_district_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Область')])
@@ -163,7 +163,7 @@ class DistrictLiveForm(forms.ModelForm):
 
 class LocalityLiveForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'live_locality_name',
+        'name': 'live_locality_name',
     }
 
     def add_prefix(self, field_name):
@@ -173,9 +173,9 @@ class LocalityLiveForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'live_locality_name',
+            'name': forms.Select(attrs={'id': 'live_locality_name',
                                                      'name': 'live_locality_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Район')])
@@ -236,7 +236,7 @@ class PatronimicDistortionForm(forms.ModelForm):
 
 class RegionWarEnlistmentForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'region_military_enlistment_office',
+        'name': 'region_military_enlistment_office',
     }
 
     def add_prefix(self, field_name):
@@ -246,9 +246,9 @@ class RegionWarEnlistmentForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'region_military_enlistment_office',
+            'name': forms.Select(attrs={'id': 'region_military_enlistment_office',
                                                      'name': 'region_military_enlistment_office',
                                                      'style': 'width:100px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Область')])
@@ -262,9 +262,9 @@ class DistrictWarEnlistmentForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'district_military_enlistment_office',
+            'name': forms.Select(attrs={'id': 'district_military_enlistment_office',
                                                      'name': 'district_military_enlistment_office',
                                                      'style': 'width:100px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Район')])
@@ -307,7 +307,7 @@ class CallingTeamForm(forms.ModelForm):
 class RegionLetterForm(forms.ModelForm):
 
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'letter_region_name',
+        'name': 'letter_region_name',
     }
 
     def add_prefix(self, field_name):
@@ -317,9 +317,9 @@ class RegionLetterForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'letter_region_name',
+            'name': forms.Select(attrs={'id': 'letter_region_name',
                                                      'name': 'letter_region_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Регион')]
@@ -329,7 +329,7 @@ class RegionLetterForm(forms.ModelForm):
 
 class DistrictLetterForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'letter_district_name',
+        'name': 'letter_district_name',
     }
 
     def add_prefix(self, field_name):
@@ -339,9 +339,9 @@ class DistrictLetterForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'letter_district_name',
+            'name': forms.Select(attrs={'id': 'letter_district_name',
                                                      'name': 'letter_district_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Область')])
@@ -350,7 +350,7 @@ class DistrictLetterForm(forms.ModelForm):
 
 class LocalityLetterForm(forms.ModelForm):
     FIELD_NAME_MAPPING = {
-        'address_item_name': 'letter_locality_name',
+        'name': 'letter_locality_name',
     }
 
     def add_prefix(self, field_name):
@@ -360,9 +360,9 @@ class LocalityLetterForm(forms.ModelForm):
 
     class Meta:
         model = AddressItem
-        fields = ('address_item_name',)
+        fields = ('name',)
         widgets = {
-            'address_item_name': forms.Select(attrs={'id': 'letter_locality_name',
+            'name': forms.Select(attrs={'id': 'letter_locality_name',
                                                      'name': 'letter_locality_name',
                                                      'style': 'width:200px',
                                                      'class': 'form-control form-element'}, choices=[('', 'Район')])

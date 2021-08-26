@@ -76,7 +76,7 @@ function selection_choisen(cur_item, evt, type_item, parent_item, url_post) {
 }
 
 function result_func(item) {
-    return { id: item.id, text: item.address_item_name };
+    return { id: item.id, text: item.name };
 }
 
 function result_enlistment_office(item) {

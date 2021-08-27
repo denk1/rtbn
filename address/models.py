@@ -12,16 +12,12 @@ class AddressItem(MPTTModel):
         'self', on_delete=models.CASCADE,
         null=True, blank=True,
         related_name='main_place')
-    address_item_name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60)
     objects = models.Manager()
 
     def __str__(self):
-        return self.address_item_name
-
-    @property
-    def name(self):
         return self.name
 
     class MPTTMeta:
-        order_insertion_by = ['address_item_name']
+        order_insertion_by = ['name']
         parent_attr = 'parent_address_unit'

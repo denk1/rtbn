@@ -334,7 +334,7 @@ def region(request):
         print('parent_id is %s' % parent_id)
         if term is not None:
             regions = AddressItem.objects.all().filter(
-                address_item_name__icontains=term, parent_address_unit_id=parent_id)
+                name__icontains=term, parent_address_unit_id=parent_id)
             response_content = list(regions.values())
             return JsonResponse(response_content, safe=False)
 
@@ -349,7 +349,7 @@ def add_region(request):
             id_parent = d['parent_item']
         parent_region = AddressItem.objects.all().filter(id=id_parent).first()
         region = AddressItem.objects.create(
-            parent_address_unit=parent_region, address_item_name=d['text'])
+            parent_address_unit=parent_region, name=d['text'])
         region.save()
         id = region.id
         print(id)

@@ -35,5 +35,7 @@ urlpatterns = [
          name="add_enlistment_office"),
     path("address/", include("address.urls", namespace="address")),
     path("war_unit/", include("war_unit.urls", namespace="war_unit")),
+    path("calling_team/", views.calling_team, name='calling_team'),
+    path("add_calling_team", views.add_calling_team, name='add_calling_team'),
     #path("add/address/", views.test, name='test'),
 ]

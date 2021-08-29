@@ -434,6 +434,31 @@ def add_enlistment_office(request):
     return JsonResponse({'result': True, 'id': id}, safe=False)
 
 
+@csrf_exempt
+def calling_team(request):
+    if request.is_ajax():
+        term = request.POST.get('term')
+        print('the term is  %s' % term)
+        if term is not None:
+            calling_team = CallingTeam.objects.all().filter(
+                name__icontains=term
+            )
+            response_content = list(calling_team.values())
+            return JsonResponse(response_content, safe=False)
+
+
+@csrf_exempt
+def add_calling_team(request):
+    id = -1
+    if request.method == 'POST':
+        d = request.POST.dict()
+        calling_team = CallingTeam.objects.create(name=d['text'])
+        calling_team.save()
+        print('the new id of calling team is %s' % calling_team.id)
+        id = calling_team.id
+    return JsonResponse({'result': True, 'id': id}, safe=False)
+
+
 def test(request):
     print('test')
     return HttpResponse("test")

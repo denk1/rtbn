@@ -7,8 +7,7 @@ var tree_modal_window = $("#tree_modal_wnd");
 
 var pathes = null,
     func_result = null,
-    pathes_obj = null,
-    func_resul_obj = null;
+    pathes_obj = null;
 
 function reinit_widgets($formset_form) {
     $(window.WIDGET_INIT_REGISTER).each(function (index, func) {
@@ -135,7 +134,7 @@ function InitSelect2() {
     this.m_cur_clone_select = null;
     this.init_autocomplete = function (select_widget) {
         let check_count = select_widget.hasClass("clonable") ? 0 : 1;
-        let select_autocomplete = new create_select2_modal_wnd(func_result);
+        let select_autocomplete = new create_select2_modal_wnd(result_func);
         let parent_length = get_formset_forms(this.wnd).find(".formset-form").not(".d-none").length;
         let parent_element = null;
         if (select_widget.hasClass("clonable")) {
@@ -290,7 +289,6 @@ function init_action_btns() {
     let war_unit = $(".btn-unit").attr("action");
 
     pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs };
-    func_resul_obj = { [address]: result_func, [war_unit]: result_warunit };
     change_depended_select($("#id_military_enlistment_office_address"), $("#id_military_enlistment_office"));
 }
 
@@ -339,7 +337,6 @@ $(function () {
             console.log(e + ": " + $(this).text());
             let uri = $(this).attr('action');
             pathes = pathes_obj[uri];
-            func_result = func_resul_obj[uri];
             let parent_form_group = $(this).closest(".form-group");
             cur_select = parent_form_group.find("select").eq(0);
             var modal_wnd = $("#tree_modal_wnd");
@@ -463,4 +460,26 @@ $(function () {
         .attr(
             "action", "/war_unit/"
         );
+
+    $('.add-calling-team').click(function (e) {
+
+        e.preventDefault();
+        console.log("add-calling-team");
+        let $formset = $(this).closest('.formset');
+        let $selects_calling_team = $formset.find(".formset-forms .calling-team");
+        let select_autocomplete = new create_select2_modal_wnd(result_func);
+        $selects_calling_team.each(function () {
+            console.log($(this));
+
+            if ($(this).hasClass("select2-hidden-accessible")) {
+                $(this)
+                    .empty()
+                    .select2("destroy")
+                    .off('select2:select');
+                console.log("destroy");
+            }
+
+        });
+        select_autocomplete.select_autocomplete($selects_calling_team, null, calling_teamUrls.get_data_url, calling_teamUrls.get_source_url);
+    });
 });

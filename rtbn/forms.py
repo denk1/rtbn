@@ -7,7 +7,8 @@ from .models import Person, \
     PatronimicDistortion, \
     MilitaryEnlistmentOffice, \
     CallingTeam, \
-    CallingDirection
+    CallingDirection, \
+    WarArchievement
 from war_unit.models import WarUnit
 
 
@@ -37,7 +38,7 @@ class PersonModelForm(forms.ModelForm):
             "military_enlistment_office", css_class="input-block-level")
 
         last_msg_locality_field = layout.Field(
-            "last_msg_locality", css_class="input-block-level")
+            "last_msg_locality", css_class="input-block-level d-none")
 
         self.helper = helper.FormHelper()
         self.helper.form_tag = False
@@ -388,7 +389,7 @@ class CallingDirectionForm(forms.ModelForm):
 
     class Meta:
         model = CallingDirection
-        exclude = ['programmer']
+        fields = '__all__'
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
@@ -420,3 +421,46 @@ class CallingDirectionForm(forms.ModelForm):
             # war_unit_button,
             delete_field,
         )
+
+
+class WarArchievementForm(forms.ModelForm):
+    class Meta:
+        model = WarArchievement
+        fields = '__all__'
+    
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
+
+        war_operation_field = layout.Field(
+            "war_operation", css_class="input-block-level war-achievement"
+        )
+        
+        war_unit_field = layout.Field(
+            "war_unit", css_class="input-block-level war-unit"
+        )
+        
+        period_from_field = layout.Field(
+            "period_from", css_class="input-block-level"
+        )
+
+        period_to_field = layout.Field(
+            "period_to", css_class="input-block-level"
+        )
+
+        delete_field = layout.Field(
+            "DELETE", css_class="input-block-level")
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            war_operation_field,
+            war_unit_field,
+            period_from_field,
+            period_to_field,
+            delete_field,
+        )
+

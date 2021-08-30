@@ -482,4 +482,10 @@ $(function () {
         });
         select_autocomplete.select_autocomplete($selects_calling_team, null, calling_teamUrls.get_data_url, calling_teamUrls.get_source_url);
     });
+
+    $('.add-war-achievement').click( function (e) {
+        e.preventDefault();
+        console.log("add-war-achievement");
+        // TO DO 
+    });
 });

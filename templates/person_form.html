@@ -320,7 +320,8 @@
         $("#wizard-input").steps(settings);
 
         set_disabled_live_address(false);
-        set_disabled_last_msg(true);
+        // forbiden making grey the address of the last message
+        //set_disabled_last_msg(true);
 
         var t = $("#chbox_living_place");
         var m = $("#chbox_last_msg");
@@ -613,7 +614,9 @@
                                             class="invoke-modal btn-address"
                                             action="{% url 'address:add_address' %}">Адрес места
                                             жительства</button>
-                                        {{ person_form.live_locality|as_crispy_field }}
+                                        <div class="d-none">
+                                            {{ person_form.live_locality|as_crispy_field }}
+                                        </div>
                                     </div>
                                     <label for="live_locality_name" generated="true" class="error"></label>
                                 </div>
@@ -672,24 +675,21 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label for="is_the_last_letter">Последнее письменное сообщение из:</label>
                                     <input id="chbox_last_msg" type="checkbox" name="is_the_last_letter">
                                 </div>
                             </div>
                             <div id="last_msg">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        {{ district_letter_form.parent_address_unit }}
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        {{ locality_letter_form.parent_address_unit }}
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        {{ person_form.last_msg_locality }}
+                                        <div class="inform-box">
+                                            <p class="inform-box-label"></p>
+                                            <button data-toggle="modal" data-target="#tree_modal_wnd"
+                                                class="invoke-modal btn-address"
+                                                action="{% url 'address:add_address' %}">Последнее сообщение из:</button>
+                                            <div class="d-none">
+                                                {{ person_form.last_msg_locality|as_crispy_field }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -714,13 +714,23 @@
                 </section>
                 <h3 class="info-text">Введите информацию об участии в сражениях</h3>
                 <section id="fights">
-                    <div id="fight_container" class="container-fluid">
-                        <div id="fights_list">
-
+                    <div id="fight_container" class="container-fluid formset">
+                        {{ war_achievement_formset.management_form }}
+                        <h3>Сражения</h3>
+                        <div class="formset-forms">
+                            {% for formset_form in war_achievement_formset %}
+                            <div class="formset-form">
+                                {% crispy formset_form %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm add-inline-form add-war-achievement">Добавить
+                            сражение</button>
+                        <div class="empty-form d-none">
+                            {% crispy war_achievement_formset.empty_form %}
                         </div>
                     </div>
-                    <p>**При наличие информации о переводе в другие подразделения, заполнять в порядке
-                        последовательности</p>
+                    <p>**заполнять в порядке последовательности</p>
                 </section>
                 <h3 class="info-text">Информация о нахождении в лечебных учреждениях </h3>
                 <section id="hospitals">

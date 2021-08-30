@@ -45,7 +45,8 @@ from .forms import PersonModelForm, \
     DistrictLetterForm, \
     LocalityLetterForm, \
     CallingDirectionForm, \
-    AddressItemForm
+    AddressItemForm, \
+    WarArchievementForm
 
 # dict_fileds_calling_team =
 
@@ -182,6 +183,8 @@ def add_or_change_person(request, pk=None):
         person = get_object_or_404(Person, pk=pk)
     CallingDirectionFormset = modelformset_factory(
         CallingDirection, form=CallingDirectionForm, extra=0, can_delete=True)
+    WarArchievementFormset = modelformset_factory(
+        WarArchievement, form=WarArchievementForm, extra=0, can_delete=True)
     if request.method == 'POST':
 
         locality_born = AddressItem.objects.filter(id=person.born_locality)
@@ -230,6 +233,12 @@ def add_or_change_person(request, pk=None):
             form_kwargs={"request": request}
         )
 
+        war_achievement_formset = WarArchievementFormset(
+            queryset=WarArchievement.objects.filter(person=person),
+            prefix="war_archievement",
+            form_kwargs={"request": request}
+        ) 
+
         address_war_enlistment_form = AddressItemForm(
             request, instance=address_war_enlistment, prefix='enlistment_office'
         )
@@ -261,6 +270,7 @@ def add_or_change_person(request, pk=None):
             'district_letter_form': district_letter_form,
             'locality_letter_form': locality_letter_form,
             'calling_direction_formset': calling_direction_formset,
+            'war_achievement_formset': war_achievement_formset
         }
 
     return render(request, 'person_form.html', context)

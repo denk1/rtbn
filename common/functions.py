@@ -49,3 +49,24 @@ def add_item(request, query_set, data_dict):
         print(id)
         print(type(id))
     return JsonResponse({'result': True, 'id': id}, safe=False)
+
+def get_data_by_name(request, table_name):
+    if request.is_ajax():
+        term = request.POST.get('term')
+        print('the term is  %s' % term)
+        if term is not None:
+            result = table_name.objects.all().filter(
+                name__icontains=term
+            )
+            response_content = list(result.values())
+            return JsonResponse(response_content, safe=False)
+
+def add_data_with_name(request, table_name):
+    d = -1
+    if request.method == 'POST':
+        d = request.POST.dict()
+        item = table_name.objects.create(name=d['text'])
+        item.save()
+        print('the new id of calling team is %s' % item.id)
+        id = item.id
+    return JsonResponse({'result': True, 'id': id}, safe=False)

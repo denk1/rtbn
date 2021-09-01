@@ -307,6 +307,24 @@ function change_depended_select($element_checked, $purpose_element) {
     console.log("change!");
 }
 
+function init_select_by_name($btn, class_name, urls) {
+    let $formset = $btn.closest('.formset');
+    let $selects = $formset.find(".formset-forms ." + class_name);
+    let select_autocomplete = new create_select2_modal_wnd(result_func);
+    $selects.each(function () {
+        console.log($(this));
+
+        if ($(this).hasClass("select2-hidden-accessible")) {
+            $(this)
+                .empty()
+                .select2("destroy")
+                .off('select2:select');
+                console.log("destroy");
+            }
+    });
+    select_autocomplete.select_autocomplete($selects, null, urls.get_data_url, urls.get_source_url);
+}
+
 $(function () {
     //tree_modal_window = init_modal_wnd();
     var modal_window = $(document).find(".modal");
@@ -465,27 +483,12 @@ $(function () {
 
         e.preventDefault();
         console.log("add-calling-team");
-        let $formset = $(this).closest('.formset');
-        let $selects_calling_team = $formset.find(".formset-forms .calling-team");
-        let select_autocomplete = new create_select2_modal_wnd(result_func);
-        $selects_calling_team.each(function () {
-            console.log($(this));
-
-            if ($(this).hasClass("select2-hidden-accessible")) {
-                $(this)
-                    .empty()
-                    .select2("destroy")
-                    .off('select2:select');
-                console.log("destroy");
-            }
-
-        });
-        select_autocomplete.select_autocomplete($selects_calling_team, null, calling_teamUrls.get_data_url, calling_teamUrls.get_source_url);
+        init_select_by_name($(this), "calling-team", calling_teamUrls);
     });
 
     $('.add-war-achievement').click( function (e) {
         e.preventDefault();
         console.log("add-war-achievement");
-        // TO DO 
+        init_select_by_name($(this), "war-operation", war_operationUrls);
     });
 });

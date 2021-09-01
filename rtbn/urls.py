@@ -37,5 +37,7 @@ urlpatterns = [
     path("war_unit/", include("war_unit.urls", namespace="war_unit")),
     path("calling_team/", views.calling_team, name='calling_team'),
     path("add_calling_team", views.add_calling_team, name='add_calling_team'),
+    path("war_operation", views.war_operation, name='war_operation'),
+    path("add_war_operation", views.add_war_operation, name="add_war_operation"),
     #path("add/address/", views.test, name='test'),
 ]

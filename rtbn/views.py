@@ -50,6 +50,7 @@ from .forms import PersonModelForm, \
 
 # dict_fileds_calling_team =
 
+from common.functions import get_data_by_name, add_data_with_name
 
 def index(request):
     persons = Person.objects.all()[:5]
@@ -446,28 +447,22 @@ def add_enlistment_office(request):
 
 @csrf_exempt
 def calling_team(request):
-    if request.is_ajax():
-        term = request.POST.get('term')
-        print('the term is  %s' % term)
-        if term is not None:
-            calling_team = CallingTeam.objects.all().filter(
-                name__icontains=term
-            )
-            response_content = list(calling_team.values())
-            return JsonResponse(response_content, safe=False)
+    return get_data_by_name(request, CallingTeam)
 
 
 @csrf_exempt
 def add_calling_team(request):
-    id = -1
-    if request.method == 'POST':
-        d = request.POST.dict()
-        calling_team = CallingTeam.objects.create(name=d['text'])
-        calling_team.save()
-        print('the new id of calling team is %s' % calling_team.id)
-        id = calling_team.id
-    return JsonResponse({'result': True, 'id': id}, safe=False)
+    return add_data_with_name(request, CallingTeam)
 
+
+@csrf_exempt
+def war_operation(request):
+    return get_data_by_name(request, WarOperation)
+
+
+@csrf_exempt
+def add_war_operation(request):
+    return add_data_with_name(request, WarOperation)
 
 def test(request):
     print('test')

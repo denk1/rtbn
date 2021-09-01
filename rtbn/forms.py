@@ -434,7 +434,7 @@ class WarArchievementForm(forms.ModelForm):
         id_field = layout.Field("id")
 
         war_operation_field = layout.Field(
-            "war_operation", css_class="input-block-level war-achievement"
+            "war_operation", css_class="input-block-level war-operation"
         )
         
         war_unit_field = layout.Field(

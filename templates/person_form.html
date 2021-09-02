@@ -99,6 +99,7 @@
     const war_unitUrs = new Pathes("{% url 'war_unit:get_war_units' %}", "{% url 'war_unit:add_war_unit' %}");
     const calling_teamUrls = new Pathes("{% url 'calling_team' %}", "{% url 'add_calling_team' %}");
     const war_operationUrls = new Pathes("{% url 'war_operation' %}", "{% url 'add_war_operation' %}");
+    const hospitalUrls = new Pathes("{% url 'hospital' %}", "{% url 'add_hospital' %}");
     //const calling_teamUrls = new Pathes("{% url 'war_unit:get_war_units' %}", "{% url 'war_unit:add_war_unit' %}");
 
     pathes_obj = null;
@@ -722,9 +723,21 @@
                 </section>
                 <h3 class="info-text">Информация о нахождении в лечебных учреждениях </h3>
                 <section id="hospitals">
-                    <div id="hospital_container" class="container-fluid">
-                        <div id="hospital_list">
-                            <!-- <p id="hospital_button">добавить информацию о госпитализяциях</p> -->
+                    <div id="hospital_container" class="container-fluid formset">
+                        {{ hospitalization_formset.management_form }}
+                        <h3>Госпитализации</h3>
+                        <div class="formset-forms">
+                            {% for formset_form in hospitalization_formset %}
+                                <div class="formset-form">
+                                {% crispy formset_form %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm add-inline-form add-hospitalization">
+                            Добавить госпитализацию
+                        </button>
+                        <div class="empty-form d-none">
+                            {% crispy hospitalization_formset.empty_form %}
                         </div>
                     </div>
                 </section>

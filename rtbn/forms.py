@@ -8,7 +8,8 @@ from .models import Person, \
     MilitaryEnlistmentOffice, \
     CallingTeam, \
     CallingDirection, \
-    WarArchievement
+    WarArchievement, \
+    Hospitalization
 from war_unit.models import WarUnit
 
 
@@ -465,6 +466,58 @@ class WarArchievementForm(forms.ModelForm):
             war_unit_field,
             period_from_field,
             period_to_field,
+            delete_field,
+        )
+
+
+class HospitalizationForm(forms.ModelForm):
+    class Meta:
+        model = Hospitalization
+        fields = '__all__'
+    
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
+
+        hospital_field = layout.Field(
+            "hospital", css_class="input-block-level hospital"
+        )
+
+        hospital_location_field = layout.Field(
+            "hospital_location", css_class="input-block-level d-none test-class"
+        )
+
+        period_from_field = layout.Field(
+            "period_from", css_class="input-block-level date"
+        )
+
+        period_to_field = layout.Field(
+            "period_to", css_class="input-block-level date"
+        )
+
+        war_unit_consist_field = layout.Field(
+            "war_unit_consist", css_class="input-block-level invoke-modal hidden-select"
+        )
+
+        war_unit_direction_field = layout.Field(
+            "war_unit_direction", css_class="input-block-level invoke-modal hidden-select"
+        )
+
+        delete_field = layout.Field(
+            "DELETE", css_class="input-block-level")
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            hospital_field,
+            hospital_location_field,
+            period_from_field,
+            period_to_field,
+            war_unit_consist_field,
+            war_unit_direction_field,
             delete_field,
         )
 

@@ -46,6 +46,10 @@ class MilitaryEnlistmentOffice(models.Model):
 class Hospital(models.Model):
     name = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.name
+
+
 
 class Hospitalization(models.Model):
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
@@ -54,8 +58,8 @@ class Hospitalization(models.Model):
         AddressItem, on_delete=models.CASCADE, null=True)
     period_from = models.DateField(null=False)
     period_to = models.DateField(null=False)
-    war_unit_consist = models.ForeignKey(WarUnit, on_delete=models.CASCADE)
-    war_unit_direction = models.ForeignKey(WarUnit, on_delete=models.CASCADE, null=True)
+    war_unit_consist = models.ForeignKey(WarUnit, on_delete=models.CASCADE, related_name='consist')
+    war_unit_direction = models.ForeignKey(WarUnit, on_delete=models.CASCADE, null=True, related_name='direction')
 
 
 class WarOperation(models.Model):

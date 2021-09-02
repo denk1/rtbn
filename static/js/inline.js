@@ -500,4 +500,11 @@ $(function () {
         init_select_by_name($(this), "war-operation", war_operationUrls);
         init_datetime_picker($(this));
     });
+
+    $('.add-hospitalization').click( function (e) {
+        e.preventDefault();
+        console.log("add-hospitalization");
+        init_select_by_name($(this), "hospital", hospitalUrls);
+        init_datetime_picker($(this));
+    });
 });

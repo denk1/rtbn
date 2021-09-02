@@ -46,7 +46,8 @@ from .forms import PersonModelForm, \
     LocalityLetterForm, \
     CallingDirectionForm, \
     AddressItemForm, \
-    WarArchievementForm
+    WarArchievementForm, \
+    HospitalizationForm
 
 # dict_fileds_calling_team =
 
@@ -186,6 +187,8 @@ def add_or_change_person(request, pk=None):
         CallingDirection, form=CallingDirectionForm, extra=0, can_delete=True)
     WarArchievementFormset = modelformset_factory(
         WarArchievement, form=WarArchievementForm, extra=0, can_delete=True)
+    HospitalizationFormset = modelformset_factory(
+        Hospitalization, form=HospitalizationForm, extra=0, can_delete=True)
     if request.method == 'POST':
 
         locality_born = AddressItem.objects.filter(id=person.born_locality)
@@ -238,6 +241,12 @@ def add_or_change_person(request, pk=None):
             queryset=WarArchievement.objects.filter(person=person),
             prefix="war_archievement",
             form_kwargs={"request": request}
+        )
+
+        hospitalization_formset = HospitalizationFormset(
+            queryset=Hospitalization.objects.filter(person=person),
+            prefix="hospitalization",
+            form_kwargs={"request": request}
         ) 
 
         address_war_enlistment_form = AddressItemForm(
@@ -271,7 +280,8 @@ def add_or_change_person(request, pk=None):
             'district_letter_form': district_letter_form,
             'locality_letter_form': locality_letter_form,
             'calling_direction_formset': calling_direction_formset,
-            'war_achievement_formset': war_achievement_formset
+            'war_achievement_formset': war_achievement_formset,
+            'hospitalization_formset': hospitalization_formset,
         }
 
     return render(request, 'person_form.html', context)
@@ -463,6 +473,17 @@ def war_operation(request):
 @csrf_exempt
 def add_war_operation(request):
     return add_data_with_name(request, WarOperation)
+
+
+@csrf_exempt
+def hospital(request):
+    return get_data_by_name(request, Hospital)
+
+
+@csrf_exempt
+def add_hospital(request):
+    return add_data_with_name(request, Hospital)
+
 
 def test(request):
     print('test')

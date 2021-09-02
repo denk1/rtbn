@@ -39,5 +39,7 @@ urlpatterns = [
     path("add_calling_team", views.add_calling_team, name='add_calling_team'),
     path("war_operation", views.war_operation, name='war_operation'),
     path("add_war_operation", views.add_war_operation, name="add_war_operation"),
+    path("hospital", views.hospital, name='hospital'),
+    path("add_hospital", views.add_hospital, name="add_hospital"),
     #path("add/address/", views.test, name='test'),
 ]

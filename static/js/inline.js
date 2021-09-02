@@ -325,6 +325,14 @@ function init_select_by_name($btn, class_name, urls) {
     select_autocomplete.select_autocomplete($selects, null, urls.get_data_url, urls.get_source_url);
 }
 
+function init_datetime_picker($btn) {
+    let $formset = $btn.closest('.formset');
+    $formset.find(".dateinput")
+        .datepicker("destroy")
+        .datepicker();
+
+}
+ 
 $(function () {
     //tree_modal_window = init_modal_wnd();
     var modal_window = $(document).find(".modal");
@@ -490,5 +498,6 @@ $(function () {
         e.preventDefault();
         console.log("add-war-achievement");
         init_select_by_name($(this), "war-operation", war_operationUrls);
+        init_datetime_picker($(this));
     });
 });

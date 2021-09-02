@@ -107,23 +107,10 @@
 {% endblock %}
 {% block content %}
 <script>
+
     function init_timepicker() {
-        $("#id_birthday").datepicker();
-        $("#id_mobilization").datepicker();
-        $("#fight_since").datepicker();
-        $("#fight_to").datepicker();
-        $("#hospital_since").datepicker();
-        $("#hospital_to").datepicker();
-        $("#date_of_captivity").datepicker();
-        $("#camp_since").datepicker();
-        $("#camp_to").datepicker();
-        $("#work_since").datepicker();
-        $("#work_to").datepicker();
-        $("#infir_since").datepicker();
-        $("#infir_to").datepicker();
+        $(".dateinput").datepicker();
     }
-
-
 
     $(document).ready(function () {
         window.WIDGET_INI_REGISTER = window.WIDGET_INI_REGISTER || []

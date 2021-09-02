@@ -55,7 +55,7 @@ class Hospitalization(models.Model):
     period_from = models.DateField(null=False)
     period_to = models.DateField(null=False)
     war_unit_consist = models.ForeignKey(WarUnit, on_delete=models.CASCADE)
-    direction_name = models.CharField(max_length=256)
+    war_unit_direction = models.ForeignKey(WarUnit, on_delete=models.CASCADE, null=True)
 
 
 class WarOperation(models.Model):

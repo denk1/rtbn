@@ -27,7 +27,7 @@ class PersonModelForm(forms.ModelForm):
         patronimic_filed = layout.Field(
             "patronimic", css_class="input-block-level")
         bithday_field = layout.Field(
-            "bithday", css_class="input-block-level")
+            "bithday", css_class="input-block-level date")
         born_locality_field = layout.Field(
             "born_locality", css_class="input-block-level d-none test-class")
         live_locality_field = layout.Field(
@@ -438,15 +438,19 @@ class WarArchievementForm(forms.ModelForm):
         )
         
         war_unit_field = layout.Field(
-            "war_unit", css_class="input-block-level war-unit"
+            "war_unit", css_class="input-block-level invoke-modal hidden-select"
         )
+
+        war_unit_button = layout.ButtonHolder(layout.Button('war_unit_achievement_button',
+                                                            'Подразделение',
+                                                            css_class="input-block-level btn-unit invoke-modal"))
         
         period_from_field = layout.Field(
-            "period_from", css_class="input-block-level"
+            "period_from", css_class="input-block-level date"
         )
 
         period_to_field = layout.Field(
-            "period_to", css_class="input-block-level"
+            "period_to", css_class="input-block-level date"
         )
 
         delete_field = layout.Field(

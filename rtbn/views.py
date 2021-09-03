@@ -11,9 +11,11 @@ from .models import Person, \
     WarOperation, \
     WarArchievement, \
     Camp, \
-    ArbeitCamp, \
-    InfirmaryCamp, \
+    LabourTeam, \
     Captivity, \
+    BeingCamped, \
+    CompulsoryWork, \
+    InfirmaryCamp, \
     Burial, \
     Reburial, \
     NameDistortion, \
@@ -47,9 +49,11 @@ from .forms import PersonModelForm, \
     CallingDirectionForm, \
     AddressItemForm, \
     WarArchievementForm, \
-    HospitalizationForm
-
-# dict_fileds_calling_team =
+    HospitalizationForm, \
+    CaptivityForm, \
+    BeingCampedForm, \
+    CompusoryWorkForm, \
+    InfirmaryCampForm
 
 from common.functions import get_data_by_name, add_data_with_name
 
@@ -189,6 +193,16 @@ def add_or_change_person(request, pk=None):
         WarArchievement, form=WarArchievementForm, extra=0, can_delete=True)
     HospitalizationFormset = modelformset_factory(
         Hospitalization, form=HospitalizationForm, extra=0, can_delete=True)
+    CaptivityFormset = modelformset_factory(
+        Captivity, form=CaptivityForm, extra=0, can_delete=True)
+    BeingCampedFormset = modelformset_factory(
+        BeingCamped, form=BeingCampedForm, extra=0, can_delete=True)
+    CompulsoryWorkFormset = modelformset_factory(
+        CompulsoryWork, form=CompusoryWorkForm, extra=0, can_delete=True)
+    InfirmaryCampFormset = modelformset_factory(
+        InfirmaryCampForm, form=InfirmaryCampForm, extra=0, can_delete=True)
+    
+    
     if request.method == 'POST':
 
         locality_born = AddressItem.objects.filter(id=person.born_locality)
@@ -247,7 +261,31 @@ def add_or_change_person(request, pk=None):
             queryset=Hospitalization.objects.filter(person=person),
             prefix="hospitalization",
             form_kwargs={"request": request}
-        ) 
+        )
+
+        captivity_formset = HospitalizationFormset(
+            queryset=Captivity.objects.filter(person=person),
+            prefix="captivity",
+            form_kwargs={"request": request}
+        )
+
+        being_camped_formset = CallingDirectionFormset(
+            queryset=BeingCamped.objects.filter(person=person),
+            prefix="being_camped",
+            form_kwargs={"request": request}
+        )
+
+        compulsory_work_formset = CompulsoryWorkFormset(
+            queryset=CompulsoryWork.objects.filter(person=person),
+            prefix="compulsory_work",
+            form_kwargs={"request": request}
+        )
+
+        infirmary_camp_formset = CompulsoryWorkFormset(
+            queryset=CompulsoryWork.objects.filter(person=person),
+            prefix="infirmary_camp",
+            form_kwargs={"request": request}
+        )
 
         address_war_enlistment_form = AddressItemForm(
             request, instance=address_war_enlistment, prefix='enlistment_office'
@@ -282,6 +320,10 @@ def add_or_change_person(request, pk=None):
             'calling_direction_formset': calling_direction_formset,
             'war_achievement_formset': war_achievement_formset,
             'hospitalization_formset': hospitalization_formset,
+            'captivity_formset': captivity_formset,
+            'being_camped_formset': being_camped_formset,
+            'compulsory_work_formset': compulsory_work_formset,
+            'infirmary_camp_formset': infirmary_camp_formset
         }
 
     return render(request, 'person_form.html', context)
@@ -483,6 +525,25 @@ def hospital(request):
 @csrf_exempt
 def add_hospital(request):
     return add_data_with_name(request, Hospital)
+
+@csrf_exempt
+def camp(request):
+    return get_data_by_name(request, Camp)
+
+
+@csrf_exempt
+def add_camp(request):
+    return add_data_with_name(request, Camp)
+
+
+@csrf_exempt
+def labour_team(request):
+    return get_data_by_name(request, LabourTeam)
+
+
+@csrf_exempt
+def add_labour_team(request):
+    return add_data_with_name(request, LabourTeam)
 
 
 def test(request):

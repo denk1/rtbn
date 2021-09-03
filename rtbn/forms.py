@@ -9,7 +9,11 @@ from .models import Person, \
     CallingTeam, \
     CallingDirection, \
     WarArchievement, \
-    Hospitalization
+    Hospitalization, \
+    Captivity, \
+    BeingCamped, \
+    CompulsoryWork, \
+    InfirmaryCamp
 from war_unit.models import WarUnit
 
 
@@ -521,3 +525,150 @@ class HospitalizationForm(forms.ModelForm):
             delete_field,
         )
 
+
+class CaptivityForm(forms.ModelForm):
+    class Meta:
+        model = Captivity
+        fields = '__all__'
+    
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
+
+        date_of_captivity_field = layout.Field(
+            "date_of_captivity", css_class="input-block-level date"
+        )
+
+        place_of_captivity_field = layout.Field(
+            "place_of_captivity", css_class="input-block-level date"
+        )
+
+        delete_field = layout.Field(
+            "DELETE", css_class="input-block-level")
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            date_of_captivity_field,
+            place_of_captivity_field,
+            delete_field
+        )
+
+
+class BeingCampedForm(forms.ModelForm):
+    class Meta:
+        model = Captivity
+        fields = '__all__'
+    
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
+
+        period_from_field = layout.Field(
+            "period_from", css_class="input-block-level date"
+        )
+
+        period_to_field = layout.Field(
+            "period_to", css_class="input-block-level date"
+        )
+
+        camp_field = layout.Field(
+            "calling_team", css_class="input-block-level camp"
+        )
+
+        number_field = layout.Field(
+            "number", css_class="input-block-level test"
+        )
+
+        delete_field = layout.Field(
+            "DELETE", css_class="input-block-level")
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            period_from_field,
+            period_to_field,
+            camp_field,
+            number_field,
+            delete_field
+        )
+
+
+
+class CompusoryWorkForm(models.Model):
+    class Meta:
+        model = CompulsoryWork
+        fields = '__all__'
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
+
+        period_from_field = layout.Field(
+            "period_from", css_class="input-block-level date"
+        )
+
+        period_to_field = layout.Field(
+            "period_to", css_class="input-block-level date"
+        )
+
+        labour_team_field = layout.Field(
+            "labour_team", css_class="input-block-level labour_team"
+        )
+
+        delete_field = layout.Field(
+            "DELETE", css_class="input-block-level")
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            period_from_field,
+            period_to_field,
+            labour_team_field,
+            delete_field
+        )
+
+
+class InfirmaryCampForm(models.Models):
+    class Meta:
+        model = InfirmaryCamp
+        fields = '__all__'
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
+
+        period_from_field = layout.Field(
+            "period_from", css_class="input-block-level date"
+        )
+
+        period_to_field = layout.Field(
+            "period_to", css_class="input-block-level date"
+        )
+
+        camp_field = layout.Field(
+            "calling_team", css_class="input-block-level camp"
+        )
+
+        delete_field = layout.Field(
+            "DELETE", css_class="input-block-level")
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            period_from_field,
+            period_to_field,
+            camp_field,
+            delete_field
+        )

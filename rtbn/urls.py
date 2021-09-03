@@ -41,5 +41,9 @@ urlpatterns = [
     path("add_war_operation", views.add_war_operation, name="add_war_operation"),
     path("hospital", views.hospital, name='hospital'),
     path("add_hospital", views.add_hospital, name="add_hospital"),
+    path("camp", views.camp, name="camp"),
+    path("add_camp", views.add_camp, name="add_camp"),
+    path("labour_team", views.labour_team, name="labour_team"),
+    path("add_labour_team", views.add_labour_team, name="add_labour_team"),
     #path("add/address/", views.test, name='test'),
 ]

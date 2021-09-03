@@ -94,52 +94,54 @@ class Person(models.Model):
     mobilization = models.DateField()
     last_msg_locality = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, null=True)
+    is_defector = models.BooleanField()
+    is_gestapo = models.BooleanField()
+    is_frei = models.BooleanField()
+
 
     def __str__(self):
         return self.name + ' ' + self.surname + ' ' + self.father_name
 
 
 class Camp(models.Model):
-    """
-    Лагерь
-    """
     name = models.CharField(max_length=60)
-    number = models.CharField(null=True, max_length=60)
+    def __str__(self):
+        return self.name
 
 
-class ArbeitCamp(models.Model):
-    period_from = models.DateField(null=True)
-    period_to = models.DateField(null=True)
-    captivity = models.ForeignKey('Captivity', on_delete=models.CASCADE)
+class LabourTeam(models.Model):
     name = models.CharField(max_length=60)
-
-
-class InfirmaryCamp(models.Model):
-    period_from = models.DateField(null=True)
-    period_to = models.DateField(null=True)
-    captivity = models.ForeignKey('Captivity', on_delete=models.CASCADE)
-    name = models.CharField(max_length=60)
+    def __str__(self):
+        return self.name
 
 
 class Captivity(models.Model):
-    """
-    Плен
-    """
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    camp = models.ForeignKey(Camp, on_delete=models.CASCADE)
     date_of_captivity = models.DateField(null=True)
     place_of_captivity = models.ForeignKey(
         AddressItem, null=True, on_delete=models.CASCADE)
 
 
-class AddingInfo(models.Model):
-    """
-    Дополнительная информация
-    """
-    person = models.OneToOneField('Person', on_delete=models.CASCADE)
-    is_defector = models.BooleanField()
-    is_gestapo = models.BooleanField()
-    is_frei = models.BooleanField()
+class BeingCamped(models.Model):
+    person = models.ForeignKey('Person', on_delete=models.CASCADE)
+    period_from = models.DateField(null=True)
+    period_to = models.DateField(null=True)
+    camp = models.ForeignKey(Camp, on_delete=models.CASCADE, null=True)
+    number = models.CharField(max_length=60)
+
+
+class CompulsoryWork(models.Model):
+    person = models.ForeignKey('Person', on_delete=models.CASCADE)
+    period_from = models.DateField(null=True)
+    period_to = models.DateField(null=True)
+    labour_team = models.CharField(max_length=60)
+
+
+class InfirmaryCamp(models.Model):
+    person = models.ForeignKey('Person', on_delete=models.CASCADE)
+    period_from = models.DateField(null=True)
+    period_to = models.DateField(null=True)
+    camp = models.ForeignKey(Camp, on_delete=models.CASCADE, null=True)
 
 
 class Burial(models.Model):

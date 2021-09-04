@@ -6,8 +6,7 @@ from rtbn.models import Person, \
     Hospital, \
     Hospitalization, \
     WarOperation, \
-    WarArchievement, \
-    AddingInfo
+    WarArchievement
 
 from mptt.admin import MPTTModelAdmin
 from address.models import AddressItem
@@ -23,4 +22,3 @@ admin.site.register(Hospital)
 admin.site.register(Hospitalization)
 admin.site.register(WarOperation)
 admin.site.register(WarArchievement)
-admin.site.register(AddingInfo)

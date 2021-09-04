@@ -75,10 +75,10 @@ class RegionBornForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'born_region_name',
-                                                     'name': 'born_region_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Регион')]
-                                              )
+                                        'name': 'born_region_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Регион')]
+                                 )
         }
 
 
@@ -97,9 +97,9 @@ class DistrictBornForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'born_district_name',
-                                                     'name': 'born_district_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Область')])
+                                        'name': 'born_district_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Область')])
         }
 
 
@@ -118,9 +118,9 @@ class LocalityBornForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'born_locality_name',
-                                                     'name': 'born_locality_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Район')])
+                                        'name': 'born_locality_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Район')])
         }
 
 
@@ -139,10 +139,10 @@ class RegionLiveForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'live_region_name',
-                                                     'name': 'live_region_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Регион')]
-                                              )
+                                        'name': 'live_region_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Регион')]
+                                 )
         }
 
 
@@ -161,9 +161,9 @@ class DistrictLiveForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'live_district_name',
-                                                     'name': 'live_district_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Область')])
+                                        'name': 'live_district_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Область')])
         }
 
 
@@ -182,9 +182,9 @@ class LocalityLiveForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'live_locality_name',
-                                                     'name': 'live_locality_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Район')])
+                                        'name': 'live_locality_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Район')])
         }
 
 
@@ -255,9 +255,9 @@ class RegionWarEnlistmentForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'region_military_enlistment_office',
-                                                     'name': 'region_military_enlistment_office',
-                                                     'style': 'width:100px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Область')])
+                                        'name': 'region_military_enlistment_office',
+                                        'style': 'width:100px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Область')])
         }
 
 
@@ -271,9 +271,9 @@ class DistrictWarEnlistmentForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'district_military_enlistment_office',
-                                                     'name': 'district_military_enlistment_office',
-                                                     'style': 'width:100px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Район')])
+                                        'name': 'district_military_enlistment_office',
+                                        'style': 'width:100px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Район')])
         }
 
 
@@ -326,10 +326,10 @@ class RegionLetterForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'letter_region_name',
-                                                     'name': 'letter_region_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Регион')]
-                                              )
+                                        'name': 'letter_region_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Регион')]
+                                 )
         }
 
 
@@ -348,9 +348,9 @@ class DistrictLetterForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'letter_district_name',
-                                                     'name': 'letter_district_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Область')])
+                                        'name': 'letter_district_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Область')])
         }
 
 
@@ -369,9 +369,9 @@ class LocalityLetterForm(forms.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.Select(attrs={'id': 'letter_locality_name',
-                                                     'name': 'letter_locality_name',
-                                                     'style': 'width:200px',
-                                                     'class': 'form-control form-element'}, choices=[('', 'Район')])
+                                        'name': 'letter_locality_name',
+                                        'style': 'width:200px',
+                                        'class': 'form-control form-element'}, choices=[('', 'Район')])
         }
 
 
@@ -432,7 +432,7 @@ class WarArchievementForm(forms.ModelForm):
     class Meta:
         model = WarArchievement
         fields = '__all__'
-    
+
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
@@ -441,7 +441,7 @@ class WarArchievementForm(forms.ModelForm):
         war_operation_field = layout.Field(
             "war_operation", css_class="input-block-level war-operation"
         )
-        
+
         war_unit_field = layout.Field(
             "war_unit", css_class="input-block-level invoke-modal hidden-select"
         )
@@ -449,7 +449,7 @@ class WarArchievementForm(forms.ModelForm):
         war_unit_button = layout.ButtonHolder(layout.Button('war_unit_achievement_button',
                                                             'Подразделение',
                                                             css_class="input-block-level btn-unit invoke-modal"))
-        
+
         period_from_field = layout.Field(
             "period_from", css_class="input-block-level date"
         )
@@ -478,7 +478,7 @@ class HospitalizationForm(forms.ModelForm):
     class Meta:
         model = Hospitalization
         fields = '__all__'
-    
+
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
@@ -530,7 +530,7 @@ class CaptivityForm(forms.ModelForm):
     class Meta:
         model = Captivity
         fields = '__all__'
-    
+
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
@@ -562,7 +562,7 @@ class BeingCampedForm(forms.ModelForm):
     class Meta:
         model = Captivity
         fields = '__all__'
-    
+
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
@@ -600,8 +600,7 @@ class BeingCampedForm(forms.ModelForm):
         )
 
 
-
-class CompusoryWorkForm(models.Model):
+class CompusoryWorkForm(forms.ModelForm):
     class Meta:
         model = CompulsoryWork
         fields = '__all__'
@@ -638,10 +637,11 @@ class CompusoryWorkForm(models.Model):
         )
 
 
-class InfirmaryCampForm(models.Models):
+class InfirmaryCampForm(forms.ModelForm):
     class Meta:
         model = InfirmaryCamp
         fields = '__all__'
+
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
@@ -656,7 +656,7 @@ class InfirmaryCampForm(models.Models):
         )
 
         camp_field = layout.Field(
-            "calling_team", css_class="input-block-level camp"
+            "camp", css_class="input-block-level camp"
         )
 
         delete_field = layout.Field(

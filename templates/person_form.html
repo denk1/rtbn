@@ -674,7 +674,8 @@
                                             <p class="inform-box-label"></p>
                                             <button data-toggle="modal" data-target="#tree_modal_wnd"
                                                 class="invoke-modal btn-address"
-                                                action="{% url 'address:add_address' %}">Последнее сообщение из:</button>
+                                                action="{% url 'address:add_address' %}">Последнее сообщение
+                                                из:</button>
                                             <div class="d-none">
                                                 {{ person_form.last_msg_locality|as_crispy_field }}
                                             </div>
@@ -713,7 +714,8 @@
                             </div>
                             {% endfor %}
                         </div>
-                        <button type="button" class="btn btn-primary btn-sm add-inline-form add-war-achievement">Добавить
+                        <button type="button"
+                            class="btn btn-primary btn-sm add-inline-form add-war-achievement">Добавить
                             сражение</button>
                         <div class="empty-form d-none">
                             {% crispy war_achievement_formset.empty_form %}
@@ -728,9 +730,9 @@
                         <h3>Госпитализации</h3>
                         <div class="formset-forms">
                             {% for formset_form in hospitalization_formset %}
-                                <div class="formset-form">
+                            <div class="formset-form">
                                 {% crispy formset_form %}
-                                </div>
+                            </div>
                             {% endfor %}
                         </div>
                         <button type="button" class="btn btn-primary btn-sm add-inline-form add-hospitalization">
@@ -744,18 +746,77 @@
                 <h3 class="info-text">Данные о пленении и дальнейшем содержании</h3>
                 <section id="captivity">
                     <div class="container-fluid">
-                        <div id="captivity_list">
-                            <!-- <p id="captivity_button">добавить информацию о пленении </p> -->
+                        <div class="container-fluid formset">
+                            {{ captivity_formset.management_form }}
+                            <h3>Информация о попадании в плен</h3>
+                            <div class="formset-forms">
+                                {% for formset_form in captivity_formset %}
+                                <div class="formset-form">
+                                    {% crispy formset_form %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm add-inline-form add-captivity">
+                                Добавить информацию
+                            </button>
+                            <div class="empty-form d-none">
+                                {% crispy captivity_formset.empty_form %}
+                            </div>
 
                         </div>
-                        <div id="camp_list">
-                            <!-- <p id="camp_button">добавить информацию о лагерях</p> -->
+                        <div class="container-fluid formset">
+                            {{ being_camped_formset.management_form }}
+                            <h3>Информация о нахождении в лагерях</h3>
+                            <div class="formset-forms">
+                                {% for formset_form in being_camped_formset %}
+                                <div class="formset-form">
+                                    {% crispy formset_form %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm add-inline-form add-being-camped">
+                                Добавить информацию
+                            </button>
+                            <div class="empty-form d-none">
+                                {% crispy being_camped_formset.empty_form %}
+                            </div>
+
                         </div>
-                        <div id="team_list">
-                            <!-- <p id="team_button">добавить информацию о рабочих командах</p> -->
+                        <div class="container-fluid formset">
+                            {{ compulsory_work_formset.management_form }}
+                            <h3>Информация о принудительных работах</h3>
+                            <div class="formset-forms">
+                                {% for formset_form in compulsory_work_formset %}
+                                <div class="formset-form">
+                                    {% crispy formset_form %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm add-inline-form add-compulsory-work">
+                                Добавить информацию
+                            </button>
+                            <div class="empty-form d-none">
+                                {% crispy compulsory_work_formset.empty_form %}
+                            </div>
+
                         </div>
-                        <div id="infirmary_list">
-                            <!-- <p id="infirmary_button">добавить информацию о содержании лазаритах</p> -->
+                        <div class="container-fluid formset">
+                            {{ infirmary_formset.management_form }}
+                            <h3>Информация о нахождении в лазоретах лагерей</h3>
+                            <div class="formset-forms">
+                                {% for formset_form in infirmary_formset %}
+                                <div class="formset-form">
+                                    {% crispy formset_form %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm add-inline-form add-infirmary">
+                                Добавить информацию
+                            </button>
+                            <div class="empty-form d-none">
+                                {% crispy infirmary_formset.empty_form %}
+                            </div>
+
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
@@ -768,9 +829,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="checkbox border_red_mark">
-                                        <label>
-                                            <input type="checkbox" name="defector">
-                                        </label>
+                                        {{ person_form.is_defector|as_crispy_field }}
                                         <font class="red1">Перебежчик</font>
                                     </div>
                                 </div>
@@ -778,9 +837,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="checkbox border_red_mark">
-                                        <label>
-                                            <input type="checkbox" name="gestapo">
-                                        </label>
+                                        {{ person_form.is_gestapo|as_crispy_field }}
                                         <font class="red1">Гестапо</font>
                                     </div>
                                 </div>
@@ -788,9 +845,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="checkbox border_red_mark">
-                                        <label>
-                                            <input type="checkbox" name="frei">
-                                        </label>
+                                        {{ person_form.is_frei|as_crispy_field }}
                                         <font class="red1">Освобожден</font>
                                     </div>
                                 </div>

@@ -560,7 +560,7 @@ class CaptivityForm(forms.ModelForm):
 
 class BeingCampedForm(forms.ModelForm):
     class Meta:
-        model = Captivity
+        model = BeingCamped
         fields = '__all__'
 
     def __init__(self, request, *args, **kwargs):

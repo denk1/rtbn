@@ -801,20 +801,20 @@
 
                         </div>
                         <div class="container-fluid formset">
-                            {{ infirmary_formset.management_form }}
+                            {{ infirmary_camp_formset.management_form }}
                             <h3>Информация о нахождении в лазоретах лагерей</h3>
                             <div class="formset-forms">
-                                {% for formset_form in infirmary_formset %}
+                                {% for formset_form in infirmary_camp_formset %}
                                 <div class="formset-form">
                                     {% crispy formset_form %}
                                 </div>
                                 {% endfor %}
                             </div>
-                            <button type="button" class="btn btn-primary btn-sm add-inline-form add-infirmary">
+                            <button type="button" class="btn btn-primary btn-sm add-inline-form add-infirmary-camp">
                                 Добавить информацию
                             </button>
                             <div class="empty-form d-none">
-                                {% crispy infirmary_formset.empty_form %}
+                                {% crispy infirmary_camp_formset.empty_form %}
                             </div>
 
                         </div>

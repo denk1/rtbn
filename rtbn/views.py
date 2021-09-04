@@ -57,6 +57,7 @@ from .forms import PersonModelForm, \
 
 from common.functions import get_data_by_name, add_data_with_name
 
+
 def index(request):
     persons = Person.objects.all()[:5]
     return render(request, 'index.html', {'persons_update': persons})
@@ -200,9 +201,8 @@ def add_or_change_person(request, pk=None):
     CompulsoryWorkFormset = modelformset_factory(
         CompulsoryWork, form=CompusoryWorkForm, extra=0, can_delete=True)
     InfirmaryCampFormset = modelformset_factory(
-        InfirmaryCampForm, form=InfirmaryCampForm, extra=0, can_delete=True)
-    
-    
+        InfirmaryCamp, form=InfirmaryCampForm, extra=0, can_delete=True)
+
     if request.method == 'POST':
 
         locality_born = AddressItem.objects.filter(id=person.born_locality)
@@ -263,13 +263,13 @@ def add_or_change_person(request, pk=None):
             form_kwargs={"request": request}
         )
 
-        captivity_formset = HospitalizationFormset(
+        captivity_formset = CaptivityFormset(
             queryset=Captivity.objects.filter(person=person),
             prefix="captivity",
             form_kwargs={"request": request}
         )
 
-        being_camped_formset = CallingDirectionFormset(
+        being_camped_formset = BeingCampedFormset(
             queryset=BeingCamped.objects.filter(person=person),
             prefix="being_camped",
             form_kwargs={"request": request}
@@ -281,7 +281,7 @@ def add_or_change_person(request, pk=None):
             form_kwargs={"request": request}
         )
 
-        infirmary_camp_formset = CompulsoryWorkFormset(
+        infirmary_camp_formset = InfirmaryCampFormset(
             queryset=CompulsoryWork.objects.filter(person=person),
             prefix="infirmary_camp",
             form_kwargs={"request": request}
@@ -525,6 +525,7 @@ def hospital(request):
 @csrf_exempt
 def add_hospital(request):
     return add_data_with_name(request, Hospital)
+
 
 @csrf_exempt
 def camp(request):

@@ -577,7 +577,7 @@ class BeingCampedForm(forms.ModelForm):
         )
 
         camp_field = layout.Field(
-            "calling_team", css_class="input-block-level camp"
+            "camp", css_class="input-block-level camp"
         )
 
         number_field = layout.Field(

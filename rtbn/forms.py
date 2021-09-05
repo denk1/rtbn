@@ -489,7 +489,7 @@ class HospitalizationForm(forms.ModelForm):
         )
 
         hospital_location_field = layout.Field(
-            "hospital_location", css_class="input-block-level d-none test-class"
+            "hospital_location", css_class="input-block-level d-none test-class hidden-select-address"
         )
 
         period_from_field = layout.Field(

@@ -134,7 +134,7 @@ class CompulsoryWork(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     period_from = models.DateField(null=True)
     period_to = models.DateField(null=True)
-    labour_team = models.CharField(max_length=60)
+    labour_team = models.ForeignKey(LabourTeam, on_delete=models.CASCADE, null=True)
 
 
 class InfirmaryCamp(models.Model):

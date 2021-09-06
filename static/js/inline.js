@@ -280,9 +280,31 @@ function init_btn_war_unit() {
         .append(div_inform_box);
 
     console.log(test_element);
-
-
 }
+
+function init_btn_address_item() {
+    let $paragraph_inform_box = $("<p class='inform-box-label'></p>");
+    let $button_war_unit = $(`<input type="button" name="address_item_button"
+                            value="Адрес"
+                            class="btn input-block-level btn-address invoke-modal"
+                            data-toggle="modal" 
+                            data-target="#tree_modal_wnd" 
+                            action="/address/">`);
+    let div_inform_box = $('<div></div>')
+        .addClass("inform-box")
+        .append($paragraph_inform_box)
+        .append($button_war_unit);
+
+    let test_element = $(".hidden-select-address")
+        .parent()
+        .addClass("d-none")
+        .parent()
+        .append(div_inform_box);
+
+    console.log(test_element);
+}
+
+
 
 function init_action_btns() {
     let address = $(".btn-address").attr("action");
@@ -339,6 +361,7 @@ $(function () {
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     init_btn_war_unit();
     init_action_btns();
+    init_btn_address_item();
     $('.add-inline-form').click(function (e) {
         e.preventDefault();
         var $formset = $(this).closest('.formset');
@@ -506,5 +529,32 @@ $(function () {
         console.log("add-hospitalization");
         init_select_by_name($(this), "hospital", hospitalUrls);
         init_datetime_picker($(this));
+    });
+
+    $('.add-captivity').click( function (e) {
+        e.preventDefault();
+        console.log("add-captivity");
+        init_datetime_picker($(this));
+    });
+
+    $('.add-being-camped').click(function (e) {
+            e.preventDefault();
+            console.log(".add-being-camped");
+            init_select_by_name($(this), "camp", campUrls);
+            init_datetime_picker($(this));
+    });
+
+    $('.add-compulsory-work').click(function (e) {
+        e.preventDefault();
+        console.log("add-compulsory-work");
+        init_select_by_name($(this), "labour-team", labour_teamUrls);
+        init_datetime_picker($(this));  
+    });
+
+    $('.add-infirmary-camp').click(function (e) {
+        e.preventDefault();
+        console.log("add-infirmary-camp");
+        init_select_by_name($(this), "camp", campUrls);
+        init_datetime_picker($(this));  
     });
 });

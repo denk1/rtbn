@@ -489,7 +489,7 @@ class HospitalizationForm(forms.ModelForm):
         )
 
         hospital_location_field = layout.Field(
-            "hospital_location", css_class="input-block-level d-none test-class hidden-select-address"
+            "hospital_location", css_class="input-block-level test-class d-none hidden-select-address"
         )
 
         period_from_field = layout.Field(
@@ -541,7 +541,7 @@ class CaptivityForm(forms.ModelForm):
         )
 
         place_of_captivity_field = layout.Field(
-            "place_of_captivity", css_class="input-block-level date"
+            "place_of_captivity", css_class="input-block-level date d-none hidden-select-address"
         )
 
         delete_field = layout.Field(
@@ -619,7 +619,7 @@ class CompusoryWorkForm(forms.ModelForm):
         )
 
         labour_team_field = layout.Field(
-            "labour_team", css_class="input-block-level labour_team"
+            "labour_team", css_class="input-block-level labour-team"
         )
 
         delete_field = layout.Field(

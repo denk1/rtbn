@@ -13,7 +13,9 @@ from .models import Person, \
     Captivity, \
     BeingCamped, \
     CompulsoryWork, \
-    InfirmaryCamp
+    InfirmaryCamp, \
+    Burial, \
+    Reburial
 from war_unit.models import WarUnit
 
 
@@ -671,4 +673,79 @@ class InfirmaryCampForm(forms.ModelForm):
             period_to_field,
             camp_field,
             delete_field
+        )
+
+
+class BurialForm(forms.ModelForm):
+    class Meta:
+        model = Burial
+        fields = '__all__'
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
+        date_of_burial_field = layout.Field(
+            "date_of_burial", css_class="input-block-level date"
+        )
+
+        address_doc_field = layout.Field(
+            "address_doc", css_class="input-block-level hidden-select-address"
+        )
+
+        address_act_field = layout.Field(
+            "address_act", css_class="input-block-level hidden-select-address"
+        )
+
+        cemetery_item_field = layout.Field(
+            "cemetery_item", css_class="input-block-level camp"
+        )
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            date_of_burial_field,
+            address_doc_field,
+            address_act_field,
+            cemetery_item_field
+        )
+    
+
+
+class ReburialForm(forms.ModelForm):
+    class Meta:
+        model = Reburial
+        fields = '__all__'
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        id_field = layout.Field("id")
+        date_of_reburial_field = layout.Field(
+            "date_of_reburial", css_class="input-block-level date"
+        )
+
+        reburial_cause_field = layout.Field(
+            "reburial_cause", css_class="input-block-level"
+        )
+
+        address_field = layout.Field(
+            "address", css_class="input-block-level hidden-select-address"
+        )
+
+        cemetery_item_field = layout.Field(
+            "cemetery_item", css_class="input-block-level"
+        )
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            date_of_reburial_field,
+            reburial_cause_field,
+            address_field,
+            cemetery_item_field
         )

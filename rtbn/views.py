@@ -31,21 +31,10 @@ from django.http import JsonResponse
 from django.forms import formset_factory, modelform_factory
 from django.views.decorators.csrf import csrf_exempt
 from .forms import PersonModelForm, \
-    RegionLiveForm, \
-    DistrictLiveForm, \
-    LocalityLiveForm, \
-    RegionBornForm, \
-    DistrictBornForm, \
-    LocalityBornForm, \
     NameDistortionForm, \
     SurnameDistortionForm, \
     PatronimicDistortionForm, \
-    RegionWarEnlistmentForm, \
-    DistrictWarEnlistmentForm, \
     MilitaryEnlistmentOfficeForm, \
-    RegionLetterForm, \
-    DistrictLetterForm, \
-    LocalityLetterForm, \
     CallingDirectionForm, \
     AddressItemForm, \
     WarArchievementForm, \
@@ -53,7 +42,9 @@ from .forms import PersonModelForm, \
     CaptivityForm, \
     BeingCampedForm, \
     CompusoryWorkForm, \
-    InfirmaryCampForm
+    InfirmaryCampForm, \
+    BurialForm, \
+    ReburialForm
 
 from common.functions import get_data_by_name, add_data_with_name
 
@@ -185,6 +176,8 @@ def add_or_change_person(request, pk=None):
     calling_direction = None
     last_msg_locality = None
     last_msg_district = None
+    burial = None
+    reburial = None
 
     if pk:
         person = get_object_or_404(Person, pk=pk)
@@ -208,8 +201,7 @@ def add_or_change_person(request, pk=None):
         locality_born = AddressItem.objects.filter(id=person.born_locality)
         district_born = AddressItem.objects.filter(
             id=locality_born.parent_address_unit)
-        region_born = AddressItem.objects.filter(
-            id=district_born.parent_address_unit)
+        
         locality_live = AddressItem.objects.filter(id=person.live_locality)
         district_live = AddressItem.objects.filter(
             id=locality_live.parent_address_unit)
@@ -234,6 +226,10 @@ def add_or_change_person(request, pk=None):
     else:
         # forms
         person_form = PersonModelForm(request, instance=person)
+        burial = Burial.objects.filter(person=person).first()
+        reburial = Reburial.objects.filter(person=person).first()
+        burial_form = BurialForm(request, instance=burial)
+        reburial_form = ReburialForm(request, instance=reburial) 
         #person_form = PersonModelForm(initial={"name": None, "surname": None})
         name_distortion_form = NameDistortionForm(
             request, instance=name_distortion, prefix='name_dist')
@@ -323,7 +319,9 @@ def add_or_change_person(request, pk=None):
             'captivity_formset': captivity_formset,
             'being_camped_formset': being_camped_formset,
             'compulsory_work_formset': compulsory_work_formset,
-            'infirmary_camp_formset': infirmary_camp_formset
+            'infirmary_camp_formset': infirmary_camp_formset,
+            'burial_form': burial_form,
+            'reburial_form': reburial_form,
         }
 
     return render(request, 'person_form.html', context)

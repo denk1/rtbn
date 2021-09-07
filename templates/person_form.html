@@ -97,6 +97,7 @@
     };
     const addressUrls = new Pathes("{% url 'region' %}", "{% url 'add_region' %}");
     const war_unitUrs = new Pathes("{% url 'war_unit:get_war_units' %}", "{% url 'war_unit:add_war_unit' %}");
+    const cemetery_itemUrls = new Pathes("{% url 'cemetery:get_cemetery_items' %}", "{% url 'cemetery:add_cemetery_item' %}");
     const calling_teamUrls = new Pathes("{% url 'calling_team' %}", "{% url 'add_calling_team' %}");
     const war_operationUrls = new Pathes("{% url 'war_operation' %}", "{% url 'add_war_operation' %}");
     const hospitalUrls = new Pathes("{% url 'hospital' %}", "{% url 'add_hospital' %}");
@@ -868,49 +869,9 @@
                 <h3 class="info-text">Имеющиеся данные о захоронении</h3>
                 <section id="burial">
                     <div class="container-fluid">
-                        <div id="datebureal_list" class="row">
-                            <!-- <p id="datebureal_button">добавить информацию о дате захоронения</p> -->
-                        </div>
-                        <div id="docplacebureal_list" class="row">
-                            <!--  <p id="docplacebureal_button">добавить информацию о месте захоронения по документам</p> -->
-                        </div>
-                        <div id="factplacebureal_list" class="row">
-                            <!--  <p id="factplacebureal_button">добавить информацию о фактическом месте захоронения</p> -->
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h5 class="info-text">Описание захоронения</h5>
-                            </div>
-                        </div>
-                        <div id="definebureal_list" class="row">
-
-                        </div>
-                        <div id="fieldbureal_list" class="row">
-
-                        </div>
-                        <div id="linebureal_list" class="row">
-
-                        </div>
-                        <div id="tombbureal_list" class="row">
-
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h5 class="info-text">Перезахоронение</h5>
-                            </div>
-                        </div>
-                        <div id="datereburial_list" class="row">
-
-                        </div>
-                        <div id="reasonreburial_list" class="row">
-
-                        </div>
-                        <div id="actaddrreburial_list" class="row">
-
-                        </div>
-                        <div class="row top-buffer">
-
-                        </div>
+                        {% crispy burial_form %}
+                        <p>Перезахоронение</p>
+                        {% crispy reburial_form %}
                         <p>*Адрес захоронения на современной карте</p>
                     </div>
                 </section>

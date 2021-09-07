@@ -98,8 +98,8 @@ class Person(models.Model):
     is_defector = models.BooleanField()
     is_gestapo = models.BooleanField()
     is_frei = models.BooleanField()
-    burial = models.OneToOneField('Burial', on_delete=models.SET_NULL, null=True)
-    reburial = models.OneToOneField('Reburial', on_delete=models.SET_NULL, null=True)
+    burial = models.OneToOneField('Burial', on_delete=models.SET_NULL, null=True, related_name="burial")
+    reburial = models.OneToOneField('Reburial', on_delete=models.SET_NULL, null=True, related_name="reburial")
 
 
     def __str__(self):
@@ -148,7 +148,7 @@ class InfirmaryCamp(models.Model):
 
 
 class Burial(models.Model):
-    person = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True)
+    person = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True, related_name="person")
     date_of_burial = models.DateField(null=True)
     address_doc = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, related_name='address_item_doc_id')
@@ -159,7 +159,7 @@ class Burial(models.Model):
 
 
 class Reburial(models.Model):
-    person = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True)
+    person = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True, related_name="person_info")
     date_of_reburial = models.DateField(null=True)
     reburial_cause = models.CharField(max_length=80, null=True)
     address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)

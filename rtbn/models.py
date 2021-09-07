@@ -3,6 +3,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.db import models
 from address.models import AddressItem
 from war_unit.models import WarUnit
+from cemetery.models import CemeteryItem
 
 
 
@@ -97,6 +98,8 @@ class Person(models.Model):
     is_defector = models.BooleanField()
     is_gestapo = models.BooleanField()
     is_frei = models.BooleanField()
+    burial = models.OneToOneField('Burial', on_delete=models.SET_NULL, null=True)
+    reburial = models.OneToOneField('Reburial', on_delete=models.SET_NULL, null=True)
 
 
     def __str__(self):
@@ -145,32 +148,23 @@ class InfirmaryCamp(models.Model):
 
 
 class Burial(models.Model):
-    """
-    Захоронение
-    """
-    person = models.OneToOneField(
-        Person, on_delete=models.CASCADE, primary_key=True)
+    person = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True)
     date_of_burial = models.DateField(null=True)
-    number_plot = models.CharField(max_length=30)
     address_doc = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, related_name='address_item_doc_id')
     address_act = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, related_name='address_item_act_id')
-    cemetery = models.CharField(max_length=60)
-    number_plot = models.CharField(max_length=30)
-    number_line = models.CharField(max_length=30)
-    number_thumb = models.CharField(max_length=30)
+    cemetery_item = models.ForeignKey(
+        CemeteryItem, on_delete=models.CASCADE)
 
 
 class Reburial(models.Model):
-    """
-    Перезахоронение
-    """
-    burial = models.OneToOneField(
-        Burial, on_delete=models.CASCADE, primary_key=True)
+    person = models.OneToOneField(Person, on_delete=models.SET_NULL, null=True)
     date_of_reburial = models.DateField(null=True)
-    reburial_cause = models.CharField(max_length=60, null=True)
+    reburial_cause = models.CharField(max_length=80, null=True)
     address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)
+    cemetery_item = models.ForeignKey(
+        CemeteryItem, on_delete=models.CASCADE)
 
 
 class NameDistortion(models.Model):

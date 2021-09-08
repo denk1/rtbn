@@ -518,7 +518,7 @@
 <div class="content">
     <div class="offset_content">
         <h1>Персональные данные разыскиваемого</h1>
-        <form id="personal_data" action="{% url 'data_list' %}" method="POST" enctype="multipart/form-data">
+        <form id="personal_data" action="{% url 'add_person' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% load crispy_forms_tags %}
             <div class="card wizard-card" data-color="red" id="wizard-input">

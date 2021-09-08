@@ -305,12 +305,36 @@ function init_btn_address_item() {
 }
 
 
+function init_btn_cemetery() {
+    let $paragraph_inform_box = $("<p class='inform-box-label'></p>");
+    let $button_war_unit = $(`<input type="button" name="cemetery_item_button"
+                            value="Информация о кладбище"
+                            class="btn input-block-level btn-cemetery invoke-modal"
+                            data-toggle="modal" 
+                            data-target="#tree_modal_wnd" 
+                            action="/cemetery_item/">`);
+    let div_inform_box = $('<div></div>')
+        .addClass("inform-box")
+        .append($paragraph_inform_box)
+        .append($button_war_unit);
+
+    let test_element = $(".hidden-select-cemetery")
+        .parent()
+        .addClass("d-none")
+        .parent()
+        .append(div_inform_box);
+
+    console.log(test_element);
+}
+
+
 
 function init_action_btns() {
     let address = $(".btn-address").attr("action");
     let war_unit = $(".btn-unit").attr("action");
+    let cemetery = $(".btn-cemetery").attr("action");
 
-    pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs };
+    pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs, [cemetery]: cemetery_itemUrls};
     change_depended_select($("#id_military_enlistment_office_address"), $("#id_military_enlistment_office"));
 }
 
@@ -360,8 +384,10 @@ $(function () {
     var modal_window = $(document).find(".modal");
     var modal_dynamic_content = modal_window.find(".modal-dynamic-content");
     init_btn_war_unit();
+    init_btn_cemetery();
     init_action_btns();
     init_btn_address_item();
+    
     $('.add-inline-form').click(function (e) {
         e.preventDefault();
         var $formset = $(this).closest('.formset');

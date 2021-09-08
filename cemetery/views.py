@@ -10,6 +10,7 @@ data_dict_add = {'above_cemetery_item': None, 'name': None}
 
 
 def add_or_change_cemetery_item(request, pk=None):
+    dict_filter = {'above_cemetery_item': None}
     cemetery_item = None
     if pk:
         cemetery_item = get_object_or_404(CemeteryItem, pk=pk)
@@ -23,7 +24,7 @@ def add_or_change_cemetery_item(request, pk=None):
             form_kwargs={"request": request},
         )
     else:
-        CemeteryItem_queryset_result = get_tree_items(cemetery_item, CemeteryItem)
+        CemeteryItem_queryset_result = get_tree_items(cemetery_item, CemeteryItem, dict_filter)
         cemetery_item_formset = CemeteryItemFormSet(
             queryset=CemeteryItem_queryset_result,
             prefix="cemetery_item",

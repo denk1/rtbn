@@ -10,6 +10,7 @@ data_dict_add = {'above_war_unit': None, 'name': None}
 
 
 def add_or_change_warunit(request, pk=None):
+    dict_filter = {'above_war_unit':None}
     war_unit = None
     if pk:
         war_unit = get_object_or_404(WarUnit, pk=pk)
@@ -23,7 +24,7 @@ def add_or_change_warunit(request, pk=None):
             form_kwargs={"request": request},
         )
     else:
-        warunit_queryset_result = get_tree_items(war_unit, WarUnit)
+        warunit_queryset_result = get_tree_items(war_unit, WarUnit, dict_filter)
         warunit_formset = WarUnitFormSet(
             queryset=warunit_queryset_result,
             prefix="warunit",

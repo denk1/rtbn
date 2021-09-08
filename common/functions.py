@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 
 
-def get_tree_items(item, query_set):
+def get_tree_items(item, query_set, dict_filter):
     item_queryset_result = query_set.objects.none()
     if item != None:
         item_queryset = query_set.objects.filter(pk=item.id)
@@ -11,7 +11,7 @@ def get_tree_items(item, query_set):
         if len(item_queryset) != 0 and item_queryset[0].get_parent is not None:
             while item_queryset:
                 above_item = query_set.objects.filter(
-                    Q(pk=item_queryset[0].get_parent.id)).exclude(above_war_unit=None)
+                    Q(pk=item_queryset[0].get_parent.id)).exclude(**dict_filter)
                 item_queryset_result |= above_item
                 item_queryset = above_item
     return item_queryset_result

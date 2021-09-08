@@ -1,0 +1,17 @@
+{% load crispy_forms_tags %}
+<section id="cemetery_item" class="formset my-3">
+    {{ cemetery_item_formset.management_form }}
+    <h1>Информация о кладбище</h1>
+    <div class="formset-forms">
+        {% for form in cemetery_item_formset %}
+        <div class="formset-form address-item">
+            {{ form.above_cemetery_item|as_crispy_field }}
+            {{ form.DELETE|as_crispy_field}}
+        </div>
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-primary btn-sm add-tree-form">Добавить информацию</button>
+    <div class="empty-warunit-form d-none">
+        {% crispy cemetery_item_formset.empty_form %}
+    </div>
+</section>

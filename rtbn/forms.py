@@ -698,7 +698,7 @@ class BurialForm(forms.ModelForm):
         )
 
         cemetery_item_field = layout.Field(
-            "cemetery_item", css_class="input-block-level camp"
+            "cemetery_item", css_class="input-block-level hidden-select-cemetery"
         )
 
         self.helper = helper.FormHelper()
@@ -736,7 +736,7 @@ class ReburialForm(forms.ModelForm):
         )
 
         cemetery_item_field = layout.Field(
-            "cemetery_item", css_class="input-block-level"
+            "cemetery_item", css_class="input-block-level hidden-select-cemetery"
         )
 
         self.helper = helper.FormHelper()

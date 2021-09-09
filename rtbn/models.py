@@ -1,11 +1,12 @@
 from django_enumfield import enum
+from django.conf import settings
 from mptt.models import MPTTModel, TreeForeignKey
 from django.db import models
+from django.urls import reverse
 from address.models import AddressItem
 from war_unit.models import WarUnit
 from cemetery.models import CemeteryItem
-
-
+from core.models import CreationModificationDateBase, UrlBase
 
 
 class CallingTeam(models.Model):
@@ -78,14 +79,19 @@ class WarArchievement(models.Model):
     period_to = models.DateField(null=False)
 
 
-class Person(models.Model):
-    """
-    ФИО, дата рождения, мобилизация, последнее сообщение
-    """
-    name = models.CharField(max_length=30)
-    surname = models.CharField(max_length=30)
-    patronimic = models.CharField(max_length=30, null=True)
-    birthday = models.DateField(null=True)
+class Person(CreationModificationDateBase, UrlBase):
+    name = models.CharField("Имя", max_length=30)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name= "Пользователь",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="written_by_user",
+    )
+    surname = models.CharField("Фамилия", max_length=30)
+    patronimic = models.CharField("Отчество", max_length=30, null=True)
+    birthday = models.DateField("Дата рождения", null=True)
     born_locality = models.ForeignKey(
         AddressItem, related_name='born', on_delete=models.CASCADE, null=True)
     live_locality = models.ForeignKey(
@@ -95,15 +101,21 @@ class Person(models.Model):
     mobilization = models.DateField()
     last_msg_locality = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, null=True)
-    is_defector = models.BooleanField()
-    is_gestapo = models.BooleanField()
-    is_frei = models.BooleanField()
+    is_defector = models.BooleanField("Перебесчик")
+    is_gestapo = models.BooleanField("Гестапо")
+    is_frei = models.BooleanField("Освобождён")
     burial = models.OneToOneField('Burial', on_delete=models.SET_NULL, null=True, related_name="burial")
     reburial = models.OneToOneField('Reburial', on_delete=models.SET_NULL, null=True, related_name="reburial")
 
 
     def __str__(self):
         return self.name + ' ' + self.surname + ' ' + self.father_name
+
+
+    def get_url_path(self):
+        return reverse("person_details", kwargs={
+            "person_id": str(self.pk),
+        })
 
 
 class Camp(models.Model):

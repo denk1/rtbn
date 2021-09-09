@@ -16,3 +16,6 @@ war_unit/migrations/
 war_unit/__pycache__/
 cemetery/migrations/
 cemetery/__pycache__/
+core/migrations/
+core/__pycache__/
+

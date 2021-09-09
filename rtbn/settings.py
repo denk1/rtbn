@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'mptt',
     'address',
     'war_unit',
-    'cemetery'
+    'cemetery',
+    'core',
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"

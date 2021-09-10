@@ -70,3 +70,17 @@ def add_data_with_name(request, table_name):
         print('the new id of calling team is %s' % item.id)
         id = item.id
     return JsonResponse({'result': True, 'id': id}, safe=False)
+
+
+def delete_objects_from_formset(formset):
+    for item in formset.deleted_objects:
+        item.delete()
+
+def save_formset_with_person(formset, person):
+    formset_items = formset.save(commit=False)
+    for item in formset_items:
+        item.person = person
+        item.save()
+    delete_objects_from_formset(formset)
+    formset.save_m2m()
+

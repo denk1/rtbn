@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Person, \
     AddressItem,  \
@@ -46,7 +46,7 @@ from .forms import PersonModelForm, \
     BurialForm, \
     ReburialForm
 
-from common.functions import get_data_by_name, add_data_with_name
+from common.functions import get_data_by_name, add_data_with_name, save_formset_with_person
 
 
 def index(request):
@@ -197,32 +197,86 @@ def add_or_change_person(request, pk=None):
         InfirmaryCamp, form=InfirmaryCampForm, extra=0, can_delete=True)
 
     if request.method == 'POST':
+        person_form = PersonModelForm(request, data=request.POST, instance=person)
+        calling_direction_formset = CallingDirectionFormset(
+            queryset = CallingDirection.objects.filter(person=person),
+            data = request.POST,
+            prefix= "calling_direction",
+            form_kwargs={"request": request},
+        )
 
-        locality_born = AddressItem.objects.filter(id=person.born_locality)
-        district_born = AddressItem.objects.filter(
-            id=locality_born.parent_address_unit)
-        
-        locality_live = AddressItem.objects.filter(id=person.live_locality)
-        district_live = AddressItem.objects.filter(
-            id=locality_live.parent_address_unit)
-        region_live = AddressItem.objects.filter(
-            id=district_live.parent_address_unit)
-        name_distortion = NameDistortion.objects.filter(persons=person)[0]
-        surname_distortion = SurnameDistortion.objects.filter(persons=person)[
-            0]
-        patronimic_distortion = PatronimicDistortion.objects.filter(persons=person)[
-            0]
-        military_enlistment_office = MilitaryEnlistmentOffice.objects.filter(
-            pk=call.military_enlistment_office)
-        address_war_enlistment = AddressItem.objects.filter(
-            pk=military_enlistment_office.address)
-        last_msg_locality = AddressItem.objects.filter(
-            pk=call.last_msg_locality)
-        calling_direction = CallingDirection.objects.filter(person=person)
-        last_msg_locality = AddressItem.objects.filter(
-            pk=call.last_msg_locality)
-        last_msg_district = AddressItem.objects.filter(
-            pk=last_msg_locality.parent_address_unit)
+        war_achievement_formset = WarArchievementFormset(
+            queryset = WarArchievement.objects.filter(person=person),
+            data = request.POST,
+            prefix= "war_archievement",
+            form_kwargs={"request": request},
+        )
+
+        hospitalization_formset = HospitalizationFormset(
+            queryset=Hospitalization.objects.filter(person=person),
+            data = request.POST,
+            prefix="hospitalization",
+            form_kwargs={"request": request}
+        )
+
+        captivity_formset = CaptivityFormset(
+            queryset=Captivity.objects.filter(person=person),
+            data = request.POST,
+            prefix="captivity",
+            form_kwargs={"request": request}
+        )
+
+        being_camped_formset = BeingCampedFormset(
+            queryset=BeingCamped.objects.filter(person=person),
+            data = request.POST,
+            prefix="being_camped",
+            form_kwargs={"request": request}
+        )
+
+        compulsory_work_formset = CompulsoryWorkFormset(
+            queryset=CompulsoryWork.objects.filter(person=person),
+            data = request.POST,
+            prefix="compulsory_work",
+            form_kwargs={"request": request}
+        )
+
+        infirmary_camp_formset = InfirmaryCampFormset(
+            queryset=CompulsoryWork.objects.filter(person=person),
+            data = request.POST,
+            prefix="infirmary_camp",
+            form_kwargs={"request": request}
+        )
+
+        burial_form = BurialForm(request.POST)
+        reburial_form = ReburialForm(request.POST) 
+
+        if person_form.is_valid() \
+            and calling_direction_formset.is_valid() \
+            and war_achievement_formset.is_valid() \
+            and hospitalization_formset.is_valid() \
+            and captivity_formset.is_valid() \
+            and being_camped_formset.is_valid() \
+            and compulsory_work_formset.is_valid() \
+            and infirmary_camp_formset.is_valid() \
+            and burial_form.is_valid() \
+            and reburial_form.is_valid():
+            person = person_form.save()
+            burial =  burial_form.save(commit=False)
+            reburial = reburial_form.save(commit=False)
+            burial.person = person
+            reburial.person = person
+            burial.save()
+            burial.save()
+
+            save_formset_with_person(calling_direction_formset, person)
+            save_formset_with_person(war_achievement_formset, person)
+            save_formset_with_person(hospitalization_formset, person)
+            save_formset_with_person(captivity_formset, person)
+            save_formset_with_person(being_camped_formset, person)
+            save_formset_with_person(compulsory_work_formset, person)
+            save_formset_with_person(infirmary_camp_formset, person)
+            return redirect("person_detail", pk = person.pk)
+
     else:
         # forms
         person_form = PersonModelForm(request, instance=person)
@@ -377,13 +431,16 @@ def persons_listing(request):
 
     return render(request, 'persons_list.html', {'persons': persons})
 
+class PersonDetail(DetailView):
+    model = Person
+    context_object_name = "person"
 
-def searching(requiest):
-    return render(requiest, 'search.html')
+def searching(request):
+    return render(request, 'search.html')
 
 
-def searching_param(requiest, type_search):
-    return render(requiest, 'search.html', {'type_search': type_search})
+def searching_param(request, type_search):
+    return render(request, 'search.html', {'type_search': type_search})
 
 
 @csrf_exempt

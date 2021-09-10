@@ -53,12 +53,12 @@ class CreationModificationDateBase(models.Model):
     """
 
     created = models.DateTimeField(
-        _("Creation Date and Time"),
+        "Creation Date and Time",
         auto_now_add=True,
     )
 
     modified = models.DateTimeField(
-        _("Modification Date and Time"),
+        "Modification Date and Time",
         auto_now=True,
     )
 

@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from .models import Person, \
     AddressItem,  \
@@ -197,71 +198,72 @@ def add_or_change_person(request, pk=None):
         InfirmaryCamp, form=InfirmaryCampForm, extra=0, can_delete=True)
 
     if request.method == 'POST':
-        person_form = PersonModelForm(request, data=request.POST, instance=person)
+        person_form = PersonModelForm(
+            request, data=request.POST, instance=person)
         calling_direction_formset = CallingDirectionFormset(
-            queryset = CallingDirection.objects.filter(person=person),
-            data = request.POST,
-            prefix= "calling_direction",
+            queryset=CallingDirection.objects.filter(person=person),
+            data=request.POST,
+            prefix="calling_direction",
             form_kwargs={"request": request},
         )
 
         war_achievement_formset = WarArchievementFormset(
-            queryset = WarArchievement.objects.filter(person=person),
-            data = request.POST,
-            prefix= "war_archievement",
+            queryset=WarArchievement.objects.filter(person=person),
+            data=request.POST,
+            prefix="war_archievement",
             form_kwargs={"request": request},
         )
 
         hospitalization_formset = HospitalizationFormset(
             queryset=Hospitalization.objects.filter(person=person),
-            data = request.POST,
+            data=request.POST,
             prefix="hospitalization",
             form_kwargs={"request": request}
         )
 
         captivity_formset = CaptivityFormset(
             queryset=Captivity.objects.filter(person=person),
-            data = request.POST,
+            data=request.POST,
             prefix="captivity",
             form_kwargs={"request": request}
         )
 
         being_camped_formset = BeingCampedFormset(
             queryset=BeingCamped.objects.filter(person=person),
-            data = request.POST,
+            data=request.POST,
             prefix="being_camped",
             form_kwargs={"request": request}
         )
 
         compulsory_work_formset = CompulsoryWorkFormset(
             queryset=CompulsoryWork.objects.filter(person=person),
-            data = request.POST,
+            data=request.POST,
             prefix="compulsory_work",
             form_kwargs={"request": request}
         )
 
         infirmary_camp_formset = InfirmaryCampFormset(
             queryset=CompulsoryWork.objects.filter(person=person),
-            data = request.POST,
+            data=request.POST,
             prefix="infirmary_camp",
             form_kwargs={"request": request}
         )
 
         burial_form = BurialForm(request.POST)
-        reburial_form = ReburialForm(request.POST) 
+        reburial_form = ReburialForm(request.POST)
 
         if person_form.is_valid() \
-            and calling_direction_formset.is_valid() \
-            and war_achievement_formset.is_valid() \
-            and hospitalization_formset.is_valid() \
-            and captivity_formset.is_valid() \
-            and being_camped_formset.is_valid() \
-            and compulsory_work_formset.is_valid() \
-            and infirmary_camp_formset.is_valid() \
-            and burial_form.is_valid() \
-            and reburial_form.is_valid():
+                and calling_direction_formset.is_valid() \
+                and war_achievement_formset.is_valid() \
+                and hospitalization_formset.is_valid() \
+                and captivity_formset.is_valid() \
+                and being_camped_formset.is_valid() \
+                and compulsory_work_formset.is_valid() \
+                and infirmary_camp_formset.is_valid() \
+                and burial_form.is_valid() \
+                and reburial_form.is_valid():
             person = person_form.save()
-            burial =  burial_form.save(commit=False)
+            burial = burial_form.save(commit=False)
             reburial = reburial_form.save(commit=False)
             burial.person = person
             reburial.person = person
@@ -275,7 +277,7 @@ def add_or_change_person(request, pk=None):
             save_formset_with_person(being_camped_formset, person)
             save_formset_with_person(compulsory_work_formset, person)
             save_formset_with_person(infirmary_camp_formset, person)
-            return redirect("person_detail", pk = person.pk)
+            return redirect("person_detail", pk=person.pk)
 
     else:
         # forms
@@ -283,7 +285,7 @@ def add_or_change_person(request, pk=None):
         burial = Burial.objects.filter(person=person).first()
         reburial = Reburial.objects.filter(person=person).first()
         burial_form = BurialForm(request, instance=burial)
-        reburial_form = ReburialForm(request, instance=reburial) 
+        reburial_form = ReburialForm(request, instance=reburial)
         #person_form = PersonModelForm(initial={"name": None, "surname": None})
         name_distortion_form = NameDistortionForm(
             request, instance=name_distortion, prefix='name_dist')
@@ -341,42 +343,23 @@ def add_or_change_person(request, pk=None):
             request, instance=address_war_enlistment, prefix='enlistment_office'
         )
 
-        locality_born_form = AddressItemForm(
-            request, instance=locality_born, prefix="locality_born")
-        district_born_form = AddressItemForm(
-            request, instance=district_born, prefix="district_born")
-        locality_live_form = AddressItemForm(
-            request, instance=locality_live, prefix="locality_live")
-        district_live_form = AddressItemForm(
-            request, instance=district_live, prefix="district_live")
-        locality_letter_form = AddressItemForm(
-            request, instance=last_msg_locality, prefix="locality_lst")
-        district_letter_form = AddressItemForm(
-            request, instance=last_msg_district, prefix="district_lst")
-
-        context = {
-            'person_form': person_form,
-            'district_born_form': district_born_form,
-            'locality_born_form': locality_born_form,
-            'district_live_form': district_live_form,
-            'locality_live_form': locality_live_form,
-            'name_distortion_form': name_distortion_form,
-            'surname_distortion_form': surname_distortion_form,
-            'patronimic_distortion_form': patronimic_distortion_form,
-            'address_war_enlistment_form': address_war_enlistment_form,
-            'military_enlistment_office_form': military_enlistment_office_form,
-            'district_letter_form': district_letter_form,
-            'locality_letter_form': locality_letter_form,
-            'calling_direction_formset': calling_direction_formset,
-            'war_achievement_formset': war_achievement_formset,
-            'hospitalization_formset': hospitalization_formset,
-            'captivity_formset': captivity_formset,
-            'being_camped_formset': being_camped_formset,
-            'compulsory_work_formset': compulsory_work_formset,
-            'infirmary_camp_formset': infirmary_camp_formset,
-            'burial_form': burial_form,
-            'reburial_form': reburial_form,
-        }
+    context = {
+        'person_form': person_form,
+        'name_distortion_form': name_distortion_form,
+        'surname_distortion_form': surname_distortion_form,
+        'patronimic_distortion_form': patronimic_distortion_form,
+        'address_war_enlistment_form': address_war_enlistment_form,
+        'military_enlistment_office_form': military_enlistment_office_form,
+        'calling_direction_formset': calling_direction_formset,
+        'war_achievement_formset': war_achievement_formset,
+        'hospitalization_formset': hospitalization_formset,
+        'captivity_formset': captivity_formset,
+        'being_camped_formset': being_camped_formset,
+        'compulsory_work_formset': compulsory_work_formset,
+        'infirmary_camp_formset': infirmary_camp_formset,
+        'burial_form': burial_form,
+        'reburial_form': reburial_form,
+    }
 
     return render(request, 'person_form.html', context)
 
@@ -431,9 +414,11 @@ def persons_listing(request):
 
     return render(request, 'persons_list.html', {'persons': persons})
 
+
 class PersonDetail(DetailView):
     model = Person
     context_object_name = "person"
+
 
 def searching(request):
     return render(request, 'search.html')

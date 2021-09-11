@@ -334,7 +334,7 @@ function init_action_btns() {
     let war_unit = $(".btn-unit").attr("action");
     let cemetery = $(".btn-cemetery").attr("action");
 
-    pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs, [cemetery]: cemetery_itemUrls};
+    pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs, [cemetery]: cemetery_itemUrls };
     change_depended_select($("#id_military_enlistment_office_address"), $("#id_military_enlistment_office"));
 }
 
@@ -365,8 +365,8 @@ function init_select_by_name($btn, class_name, urls) {
                 .empty()
                 .select2("destroy")
                 .off('select2:select');
-                console.log("destroy");
-            }
+            console.log("destroy");
+        }
     });
     select_autocomplete.select_autocomplete($selects, null, urls.get_data_url, urls.get_source_url);
 }
@@ -378,7 +378,7 @@ function init_datetime_picker($btn) {
         .datepicker();
 
 }
- 
+
 $(function () {
     //tree_modal_window = init_modal_wnd();
     var modal_window = $(document).find(".modal");
@@ -387,7 +387,7 @@ $(function () {
     init_btn_cemetery();
     init_action_btns();
     init_btn_address_item();
-    
+
     $('.add-inline-form').click(function (e) {
         e.preventDefault();
         var $formset = $(this).closest('.formset');
@@ -543,44 +543,44 @@ $(function () {
         init_select_by_name($(this), "calling-team", calling_teamUrls);
     });
 
-    $('.add-war-achievement').click( function (e) {
+    $('.add-war-achievement').click(function (e) {
         e.preventDefault();
         console.log("add-war-achievement");
         init_select_by_name($(this), "war-operation", war_operationUrls);
         init_datetime_picker($(this));
     });
 
-    $('.add-hospitalization').click( function (e) {
+    $('.add-hospitalization').click(function (e) {
         e.preventDefault();
         console.log("add-hospitalization");
         init_select_by_name($(this), "hospital", hospitalUrls);
         init_datetime_picker($(this));
     });
 
-    $('.add-captivity').click( function (e) {
+    $('.add-captivity').click(function (e) {
         e.preventDefault();
         console.log("add-captivity");
         init_datetime_picker($(this));
     });
 
     $('.add-being-camped').click(function (e) {
-            e.preventDefault();
-            console.log(".add-being-camped");
-            init_select_by_name($(this), "camp", campUrls);
-            init_datetime_picker($(this));
+        e.preventDefault();
+        console.log(".add-being-camped");
+        init_select_by_name($(this), "camp", campUrls);
+        init_datetime_picker($(this));
     });
 
     $('.add-compulsory-work').click(function (e) {
         e.preventDefault();
         console.log("add-compulsory-work");
         init_select_by_name($(this), "labour-team", labour_teamUrls);
-        init_datetime_picker($(this));  
+        init_datetime_picker($(this));
     });
 
     $('.add-infirmary-camp').click(function (e) {
         e.preventDefault();
         console.log("add-infirmary-camp");
         init_select_by_name($(this), "camp", campUrls);
-        init_datetime_picker($(this));  
+        init_datetime_picker($(this));
     });
 });

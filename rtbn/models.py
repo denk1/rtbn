@@ -10,7 +10,8 @@ from core.models import CreationModificationDateBase, UrlBase
 
 
 class CallingTeam(models.Model):
-    name = models.CharField("Название призывной команды", max_length=30, null=True)
+    name = models.CharField("Название призывной команды",
+                            max_length=30, null=True)
 
     def __str__(self):
         return self.name
@@ -46,16 +47,17 @@ class Hospital(models.Model):
         return self.name
 
 
-
 class Hospitalization(models.Model):
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     hospital_location = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, null=True)
-    period_from = models.DateField("C:",null=False)
+    period_from = models.DateField("C:", null=False)
     period_to = models.DateField("По:", null=False)
-    war_unit_consist = models.ForeignKey(WarUnit, on_delete=models.CASCADE, related_name='consist')
-    war_unit_direction = models.ForeignKey(WarUnit, on_delete=models.CASCADE, null=True, related_name='direction')
+    war_unit_consist = models.ForeignKey(
+        WarUnit, on_delete=models.CASCADE, related_name='consist')
+    war_unit_direction = models.ForeignKey(
+        WarUnit, on_delete=models.CASCADE, null=True, related_name='direction')
 
 
 class WarOperation(models.Model):
@@ -77,7 +79,7 @@ class Person(CreationModificationDateBase, UrlBase):
     name = models.CharField("Имя", max_length=30)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        verbose_name= "Пользователь",
+        verbose_name="Пользователь",
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
@@ -99,10 +101,8 @@ class Person(CreationModificationDateBase, UrlBase):
     is_gestapo = models.BooleanField("Гестапо")
     is_frei = models.BooleanField("Освобождён")
 
-
     def __str__(self):
         return self.name + ' ' + self.surname + ' ' + self.father_name
-
 
     def get_url_path(self):
         return reverse("person_details", kwargs={
@@ -112,12 +112,14 @@ class Person(CreationModificationDateBase, UrlBase):
 
 class Camp(models.Model):
     name = models.CharField("Название лагеря", max_length=60)
+
     def __str__(self):
         return self.name
 
 
 class LabourTeam(models.Model):
-    name = models.CharField("Название рабочий команды",max_length=60)
+    name = models.CharField("Название рабочий команды", max_length=60)
+
     def __str__(self):
         return self.name
 
@@ -141,7 +143,8 @@ class CompulsoryWork(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     period_from = models.DateField(null=True)
     period_to = models.DateField(null=True)
-    labour_team = models.ForeignKey(LabourTeam, on_delete=models.CASCADE, null=True)
+    labour_team = models.ForeignKey(
+        LabourTeam, on_delete=models.CASCADE, null=True)
 
 
 class InfirmaryCamp(models.Model):
@@ -174,7 +177,7 @@ class Reburial(models.Model):
 class NameDistortion(models.Model):
     id = models.AutoField(primary_key=True)
     persons = models.ManyToManyField(Person)
-    name = models.CharField("Искажение имени",max_length=60)
+    name = models.CharField("Искажение имени", max_length=60)
 
 
 class SurnameDistortion(models.Model):
@@ -186,4 +189,4 @@ class SurnameDistortion(models.Model):
 class PatronimicDistortion(models.Model):
     id = models.AutoField(primary_key=True)
     persons = models.ManyToManyField(Person)
-    name = models.CharField("Искажения в отчестве",max_length=60)
+    name = models.CharField("Искажения в отчестве", max_length=60)

@@ -102,8 +102,8 @@ class Person(CreationModificationDateBase, UrlBase):
     is_frei = models.BooleanField("Освобождён")
 
     def __str__(self):
-        return self.name + ' ' + self.surname + ' ' + self.father_name
-
+        return self.name + ' ' + self.surname + ' ' + self.patronimic
+        
     def get_url_path(self):
         return reverse("person_details", kwargs={
             "person_id": str(self.pk),

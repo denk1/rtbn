@@ -54,110 +54,6 @@ def index(request):
     persons = Person.objects.all()
     return render(request, 'index.html', {'persons_update': persons})
 
-
-@login_required
-def data_input(request):
-    person_form = PersonModelForm(initial={"name": None, "surname": None})
-    name_distortion_form = NameDistortionForm()
-    surname_distortion_form = SurnameDistortionForm()
-    patronimic_distortion_form = PatronimicDistortionForm()
-    # moblization
-    call_form = CallForm()
-    district_born_form = modelform_factory(
-        AddressItem, fields=('parent_address_unit',), widgets={
-            'parent_address_unit': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-        })
-    district_born_form.prefix = 'born_region'
-    locality_born_form = modelform_factory(
-        AddressItem, fields=('parent_address_unit',), widgets={
-            'parent_address_unit': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-        })
-    locality_born_form.prefix = 'born_district'
-
-    district_live_form = modelform_factory(
-        AddressItem, fields=('parent_address_unit',), widgets={
-            'parent_address_unit': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-        })
-    district_live_form.prefix = 'live_region'
-    locality_live_form = modelform_factory(
-        AddressItem, fields=('parent_address_unit',), widgets={
-            'parent_address_unit': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-        })
-    locality_live_form.prefix = 'live_district'
-
-    calling_team_form = modelform_factory(CallingDirection,
-                                          fields=('calling_team', 'war_unit',),
-                                          widgets={
-                                              'calling_team': forms.Select(attrs={
-                                                  'style': 'width:200px',
-                                                  'class': 'form-control form-element'}),
-                                              'war_unit': forms.Select(attrs={
-                                                  'style': 'width:200px',
-                                                  'class': 'form-control form-element'})
-
-                                          }
-                                          )
-    military_enlistment_office_form = modelform_factory(
-        MilitaryEnlistmentOffice, fields=('address',),
-        widgets={
-            'address': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-        }
-    )
-
-    address_war_enlistment_form = modelform_factory(
-        AddressItem, fields=('parent_address_unit',), widgets={
-            'parent_address_unit': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-        }
-    )
-    address_war_enlistment_form.prefix = 'enlistment_region'
-
-    district_letter_form = modelform_factory(
-        AddressItem, fields=('parent_address_unit',), widgets={
-            'parent_address_unit': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-        })
-    district_letter_form.prefix = 'letter_region'
-    locality_letter_form = modelform_factory(
-        AddressItem, fields=('parent_address_unit',), widgets={
-            'parent_address_unit': forms.Select(attrs={
-                'style': 'width:200px',
-                'class': 'form-control form-element'})
-        })
-    locality_letter_form.prefix = 'letter_district'
-
-    context = {
-        'person_form': person_form,
-        'district_born_form': district_born_form,
-        'locality_born_form': locality_born_form,
-        'district_live_form': district_live_form,
-        'locality_live_form': locality_live_form,
-        'name_distortion_form': name_distortion_form,
-        'surname_distortion_form': surname_distortion_form,
-        'patronimic_distortion_form': patronimic_distortion_form,
-        'call_form': call_form,
-        'address_war_enlistment_form': address_war_enlistment_form,
-        'military_enlistment_office_form': military_enlistment_office_form,
-        'district_letter_form': district_letter_form,
-        'locality_letter_form': locality_letter_form,
-        'calling_team_form': calling_team_form
-    }
-
-    return render(request, 'person_form.html', context)
-
-
 @login_required
 def add_or_change_person(request, pk=None):
     person = None
@@ -262,7 +158,9 @@ def add_or_change_person(request, pk=None):
                 and infirmary_camp_formset.is_valid() \
                 and burial_form.is_valid() \
                 and reburial_form.is_valid():
-            person = person_form.save()
+            person = person_form.save(commit=False)
+            person.author = request.user
+            person.save()
             burial = burial_form.save(commit=False)
             reburial = reburial_form.save(commit=False)
             burial.person = person

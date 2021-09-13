@@ -51,7 +51,7 @@ from common.functions import get_data_by_name, add_data_with_name, save_formset_
 
 
 def index(request):
-    persons = Person.objects.all()[:5]
+    persons = Person.objects.all()
     return render(request, 'index.html', {'persons_update': persons})
 
 
@@ -249,8 +249,8 @@ def add_or_change_person(request, pk=None):
             form_kwargs={"request": request}
         )
 
-        burial_form = BurialForm(request.POST)
-        reburial_form = ReburialForm(request.POST)
+        burial_form = BurialForm(request, data=request.POST)
+        reburial_form = ReburialForm(request, data=request.POST)
 
         if person_form.is_valid() \
                 and calling_direction_formset.is_valid() \
@@ -269,7 +269,6 @@ def add_or_change_person(request, pk=None):
             reburial.person = person
             burial.save()
             burial.save()
-
             save_formset_with_person(calling_direction_formset, person)
             save_formset_with_person(war_achievement_formset, person)
             save_formset_with_person(hospitalization_formset, person)
@@ -286,7 +285,7 @@ def add_or_change_person(request, pk=None):
         reburial = Reburial.objects.filter(person=person).first()
         burial_form = BurialForm(request, instance=burial)
         reburial_form = ReburialForm(request, instance=reburial)
-        #person_form = PersonModelForm(initial={"name": None, "surname": None})
+        # person_form = PersonModelForm(initial={"name": None, "surname": None})
         name_distortion_form = NameDistortionForm(
             request, instance=name_distortion, prefix='name_dist')
         surname_distortion_form = SurnameDistortionForm(

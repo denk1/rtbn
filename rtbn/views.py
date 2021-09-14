@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .models import Person, \
     AddressItem,  \
     CallingTeam, \
@@ -174,7 +175,7 @@ def add_or_change_person(request, pk=None):
             save_formset_with_person(being_camped_formset, person)
             save_formset_with_person(compulsory_work_formset, person)
             save_formset_with_person(infirmary_camp_formset, person)
-            return redirect("person_detail", pk=person.pk)
+            return redirect("person_details", pk=person.pk)
 
     else:
         # forms
@@ -315,6 +316,15 @@ def persons_listing(request):
 class PersonDetail(DetailView):
     model = Person
     context_object_name = "person"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        person = get_object_or_404(Person, pk=self.kwargs.get('pk'))
+        context['calling_directions'] = CallingDirection.objects.filter(person=person)
+        context['war_archievement'] = WarArchievement.objects.filter(person=person)
+        context['hospitalization'] = Hospitalization.objects.filter(person=person)
+        return context
 
 
 def searching(request):

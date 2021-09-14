@@ -3,11 +3,16 @@
 <div>
 {% for person in persons %}
 <p>
+
+<a href="{{ person.get_url_path }}" class="d-block my-3">
 {{person.surname}}
 
 {{ person.name }}
 
-{{ person.father_name}}
+{{ person.patronimic}}
+
+{{ person.birthday|date:"d.m.Y" }} г.р.
+</a>
 </p>
 {% endfor %}
 </div>
@@ -18,9 +23,9 @@
             <a href="?page={{ persons.previous_page_number }}">предыдущий</a>
         {% endif %}
 
-        <span class="current">
+        <p class="current">
             Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
-        </span>
+        </p>
 
         {% if persons.has_next %}
             <a href="?page={{ persons.next_page_number }}">следующий</a>

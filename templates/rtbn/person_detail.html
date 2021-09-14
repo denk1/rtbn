@@ -1,12 +1,42 @@
 
-{{ person.name }}
-{{ person.surname }}
-{{ person.patronimic }}
-{{ person.bithday }}
-{{ person.mobilization }}
-{{ person.is_defector }}
-{{ person.is_gestapo }}
-{{ person.is_frei }}
-<h1>text</h1>
+{% extends 'base.html' %}
+{% block content %}
+<a href='{% url "data_list" %}'>список</a>
+<div class="info"> 
+<b class="name-info">
+    {{ person.name }}
+    {{ person.surname }}
+    {{ person.patronimic }}
+</b>
+<p>Дата рождения</p>
+<b>{{ person.birthday|date:"d.m.Y" }}</b>
+<p >Мобилизация</p>
+<b>{{ person.mobilization|date:'d.m.Y' }}<b>
+<p>Направлен</p>
+{% for direction in calling_directions %}
+<p>Призывная команда</p>
+<b>{{ direction.calling_team }}</b>
+<p>Подразделение</p>
+<b>{{ direction.war_unit }}</b>
+{% endfor %}
+<p>Участие в сражениях</p>
+{% for archievement in war_archievement %}
+<p>Название сражения</p>
+<b>{{ archievement.war_operation }}</b>
+<p>В составе</p>
+<b>{{ archievement.war_unit}}</b>
+<p><b>В период: {{ archievement.period_from|date:"d.m.Y" }} - {{ archievement.period_to|date:"d.m.Y" }}</b></p>
+{% endfor %}
 
-<h1>it's the one more testfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</h1>
+<h3>особые отметки</h3>
+{% if person.is_defector %}
+<p><b>перебесчик</b></p>
+{% endif %}
+{% if person.is_gestapo %}
+<p><b>гестапо</b></p>
+{% endif %}
+{% if person.is_frei %}
+<p><b>освобождён</b></p>
+{% endif %}
+<div>
+{% endblock %}

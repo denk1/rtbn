@@ -8,22 +8,28 @@
 </div>
 {% endblock %}
 
+<div class="container-fluid">
 {% block content %}
-<div>
 
-</div>
+
+
 {% endblock %}
+</div>
 
 {% block list_update_persons %}
 
-<!-- <div id="test"> -->
+<h3>Обновления</h3>
 {% for person in persons_update %}
 <p>
+    <a href="{{ person.get_url_path }}" class="d-block my-3">
     {{person.surname}}
 
     {{person.name}}
 
     {{person.patronimic}}
+
+    {{ person.birthday|date:"d.m.Y" }} г.р.
+    </a>
 </p>
 {% endfor %}
 

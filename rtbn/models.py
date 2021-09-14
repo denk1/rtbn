@@ -106,7 +106,7 @@ class Person(CreationModificationDateBase, UrlBase):
         
     def get_url_path(self):
         return reverse("person_details", kwargs={
-            "person_id": str(self.pk),
+            "pk": str(self.pk),
         })
 
 

@@ -23,7 +23,7 @@ urlpatterns = [
     path('add/', views.add_or_change_person, name='add_person'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('list/', views.persons_listing, name='data_list'),
-    path('<int:pk>/', views.PersonDetail.as_view(), name='person_detail'),
+    path('<int:pk>/', views.PersonDetail.as_view(), name='person_details'),
     path('search/', views.searching, name='search'),
     path('search/<int:type_search>/', views.searching_param, name='search'),
     path("region/", views.region, name="region"),

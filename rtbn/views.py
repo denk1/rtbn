@@ -323,7 +323,9 @@ class PersonDetail(DetailView):
         person = get_object_or_404(Person, pk=self.kwargs.get('pk'))
         context['calling_directions'] = CallingDirection.objects.filter(person=person)
         context['war_archievement'] = WarArchievement.objects.filter(person=person)
-        context['hospitalization'] = Hospitalization.objects.filter(person=person)
+        context['hospitalizations'] = Hospitalization.objects.filter(person=person)
+        context['burial'] = Burial.objects.filter(person=person).first()
+        context['reburial'] = Reburial.objects.filter(person=person).first()
         return context
 
 

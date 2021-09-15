@@ -21,7 +21,7 @@ def get_items(request, query_set, data_dict):
     if request.is_ajax():
         term = request.POST.get('term')
         parent_id = request.POST.get('parent_id')
-        print('term is %s' % term)
+        print('term is %s' % term.encode('utf-8'))
         print('parent_id is %s' % parent_id)
         if term is not None:
             keys_list = list(data_dict.keys())
@@ -53,7 +53,7 @@ def add_item(request, query_set, data_dict):
 def get_data_by_name(request, table_name):
     if request.is_ajax():
         term = request.POST.get('term')
-        print('the term is  %s' % term)
+        print('the term is  %s' % term.encode('utf-8'))
         if term is not None:
             result = table_name.objects.all().filter(
                 name__icontains=term

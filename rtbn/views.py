@@ -340,7 +340,7 @@ def region(request):
     if request.is_ajax():
         term = request.POST.get('term')
         parent_id = request.POST.get('parent_id')
-        print('term is %s' % term)
+        print('term is %s' % term.encode('utf-8'))
         print('parent_id is %s' % parent_id)
         if term is not None:
             regions = AddressItem.objects.all().filter(

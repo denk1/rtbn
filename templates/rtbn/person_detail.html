@@ -1,104 +1,113 @@
-
 {% extends 'base.html' %}
 {% block content %}
-<a href='{% url "data_list" %}'><h3><b>список</b></h3></a>
-<div class="info"> 
-<b class="name-info">
-    {{ person.name }}
-    {{ person.surname }}
-    {{ person.patronimic }}
-</b>
-<p>Дата рождения</p>
-<b>{{ person.birthday|date:"d.m.Y" }}</b>
-<h4>Мобилизация</h4>
-<b>{{ person.mobilization|date:'d.m.Y' }}<b>
-<p>Направлен</p>
-{% for direction in calling_directions %}
-<p>Призывная команда</p>
-<b>{{ direction.calling_team }}</b>
-<p>Подразделение</p>
-<b>{{ direction.war_unit }}</b>
-{% endfor %}
-<h4>Участие в сражениях</h4>
-{% for archievement in war_archievement %}
-<p>Название сражения</p>
-<b>{{ archievement.war_operation }}</b>
-<p>В составе</p>
-<b>{{ archievement.war_unit}}</b>
-<p><b>В период: {{ archievement.period_from|date:"d.m.Y" }} - {{ archievement.period_to|date:"d.m.Y" }}</b></p>
-{% endfor %}
+<a href='{% url "data_list" %}'>
+    <h3><b>список</b></h3>
+</a>
+<div class="info">
+    <b class="name-info">
+        {{ person.name }}
+        {{ person.surname }}
+        {{ person.patronimic }}
+    </b>
+    <p>Дата рождения</p>
+    <b>{{ person.birthday|date:"d.m.Y" }}</b>
+    <p>Место рождения</p>>
+    <b>{{ person.born_locality.get_full_str}}</b>
+    <p>Место жительства</p>
+    <b>{{ person.live_locality.get_full_str}}</b>
+    <h4>Мобилизация</h4>
+    <b>{{ person.mobilization|date:'d.m.Y' }}<b>
+            <p>Направлен</p>
+            {% for direction in calling_directions %}
+            <p>Призывная команда</p>
+            <b>{{ direction.calling_team }}</b>
+            <p>Подразделение</p>
+            <b>{{ direction.war_unit.get_full_str }}</b>
+            {% endfor %}
+            <p>Последние сообщение из</p>>
+            <b>{{ person.last_msg_locality.get_full_str}}</b>
+            <h4>Участие в сражениях</h4>
+            {% for archievement in war_archievement %}
+            <p>Название сражения</p>
+            <b>{{ archievement.war_operation }}</b>
+            <p>В составе</p>
+            <b>{{ archievement.war_unit.get_full_str}}</b>
+            <p><b>В период: {{ archievement.period_from|date:"d.m.Y" }} - {{ archievement.period_to|date:"d.m.Y" }}</b>
+            </p>
+            {% endfor %}
 
-{% if hospitalizations %}
-    <h4>Госпитализация</h4>
-    {% for hospitalization in hospitalizations  %}
-        <p>Название госпиталя</p>
-        {{ hospitalization.hospital }}
-        <p>Месторасположение госпиталя</p>
-        {{ hospitalization.hospital_location }}
-        <p><b>В период: {{ hospitalization.period_from|date:"d.m.Y" }} - {{ hospitalization.period_to|date:"d.m.Y" }}</b></p>
-        {% if hospitalization.war_unit_consist %}
+            {% if hospitalizations %}
+            <h4>Госпитализация</h4>
+            {% for hospitalization in hospitalizations %}
+            <p>Название госпиталя</p>
+            {{ hospitalization.hospital }}
+            <p>Месторасположение госпиталя</p>
+            {{ hospitalization.hospital_location }}
+            <p><b>В период: {{ hospitalization.period_from|date:"d.m.Y" }} - {{ hospitalization.period_to|date:"d.m.Y"
+                    }}</b></p>
+            {% if hospitalization.war_unit_consist %}
             <p>В составе:</p>
-            {{ hospitalization.war_unit_consist }}
-        {% endif %}
-        {% if hospitalization.war_unit_direction %}
+            {{ hospitalization.war_unit_consist.get_full_str }}
+            {% endif %}
+            {% if hospitalization.war_unit_direction.get_full_str %}
             <p>По окончанию лечения направлен:</p>
             {{ hospitalization.war_unit_direction }}
-        {% endif %}       
-    {% endfor %}
-{% endif %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
 
-{% if burial %}
-    <h4>Информация о захоронении</h4>
-    {% if burial.date_of_burial %}
-        <p>Дата захоронения</p>
-        {{ burial.date_of_burial|date:"d.m.Y" }}
-    {% endif %}
-    {% if burial.address_doc %}
-        <p>Адрес, согласно документам:</p>
-        {{ burial.address_doc }}
-    {% endif %}
-    {% if burial.address_act %}
-        <p>Фактический адрес</p>
-        {{ burial.address_act }}
-    {% endif %}
-    {% if burial.cemetery_item %}
-        <p>Информация о кладбище</p>
-        {{ burial.cemetery_item.get_full_str }}
-    {% endif %}
+            {% if burial %}
+            <h4>Информация о захоронении</h4>
+            {% if burial.date_of_burial %}
+            <p>Дата захоронения</p>
+            {{ burial.date_of_burial|date:"d.m.Y" }}
+            {% endif %}
+            {% if burial.address_doc %}
+            <p>Адрес, согласно документам:</p>
+            {{ burial.address_doc.get_full_str }}
+            {% endif %}
+            {% if burial.address_act %}
+            <p>Фактический адрес</p>
+            {{ burial.address_act.get_full_str }}
+            {% endif %}
+            {% if burial.cemetery_item %}
+            <p>Информация о кладбище</p>
+            {{ burial.cemetery_item.get_full_str }}
+            {% endif %}
 
-{% endif%}
+            {% endif%}
 
-{% if reburial %}
-    <h4>Информация о перезахоронении</h4>
-    {% if reburial.date_of_burial %}
-        <p>Дата перезахоронения</p>
-        {{ reburial.date_of_reburial|date:"d.m.Y" }}
-    {% endif %}
-    {% if reburial.reburial_cause %}
-        <p>Причина перезахоронения</p>
-        {{ reburial.reburial_cause }}
-    {% endif %}
-    {% if reburial.address %}
-        <p>Нахождение по адресу</p>
-        {{ reburial.address }}
-    {% endif %}
-    {% if reburial.cemetery_item %}
-        <p>Информация о кладбище</p>
-        {{ reburial.cemetery_item.get_full_str }}
-    {% endif %}
-    
-{% endif%}
+            {% if reburial %}
+            <h4>Информация о перезахоронении</h4>
+            {% if reburial.date_of_burial %}
+            <p>Дата перезахоронения</p>
+            {{ reburial.date_of_reburial|date:"d.m.Y" }}
+            {% endif %}
+            {% if reburial.reburial_cause %}
+            <p>Причина перезахоронения</p>
+            {{ reburial.reburial_cause }}
+            {% endif %}
+            {% if reburial.address %}
+            <p>Нахождение по адресу</p>
+            {{ reburial.address.get_full_str }}
+            {% endif %}
+            {% if reburial.cemetery_item %}
+            <p>Информация о кладбище</p>
+            {{ reburial.cemetery_item.get_full_str }}
+            {% endif %}
+
+            {% endif%}
 
 
-<h4>особые отметки</h4>
-{% if person.is_defector %}
-<p><b>перебежчик</b></p>
-{% endif %}
-{% if person.is_gestapo %}
-<p><b>гестапо</b></p>
-{% endif %}
-{% if person.is_frei %}
-<p><b>освобождён</b></p>
-{% endif %}
-<div>
-{% endblock %}
+            <h4>особые отметки</h4>
+            {% if person.is_defector %}
+            <p><b>перебежчик</b></p>
+            {% endif %}
+            {% if person.is_gestapo %}
+            <p><b>гестапо</b></p>
+            {% endif %}
+            {% if person.is_frei %}
+            <p><b>освобождён</b></p>
+            {% endif %}
+            <div>
+                {% endblock %}

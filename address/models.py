@@ -1,9 +1,10 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from core.models import TreeItemAbstruct
 # Create your models here.
 
 
-class AddressItem(MPTTModel):
+class AddressItem(MPTTModel, TreeItemAbstruct):
     """
     address  
     """
@@ -17,6 +18,15 @@ class AddressItem(MPTTModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def get_parent(self):
+        return self.parent_address_unit
+
+    @property
+    def get_full_str(self):
+        dict_filter = {'parent_address_unit': None}
+        return self.get_tree(self, type(self), dict_filter) + ' ' + self.name
 
     class MPTTMeta:
         order_insertion_by = ['name']

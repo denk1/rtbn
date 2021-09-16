@@ -1,8 +1,9 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from core.models import TreeItemAbstruct
 
 
-class WarUnit(MPTTModel):
+class WarUnit(MPTTModel, TreeItemAbstruct):
     """
     war units
     """
@@ -19,6 +20,11 @@ class WarUnit(MPTTModel):
     @property
     def get_parent(self):
         return self.above_war_unit
+
+    @property
+    def get_full_str(self):
+        dict_filter = {'above_war_unit': None}
+        return self.get_tree(self, type(self), dict_filter) + ' ' + self.name
 
     class MPTTMeta:
         order_insertion_by = ['name']

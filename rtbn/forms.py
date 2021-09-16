@@ -475,7 +475,6 @@ class BurialForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
-        id_field = layout.Field("id")
         date_of_burial_field = layout.Field(
             "date_of_burial", css_class="input-block-level date"
         )
@@ -496,7 +495,6 @@ class BurialForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
-            id_field,
             date_of_burial_field,
             address_doc_field,
             address_act_field,
@@ -514,7 +512,6 @@ class ReburialForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
-        id_field = layout.Field("id")
         date_of_reburial_field = layout.Field(
             "date_of_reburial", css_class="input-block-level date")
 
@@ -534,7 +531,6 @@ class ReburialForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
-            id_field,
             date_of_reburial_field,
             reburial_cause_field,
             address_field,

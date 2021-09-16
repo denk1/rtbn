@@ -18,9 +18,9 @@ class CallingTeam(models.Model):
 
 
 class CallingDirection(models.Model):
-    calling_team = models.ForeignKey(CallingTeam, on_delete=models.CASCADE, blank=True)
+    calling_team = models.ForeignKey(CallingTeam, on_delete=models.CASCADE, blank=True, null=True)
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    war_unit = models.ForeignKey(WarUnit, on_delete=models.CASCADE, blank=True)
+    war_unit = models.ForeignKey(WarUnit, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         constraints = [
@@ -49,15 +49,15 @@ class Hospital(models.Model):
 
 class Hospitalization(models.Model):
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
-    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, blank=True)
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, blank=True, null=True)
     hospital_location = models.ForeignKey(
-        AddressItem, on_delete=models.CASCADE, blank=True)
+        AddressItem, on_delete=models.CASCADE, blank=True, null=True)
     period_from = models.DateField("C:", null=True)
     period_to = models.DateField("По:", null=True)
     war_unit_consist = models.ForeignKey(
-        WarUnit, on_delete=models.CASCADE, related_name='consist', blank=True)
+        WarUnit, on_delete=models.CASCADE, related_name='consist', blank=True, null=True)
     war_unit_direction = models.ForeignKey(
-        WarUnit, on_delete=models.CASCADE, related_name='direction', blank=True)
+        WarUnit, on_delete=models.CASCADE, related_name='direction', blank=True, null=True)
 
 
 class WarOperation(models.Model):
@@ -89,14 +89,14 @@ class Person(CreationModificationDateBase, UrlBase):
     patronimic = models.CharField("Отчество", max_length=30, null=True)
     birthday = models.DateField("Дата рождения", null=True)
     born_locality = models.ForeignKey(
-        AddressItem, related_name='born', on_delete=models.CASCADE, blank=True)
+        AddressItem, related_name='born', on_delete=models.CASCADE, blank=True, null=True)
     live_locality = models.ForeignKey(
-        AddressItem, related_name='live', on_delete=models.CASCADE, blank=True)
+        AddressItem, related_name='live', on_delete=models.CASCADE, blank=True, null=True)
     military_enlistment_office = models.ForeignKey(
-        MilitaryEnlistmentOffice, on_delete=models.CASCADE)
+        MilitaryEnlistmentOffice, on_delete=models.CASCADE, blank=True, null=True)
     mobilization = models.DateField("Дата мобилизации", null=True)
     last_msg_locality = models.ForeignKey(
-        AddressItem, on_delete=models.CASCADE, blank=True)
+        AddressItem, on_delete=models.CASCADE, blank=True, null=True)
     is_defector = models.BooleanField("Перебесчик")
     is_gestapo = models.BooleanField("Гестапо")
     is_frei = models.BooleanField("Освобождён")
@@ -128,14 +128,14 @@ class Captivity(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     date_of_captivity = models.DateField("Дата попадания в плен", null=True)
     place_of_captivity = models.ForeignKey(
-        AddressItem, blank=True, on_delete=models.CASCADE)
+        AddressItem, blank=True, null=True, on_delete=models.CASCADE)
 
 
 class BeingCamped(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     period_from = models.DateField(null=True)
     period_to = models.DateField(null=True)
-    camp = models.ForeignKey(Camp, on_delete=models.CASCADE, blank=True)
+    camp = models.ForeignKey(Camp, on_delete=models.CASCADE, blank=True, null=True)
     number = models.CharField("Номер военнопленного", max_length=60, null=True)
 
 
@@ -144,34 +144,34 @@ class CompulsoryWork(models.Model):
     period_from = models.DateField(null=True)
     period_to = models.DateField(null=True)
     labour_team = models.ForeignKey(
-        LabourTeam, on_delete=models.CASCADE, blank=True)
+        LabourTeam, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class InfirmaryCamp(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     period_from = models.DateField(null=True)
     period_to = models.DateField(null=True)
-    camp = models.ForeignKey(Camp, on_delete=models.CASCADE, blank=True)
+    camp = models.ForeignKey(Camp, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Burial(models.Model):
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
     date_of_burial = models.DateField(null=True)
     address_doc = models.ForeignKey(
-        AddressItem, on_delete=models.CASCADE, related_name='address_item_doc_id', blank=True)
+        AddressItem, on_delete=models.CASCADE, related_name='address_item_doc_id', blank=True, null=True)
     address_act = models.ForeignKey(
-        AddressItem, on_delete=models.CASCADE, related_name='address_item_act_id', blank=True)
+        AddressItem, on_delete=models.CASCADE, related_name='address_item_act_id', blank=True, null=True)
     cemetery_item = models.ForeignKey(
-        CemeteryItem, on_delete=models.CASCADE, blank=True)
+        CemeteryItem, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Reburial(models.Model):
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
     date_of_reburial = models.DateField(null=True)
     reburial_cause = models.CharField(max_length=80, null=True)
-    address = models.ForeignKey(AddressItem, on_delete=models.CASCADE, blank=True)
+    address = models.ForeignKey(AddressItem, on_delete=models.CASCADE, blank=True, null=True)
     cemetery_item = models.ForeignKey(
-        CemeteryItem, on_delete=models.CASCADE, blank=True)
+        CemeteryItem, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class NameDistortion(models.Model):

@@ -94,7 +94,7 @@ class Person(CreationModificationDateBase, UrlBase):
         AddressItem, related_name='live', on_delete=models.CASCADE, null=True)
     military_enlistment_office = models.ForeignKey(
         MilitaryEnlistmentOffice, on_delete=models.CASCADE)
-    mobilization = models.DateField("Дата мобилизации")
+    mobilization = models.DateField("Дата мобилизации", null=True)
     last_msg_locality = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, null=True)
     is_defector = models.BooleanField("Перебесчик")
@@ -158,35 +158,35 @@ class Burial(models.Model):
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
     date_of_burial = models.DateField(null=True)
     address_doc = models.ForeignKey(
-        AddressItem, on_delete=models.CASCADE, related_name='address_item_doc_id')
+        AddressItem, on_delete=models.CASCADE, related_name='address_item_doc_id', null=True)
     address_act = models.ForeignKey(
-        AddressItem, on_delete=models.CASCADE, related_name='address_item_act_id')
+        AddressItem, on_delete=models.CASCADE, related_name='address_item_act_id', null=True)
     cemetery_item = models.ForeignKey(
-        CemeteryItem, on_delete=models.CASCADE)
+        CemeteryItem, on_delete=models.CASCADE, null=True)
 
 
 class Reburial(models.Model):
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
     date_of_reburial = models.DateField(null=True)
     reburial_cause = models.CharField(max_length=80, null=True)
-    address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)
+    address = models.ForeignKey(AddressItem, on_delete=models.CASCADE, null=True)
     cemetery_item = models.ForeignKey(
-        CemeteryItem, on_delete=models.CASCADE)
+        CemeteryItem, on_delete=models.CASCADE, null=True)
 
 
 class NameDistortion(models.Model):
     id = models.AutoField(primary_key=True)
     persons = models.ManyToManyField(Person)
-    name = models.CharField("Искажение имени", max_length=60)
+    name = models.CharField("Возможное прочтение имени", max_length=60)
 
 
 class SurnameDistortion(models.Model):
     id = models.AutoField(primary_key=True)
     persons = models.ManyToManyField(Person)
-    name = models.CharField("Икажение фамилии", max_length=60)
+    name = models.CharField("Возможное прочтение фамилии", max_length=60)
 
 
 class PatronimicDistortion(models.Model):
     id = models.AutoField(primary_key=True)
     persons = models.ManyToManyField(Person)
-    name = models.CharField("Искажения в отчестве", max_length=60)
+    name = models.CharField("Возможное прочтение отчества", max_length=60)

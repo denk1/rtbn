@@ -84,3 +84,9 @@ def save_formset_with_person(formset, person):
     delete_objects_from_formset(formset)
     formset.save_m2m()
 
+
+def from_queryset_to_str(queryset):
+    str_result = ''
+    for item in queryset:
+        str_result += ' ' + item.name
+

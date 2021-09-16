@@ -1,6 +1,7 @@
 from urllib.parse import urlparse, urlunparse
 from django.conf import settings
 from django.db import models
+from common import get_tree_items, from_queryset_to_str
 
 class UrlBase(models.Model):
     """
@@ -76,3 +77,9 @@ class CreationModificationDateBase(models.Model):
 
     def test(self):
         print("test() from CreationModificationDateBase called")
+
+
+class TreeItemAbstruct():
+    def get_tree(self, item, query_set, dict_filter):
+        queryset_result = get_tree_items(item, query_set, dict_filter)
+        from_queryset_to_str(queryset_result)

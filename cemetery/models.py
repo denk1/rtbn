@@ -1,8 +1,9 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from core.models import TreeItemAbstruct
 
 
-class CemeteryItem(MPTTModel):
+class CemeteryItem(MPTTModel, TreeItemAbstruct):
     id = models.AutoField(primary_key=True)
     above_cemetery_item = TreeForeignKey(
         'self', on_delete=models.CASCADE,
@@ -16,6 +17,11 @@ class CemeteryItem(MPTTModel):
     @property
     def get_parent(self):
         return self.above_cemetery_item
+
+    @property
+    def get_full_str(self):
+        dict_filter = {'above_cemetery_item': None}
+        return self.get_tree(self, type(self), dict_filter)
 
     class MPTTMeta:
         order_insertion_by = ['name']

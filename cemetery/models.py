@@ -21,7 +21,7 @@ class CemeteryItem(MPTTModel, TreeItemAbstruct):
     @property
     def get_full_str(self):
         dict_filter = {'above_cemetery_item': None}
-        return self.get_tree(self, type(self), dict_filter)
+        return self.get_tree(self, type(self), dict_filter) + ' ' + self.name
 
     class MPTTMeta:
         order_insertion_by = ['name']

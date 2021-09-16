@@ -63,7 +63,7 @@
     {% endif %}
     {% if burial.cemetery_item %}
         <p>Информация о кладбище</p>
-        {{ burial.cemetery_item }}
+        {{ burial.cemetery_item.get_full_str }}
     {% endif %}
 
 {% endif%}
@@ -84,7 +84,7 @@
     {% endif %}
     {% if reburial.cemetery_item %}
         <p>Информация о кладбище</p>
-        {{ reburial.cemetery_item }}
+        {{ reburial.cemetery_item.get_full_str }}
     {% endif %}
     
 {% endif%}
@@ -92,7 +92,7 @@
 
 <h4>особые отметки</h4>
 {% if person.is_defector %}
-<p><b>перебесчик</b></p>
+<p><b>перебежчик</b></p>
 {% endif %}
 {% if person.is_gestapo %}
 <p><b>гестапо</b></p>

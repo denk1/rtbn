@@ -82,4 +82,4 @@ class CreationModificationDateBase(models.Model):
 class TreeItemAbstruct():
     def get_tree(self, item, query_set, dict_filter):
         queryset_result = get_tree_items(item, query_set, dict_filter)
-        from_queryset_to_str(queryset_result)
+        return from_queryset_to_str(queryset_result)

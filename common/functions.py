@@ -88,5 +88,6 @@ def save_formset_with_person(formset, person):
 def from_queryset_to_str(queryset):
     str_result = ''
     for item in queryset:
-        str_result += ' ' + item.name
+        str_result += ' ' + item.get_parent.name
+    return str_result
 

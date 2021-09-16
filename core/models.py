@@ -1,7 +1,7 @@
 from urllib.parse import urlparse, urlunparse
 from django.conf import settings
 from django.db import models
-from common import get_tree_items, from_queryset_to_str
+from common.functions import get_tree_items, from_queryset_to_str
 
 class UrlBase(models.Model):
     """

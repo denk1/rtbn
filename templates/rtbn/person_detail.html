@@ -5,13 +5,13 @@
 </a>
 <div class="info">
     <b class="name-info">
-        {{ person.name }}
         {{ person.surname }}
+        {{ person.name }}
         {{ person.patronimic }}
     </b>
     <p>Дата рождения</p>
     <b>{{ person.birthday|date:"d.m.Y" }}</b>
-    <p>Место рождения</p>>
+    <p>Место рождения</p>
     <b>{{ person.born_locality.get_full_str}}</b>
     <p>Место жительства</p>
     <b>{{ person.live_locality.get_full_str}}</b>
@@ -24,7 +24,7 @@
             <p>Подразделение</p>
             <b>{{ direction.war_unit.get_full_str }}</b>
             {% endfor %}
-            <p>Последние сообщение из</p>>
+            <p>Последние сообщение из</p>
             <b>{{ person.last_msg_locality.get_full_str}}</b>
             <h4>Участие в сражениях</h4>
             {% for archievement in war_archievement %}
@@ -43,8 +43,7 @@
             {{ hospitalization.hospital }}
             <p>Месторасположение госпиталя</p>
             {{ hospitalization.hospital_location }}
-            <p><b>В период: {{ hospitalization.period_from|date:"d.m.Y" }} - {{ hospitalization.period_to|date:"d.m.Y"
-                    }}</b></p>
+            <p><b>В период: {{ hospitalization.period_from|date:"d.m.Y" }} - {{ hospitalization.period_to|date:"d.m.Y" }}</b></p>
             {% if hospitalization.war_unit_consist %}
             <p>В составе:</p>
             {{ hospitalization.war_unit_consist.get_full_str }}

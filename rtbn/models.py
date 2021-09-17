@@ -86,7 +86,7 @@ class Person(CreationModificationDateBase, UrlBase):
         related_name="written_by_user",
     )
     surname = models.CharField("Фамилия", max_length=30)
-    patronimic = models.CharField("Отчество", max_length=30, null=True)
+    patronimic = models.CharField("Отчество", max_length=30, null=True, blank=True)
     birthday = models.DateField("Дата рождения", null=True)
     born_locality = models.ForeignKey(
         AddressItem, related_name='born', on_delete=models.CASCADE, blank=True, null=True)
@@ -94,7 +94,7 @@ class Person(CreationModificationDateBase, UrlBase):
         AddressItem, related_name='live', on_delete=models.CASCADE, blank=True, null=True)
     military_enlistment_office = models.ForeignKey(
         MilitaryEnlistmentOffice, on_delete=models.CASCADE, blank=True, null=True)
-    mobilization = models.DateField("Дата мобилизации", null=True)
+    mobilization = models.DateField("Дата мобилизации", null=True, blank=True)
     last_msg_locality = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, blank=True, null=True)
     is_defector = models.BooleanField("Перебесчик")
@@ -126,37 +126,37 @@ class LabourTeam(models.Model):
 
 class Captivity(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    date_of_captivity = models.DateField("Дата попадания в плен", null=True)
+    date_of_captivity = models.DateField("Дата попадания в плен", null=True, blank=True)
     place_of_captivity = models.ForeignKey(
         AddressItem, blank=True, null=True, on_delete=models.CASCADE)
 
 
 class BeingCamped(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    period_from = models.DateField(null=True)
-    period_to = models.DateField(null=True)
+    period_from = models.DateField(null=True, blank=True)
+    period_to = models.DateField(null=True, blank=True)
     camp = models.ForeignKey(Camp, on_delete=models.CASCADE, blank=True, null=True)
-    number = models.CharField("Номер военнопленного", max_length=60, null=True)
+    number = models.CharField("Номер военнопленного", max_length=60, null=True, blank=True)
 
 
 class CompulsoryWork(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    period_from = models.DateField(null=True)
-    period_to = models.DateField(null=True)
+    period_from = models.DateField(null=True, blank=True)
+    period_to = models.DateField(null=True, blank=True)
     labour_team = models.ForeignKey(
         LabourTeam, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class InfirmaryCamp(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    period_from = models.DateField(null=True)
-    period_to = models.DateField(null=True)
+    period_from = models.DateField(null=True, blank=True)
+    period_to = models.DateField(null=True, blank=True)
     camp = models.ForeignKey(Camp, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Burial(models.Model):
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
-    date_of_burial = models.DateField(null=True)
+    date_of_burial = models.DateField(null=True, blank=True)
     address_doc = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, related_name='address_item_doc_id', blank=True, null=True)
     address_act = models.ForeignKey(
@@ -167,8 +167,8 @@ class Burial(models.Model):
 
 class Reburial(models.Model):
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
-    date_of_reburial = models.DateField(null=True)
-    reburial_cause = models.CharField(max_length=80, null=True)
+    date_of_reburial = models.DateField(null=True, blank=True)
+    reburial_cause = models.CharField(max_length=80, null=True, blank=True)
     address = models.ForeignKey(AddressItem, on_delete=models.CASCADE, blank=True, null=True)
     cemetery_item = models.ForeignKey(
         CemeteryItem, on_delete=models.CASCADE, blank=True, null=True)

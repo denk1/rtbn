@@ -111,7 +111,6 @@
 {% endblock %}
 {% block content %}
 <script>
-
     function init_timepicker() {
         $(".dateinput").datepicker();
     }
@@ -119,15 +118,25 @@
     $(document).ready(function () {
         window.WIDGET_INI_REGISTER = window.WIDGET_INI_REGISTER || []
         var form = $("#personal_data");
+        $('#id_birthday').addClass('date');
 
         $.validator.addMethod("lettersonly", function (value, element) {
             return this.optional(element) || /^[a-zа-я][a-zа-я^\s{2}]+[a-zа-я]$/i.test(value);
         }, "Неверные символы");
 
         $.validator.addMethod("datecheck", function (value, element) {
-            return this.optional(element) || /^[0-9]{1,2}.[0-9]{2}.[0-9]{4}$/i.test(value);
+            return this.optional(element) || /^[0-3][0-9].[0-1][0-9].[0-9]{2,4}$/i.test(value);
         }, "Неверный формат даты");
 
+        $.validator.addMethod("anyDate",
+            function(value, element) {
+                return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
+            },
+            "Please enter a date in the format!"
+        );
+        $.validator.addClassRules('date', 
+            {anyDate: true}
+        );
         form.validate({
             errorPlacement: function errorPlacement(error, element) {
                 element.before(error);
@@ -151,33 +160,18 @@
                     lettersonly: true
                 },
                 father_name_distortion: "lettersonly",
-                birthday: {
-                    required: true,
-                    datecheck: true
-                },
+        
                 born_region_name: "required",
                 born_district_name: "required",
                 born_locality_name: "required",
                 live_region_name: "required",
                 live_district_name: "required",
                 live_locality_name: "required",
-                date_mobilization: "required",
                 region_military_enlistment_office: "required",
                 district_military_enlistment_office: "required",
                 military_enlistment_office: "required",
                 calling_team_name: "required",
-                direction_front_name: "required",
-                direction_army_name: "required",
                 warname: "required",
-                "fight_since[]": "required",
-                "fight_to[]": "required",
-                "front_name[]": "required",
-                "army_name[]": "required",
-                "division_name[]": "required",
-                "regiment_name[]": "required",
-                "company_name[]": "required",
-                "platoon_name[]": "required",
-                "military_operation_name[]": "required"
             },
             messages: {
                 name: {
@@ -193,75 +187,11 @@
                     required: "Пожалуйста введите отчество",
                     lettersonly: "В отчестве должны содержаться только буквы"
                 },
-                birthday: {
-                    required: "Укажите дату рождения",
-                },
-                born_region_name: {
-                    required: "Введите данные"
-                },
-                born_district_name: {
-                    required: "Введите данные"
-                },
-                born_locality_name: {
-                    required: "Введите данные"
-                },
-                live_region_name: {
-                    required: "Введите данные"
-                },
-                live_district_name: {
-                    required: "Введите данные"
-                },
-                live_locality_name: {
-                    required: "Введите данные"
-                },
-                region_military_enlistment_office: {
-                    required: ""
-                },
-                district_military_enlistment_office: {
-                    required: ""
-                },
-                military_enlistment_office: {
-                    required: ""
-                },
+                
                 calling_team_name: {
                     required: "Введите призывную команду"
                 },
-                direction_front_name: {
-                    required: ""
-                },
-                direction_army_name: {
-                    required: ""
-                },
-                warname: {
-                    required: ""
-                },
-                "fight_since[]": {
-                    required: ""
-                },
-                "fight_to[]": {
-                    required: ""
-                },
-                "front_name[]": {
-                    required: ""
-                },
-                "army_name[]": {
-                    required: ""
-                },
-                "division_name[]": {
-                    required: ""
-                },
-                "regiment_name[]": {
-                    required: ""
-                },
-                "company_name[]": {
-                    required: ""
-                },
-                "platoon_name[]": {
-                    required: ""
-                },
-                "military_operation_name[]": {
-                    required: ""
-                }
+                
             }
         });
 
@@ -308,7 +238,7 @@
             set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
         }
 
-        //form.children("div").steps(settings);
+        
         $("#wizard-input").steps(settings);
 
         set_disabled_live_address(false);
@@ -529,15 +459,6 @@
                             <div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 mb-0 container-element">
-                                        {{ person_form.name|as_crispy_field }}
-                                        <label for="name" generated="true" class="error"></label>
-                                    </div>
-                                    <div class="form-group col-md-6 mb-0 container-element">
-                                        {{ name_distortion_form.name }}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6 mb-0 container-element">
                                         {{ person_form.surname|as_crispy_field }}
                                         <label for="surname" generated="true" class="error"></label>
                                     </div>
@@ -545,6 +466,16 @@
                                         {{ surname_distortion_form.name }}
                                     </div>
                                 </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0 container-element">
+                                        {{ person_form.name|as_crispy_field }}
+                                        <label for="name" generated="true" class="error"></label>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0 container-element">
+                                        {{ name_distortion_form.name }}
+                                    </div>
+                                </div>
+                                
                                 <div class="form-row">
                                     <div class="form-group col-md-6 mb-0 container-element">
                                         {{ person_form.patronimic|as_crispy_field }}

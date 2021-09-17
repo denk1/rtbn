@@ -87,7 +87,7 @@ class Person(CreationModificationDateBase, UrlBase):
     )
     surname = models.CharField("Фамилия", max_length=30)
     patronimic = models.CharField("Отчество", max_length=30, null=True, blank=True)
-    birthday = models.DateField("Дата рождения", null=True)
+    birthday = models.DateField("Дата рождения", null=True, blank=True)
     born_locality = models.ForeignKey(
         AddressItem, related_name='born', on_delete=models.CASCADE, blank=True, null=True)
     live_locality = models.ForeignKey(

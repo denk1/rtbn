@@ -7,10 +7,16 @@
     <b class="name-info">
         {{ person.surname }}
         {{ person.name }}
-        {{ person.patronimic }}
+        {% if person.patronimic %}
+            {{ person.patronimic }}
+        {% endif %}
     </b>
     <p>Дата рождения</p>
-    <b>{{ person.birthday|date:"d.m.Y" }}</b>
+    {% if person.birthday %}
+        <b>{{ person.birthday|date:"d.m.Y" }}</b>
+    {% else %}
+        <b>неизвестна</b>
+    {% endif %}
     <p>Место рождения</p>
     <b>{{ person.born_locality.get_full_str}}</b>
     <p>Место жительства</p>

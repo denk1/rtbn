@@ -21,8 +21,8 @@ from .settings import DATE_INPUT_FORMATS
 
 
 class PersonModelForm(forms.ModelForm):
-    birthday = forms.DateField(input_formats=DATE_INPUT_FORMATS)
-    mobilization = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    birthday = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    mobilization = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = Person
@@ -203,8 +203,8 @@ class CallingDirectionForm(forms.ModelForm):
 
 
 class WarArchievementForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = WarArchievement
@@ -252,8 +252,8 @@ class WarArchievementForm(forms.ModelForm):
 
 
 class HospitalizationForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = Hospitalization
@@ -307,7 +307,7 @@ class HospitalizationForm(forms.ModelForm):
 
 
 class CaptivityForm(forms.ModelForm):
-    date_of_captivity = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    date_of_captivity = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = Captivity
@@ -341,8 +341,8 @@ class CaptivityForm(forms.ModelForm):
 
 
 class BeingCampedForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = BeingCamped
@@ -386,8 +386,8 @@ class BeingCampedForm(forms.ModelForm):
 
 
 class CompusoryWorkForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = CompulsoryWork
@@ -426,8 +426,8 @@ class CompusoryWorkForm(forms.ModelForm):
 
 
 class InfirmaryCampForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = InfirmaryCamp
@@ -466,7 +466,7 @@ class InfirmaryCampForm(forms.ModelForm):
 
 
 class BurialForm(forms.ModelForm):
-    date_of_burial = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    date_of_burial = forms.DateField(input_formats=DATE_INPUT_FORMATS,  required=False)
 
     class Meta:
         model = Burial
@@ -503,7 +503,7 @@ class BurialForm(forms.ModelForm):
 
 
 class ReburialForm(forms.ModelForm):
-    date_of_reburial = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    date_of_reburial = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = Reburial

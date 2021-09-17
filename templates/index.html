@@ -26,9 +26,12 @@
 
     {{person.name}}
 
-    {{person.patronimic}}
-
-    {{ person.birthday|date:"d.m.Y" }} г.р.
+    {% if person.patronimic %}
+            {{ person.patronimic }}
+    {% endif %}
+    {% if person.birthday %}
+        <b>{{ person.birthday|date:"d.m.Y" }} г.р. </b>
+    {% endif %}
     </a>
 </p>
 {% endfor %}

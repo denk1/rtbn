@@ -200,6 +200,12 @@
             transitionEffect: "slideLeft",
             autoFocus: true,
             stepsOrientation: 0,
+            labels: {
+                cancel: "Отменить",
+                finish: "Сохранить",
+                next: "продолжить",
+                previous: "предыдущая секция"
+            },
             onStepChanging: function (event, currentIndex, newIndex) {
                 return form.valid();
                 //return true;

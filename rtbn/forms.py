@@ -31,6 +31,9 @@ class PersonModelForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['birthday'].label = "Дата рождения:"
+        self.fields['military_enlistment_office'].label = "Название военкомата"
+        self.fields['mobilization'].label = "Дата мобилизации:"
         name_field = layout.Field(
             "name", css_class="input-block-level test")
         surname_field = layout.Field(
@@ -120,6 +123,7 @@ class MilitaryEnlistmentOfficeForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['address'].label = "Адрес военкомата"
 
     class Meta:
         model = MilitaryEnlistmentOffice
@@ -173,6 +177,9 @@ class CallingDirectionForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['calling_team'].label = "Призывная команда:"
+        self.fields['war_unit'].label = "Направлен в"
+        
         id_field = layout.Field("id")
 
         calling_team_field = layout.Field(
@@ -213,6 +220,10 @@ class WarArchievementForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['war_operation'].label = "Название сражения:"
+        self.fields['war_unit'].label = "В составе:"
+        self.fields['period_from'].label = "С"
+        self.fields['period_to'].label = "По"
         id_field = layout.Field("id")
 
         war_operation_field = layout.Field(
@@ -255,6 +266,7 @@ class HospitalizationForm(forms.ModelForm):
     period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
     period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
 
+
     class Meta:
         model = Hospitalization
         exclude = ['person']
@@ -262,6 +274,12 @@ class HospitalizationForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['hospital'].label = "Название госпиталя:"
+        self.fields['hospital_location'].label = "Расположение"
+        self.fields['period_from'].label = "С"
+        self.fields['period_to'].label = "По"
+        self.fields['war_unit_consist'].label = "В составе:"
+        self.fields['war_unit_direction'].label = "Направлен"
         id_field = layout.Field("id")
 
         hospital_field = layout.Field(
@@ -316,6 +334,10 @@ class CaptivityForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+
+        self.fields['date_of_captivity'].label = "Дата пленения:"
+        self.fields['place_of_captivity'].label = "Место:"
+
         id_field = layout.Field("id")
 
         date_of_captivity_field = layout.Field(
@@ -351,6 +373,10 @@ class BeingCampedForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['period_from'].label = "C"
+        self.fields['period_to'].label = "По"
+        self.fields['camp'].label = "Название лагеря"
+        self.fields['number'].label = "Номер военнопленного"
         id_field = layout.Field("id")
 
         period_from_field = layout.Field(
@@ -396,6 +422,9 @@ class CompusoryWorkForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['period_from'].label = "C"
+        self.fields['period_to'].label = "По"
+        self.fields['labour_team'].label = "Рабочая команда"
         id_field = layout.Field("id")
 
         period_from_field = layout.Field(
@@ -436,6 +465,9 @@ class InfirmaryCampForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['period_from'].label = "C"
+        self.fields['period_to'].label = "По"
+        self.fields['camp'].label = "Название лагеря"
         id_field = layout.Field("id")
 
         period_from_field = layout.Field(
@@ -475,6 +507,10 @@ class BurialForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['date_of_burial'].label = "Дата"
+        self.fields['address_doc'].label = "Адрес по документам"
+        self.fields['address_act'].label = "Фактический адрес"
+        self.fields['cemetery_item'].label = "Кладбище"
         date_of_burial_field = layout.Field(
             "date_of_burial", css_class="input-block-level date"
         )
@@ -512,6 +548,10 @@ class ReburialForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
+        self.fields['date_of_reburial'].label = "Дата"
+        self.fields['reburial_cause'].label = "Причина"
+        self.fields['address'].label = "Адрес"
+        self.fields['cemetery_item'].label = "Кладбище"
         date_of_reburial_field = layout.Field(
             "date_of_reburial", css_class="input-block-level date")
 

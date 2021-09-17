@@ -52,8 +52,8 @@ class Hospitalization(models.Model):
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, blank=True, null=True)
     hospital_location = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, blank=True, null=True)
-    period_from = models.DateField("C:", null=True)
-    period_to = models.DateField("По:", null=True)
+    period_from = models.DateField("C:", null=True, blank=True)
+    period_to = models.DateField("По:", null=True,  blank=True)
     war_unit_consist = models.ForeignKey(
         WarUnit, on_delete=models.CASCADE, related_name='consist', blank=True, null=True)
     war_unit_direction = models.ForeignKey(
@@ -69,10 +69,10 @@ class WarOperation(models.Model):
 
 class WarArchievement(models.Model):
     war_operation = models.ForeignKey(WarOperation, on_delete=models.CASCADE)
-    war_unit = models.ForeignKey(WarUnit, on_delete=models.CASCADE, blank=True)
+    war_unit = models.ForeignKey(WarUnit, on_delete=models.CASCADE, null=True, blank=True)
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
-    period_from = models.DateField(null=True)
-    period_to = models.DateField(null=True)
+    period_from = models.DateField(null=True, blank=True)
+    period_to = models.DateField(null=True, blank=True)
 
 
 class Person(CreationModificationDateBase, UrlBase):
@@ -87,13 +87,13 @@ class Person(CreationModificationDateBase, UrlBase):
     )
     surname = models.CharField("Фамилия", max_length=30)
     patronimic = models.CharField("Отчество", max_length=30, null=True, blank=True)
-    birthday = models.DateField("Дата рождения", null=True, blank=True)
+    birthday = models.DateField(verbose_name="Дата рождения", null=True, blank=True)
     born_locality = models.ForeignKey(
         AddressItem, related_name='born', on_delete=models.CASCADE, blank=True, null=True)
     live_locality = models.ForeignKey(
         AddressItem, related_name='live', on_delete=models.CASCADE, blank=True, null=True)
-    military_enlistment_office = models.ForeignKey(
-        MilitaryEnlistmentOffice, on_delete=models.CASCADE, blank=True, null=True)
+    military_enlistment_office = models.ForeignKey( 
+         MilitaryEnlistmentOffice, on_delete=models.CASCADE, blank=True, null=True)
     mobilization = models.DateField("Дата мобилизации", null=True, blank=True)
     last_msg_locality = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, blank=True, null=True)

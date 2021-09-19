@@ -1,41 +1,49 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
 {% if form.errors %}
-  <p>Имя пользователя и пароль не совпадают. Пожалуйста попробуйте ещё.</p>
+<p>Имя пользователя и пароль не совпадают. Пожалуйста попробуйте ещё.</p>
 {% endif %}
 
 {% if next %}
-  {% if user.is_authenticated %}
-    <p>Ваша учетная запись не имеет доступа к этой странице. Чтобы продолжать,
-    пожалуйста, войдите с помощью учетной записи имеющей необходимые права</p>
-  {% else %}
-    <p>Пожалуйста войдите под зарегистрированым именем пользователя, чтобы увидеть эту страницу.</p>
-  {% endif %}
+{% if user.is_authenticated %}
+<p>Ваша учетная запись не имеет доступа к этой странице. Чтобы продолжать,
+  пожалуйста, войдите с помощью учетной записи имеющей необходимые права</p>
+{% else %}
+<p>Пожалуйста войдите под зарегистрированым именем пользователя, чтобы увидеть эту страницу.</p>
+{% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<div class="element_input">
-<table id="login_spec">
-<tr>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</tr>
+<form class="form-signin" method="post" action="{% url 'login' %}">
+  {% csrf_token %}
+  <div class="element_input form-group">
+    <div class="row">
+      <div class="col-sm-6">
+        {{ form.username|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        {{ form.password|as_crispy_field }}
+      </div>
+    </div>
+  </div>
 
-<tr>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</tr>
-</table>
+  <div class="row">
 
-
-<input type="submit" value="Войти" />
-<input type="hidden" name="next" value="{{ next }}" />
+    <div class="col-sm-3"><input class="btn btn-primary btn-lg btn-block" type="submit" value="Войти" />
+    </div>
+  </div>
+  <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+<div class="row">
+
+  <div class="col-sm-3">
+    <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+  </div>
 </div>
+
 {% endblock %}

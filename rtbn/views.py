@@ -339,6 +339,10 @@ class PersonDetail(DetailView):
         return context
 
 
+def delete_person(request, pk=None):
+    pass
+
+
 def searching(request):
     return render(request, 'search.html')
 

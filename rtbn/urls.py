@@ -21,6 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  views.index, name='index'),
     path('add/', views.add_or_change_person, name='add_person'),
+    path('<int:pk>/change/', views.add_or_change_person, name='change_person'),
+    path('<int:pk>/delete/', views.delete_person, name='delete_person'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('list/', views.persons_listing, name='data_list'),
     path('<int:pk>/', views.PersonDetail.as_view(), name='person_details'),

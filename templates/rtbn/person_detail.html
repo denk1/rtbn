@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<a href='{% url "data_list" %}'>
-        <h3><b>список</b></h3>
+<a class="btn btn-primary" href='{% url "data_list" %}'>
+        <b>список</b>
 </a>
 <div class="info">
+        {% if user.is_authenticated %}
+        <div class="form-group">
+                <a href="{% url 'change_person' pk=person.pk %}" class="btn btn-primary">Внести изменения</a>
+                <a href="{% url 'delete_person' pk=person.pk %}" class="btn btn-danger">Удалить</a>
+        </div>
+        {% endif %}
         <b class="name-info">
                 {{ person.surname }}
                 {{ person.name }}

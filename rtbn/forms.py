@@ -22,9 +22,15 @@ from .settings import DATE_INPUT_FORMATS
 
 class PersonModelForm(forms.ModelForm):
     birthday = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS,
+        required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
     mobilization = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS,
+        required=False)
 
     class Meta:
         model = Person

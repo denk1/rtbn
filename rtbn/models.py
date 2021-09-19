@@ -7,6 +7,7 @@ from address.models import AddressItem
 from war_unit.models import WarUnit
 from cemetery.models import CemeteryItem
 from core.models import CreationModificationDateBase, UrlBase
+from .settings import DATE_INPUT_FORMATS
 
 
 class CallingTeam(models.Model):
@@ -18,9 +19,11 @@ class CallingTeam(models.Model):
 
 
 class CallingDirection(models.Model):
-    calling_team = models.ForeignKey(CallingTeam, on_delete=models.CASCADE, blank=True, null=True)
+    calling_team = models.ForeignKey(
+        CallingTeam, on_delete=models.CASCADE, blank=True, null=True)
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    war_unit = models.ForeignKey(WarUnit, on_delete=models.CASCADE, blank=True, null=True)
+    war_unit = models.ForeignKey(
+        WarUnit, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         constraints = [
@@ -49,7 +52,8 @@ class Hospital(models.Model):
 
 class Hospitalization(models.Model):
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
-    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, blank=True, null=True)
+    hospital = models.ForeignKey(
+        Hospital, on_delete=models.CASCADE, blank=True, null=True)
     hospital_location = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, blank=True, null=True)
     period_from = models.DateField("C:", null=True, blank=True)
@@ -69,7 +73,8 @@ class WarOperation(models.Model):
 
 class WarArchievement(models.Model):
     war_operation = models.ForeignKey(WarOperation, on_delete=models.CASCADE)
-    war_unit = models.ForeignKey(WarUnit, on_delete=models.CASCADE, null=True, blank=True)
+    war_unit = models.ForeignKey(
+        WarUnit, on_delete=models.CASCADE, null=True, blank=True)
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
     period_from = models.DateField(null=True, blank=True)
     period_to = models.DateField(null=True, blank=True)
@@ -86,14 +91,16 @@ class Person(CreationModificationDateBase, UrlBase):
         related_name="written_by_user",
     )
     surname = models.CharField("Фамилия", max_length=30)
-    patronimic = models.CharField("Отчество", max_length=30, null=True, blank=True)
-    birthday = models.DateField(verbose_name="Дата рождения", null=True, blank=True)
+    patronimic = models.CharField(
+        "Отчество", max_length=30, null=True, blank=True)
+    birthday = models.DateField(
+        verbose_name="Дата рождения", null=True, blank=True)
     born_locality = models.ForeignKey(
         AddressItem, related_name='born', on_delete=models.CASCADE, blank=True, null=True)
     live_locality = models.ForeignKey(
         AddressItem, related_name='live', on_delete=models.CASCADE, blank=True, null=True)
-    military_enlistment_office = models.ForeignKey( 
-         MilitaryEnlistmentOffice, on_delete=models.CASCADE, blank=True, null=True)
+    military_enlistment_office = models.ForeignKey(
+        MilitaryEnlistmentOffice, on_delete=models.CASCADE, blank=True, null=True)
     mobilization = models.DateField("Дата мобилизации", null=True, blank=True)
     last_msg_locality = models.ForeignKey(
         AddressItem, on_delete=models.CASCADE, blank=True, null=True)
@@ -103,7 +110,7 @@ class Person(CreationModificationDateBase, UrlBase):
 
     def __str__(self):
         return self.name + ' ' + self.surname + ' ' + self.patronimic
-        
+
     def get_url_path(self):
         return reverse("person_details", kwargs={
             "pk": str(self.pk),
@@ -118,7 +125,8 @@ class Camp(models.Model):
 
 
 class LabourTeam(models.Model):
-    name = models.CharField("Название рабочий команды", max_length=60, null=True)
+    name = models.CharField("Название рабочий команды",
+                            max_length=60, null=True)
 
     def __str__(self):
         return self.name
@@ -126,7 +134,8 @@ class LabourTeam(models.Model):
 
 class Captivity(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    date_of_captivity = models.DateField("Дата попадания в плен", null=True, blank=True)
+    date_of_captivity = models.DateField(
+        "Дата попадания в плен", null=True, blank=True)
     place_of_captivity = models.ForeignKey(
         AddressItem, blank=True, null=True, on_delete=models.CASCADE)
 
@@ -135,8 +144,10 @@ class BeingCamped(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     period_from = models.DateField(null=True, blank=True)
     period_to = models.DateField(null=True, blank=True)
-    camp = models.ForeignKey(Camp, on_delete=models.CASCADE, blank=True, null=True)
-    number = models.CharField("Номер военнопленного", max_length=60, null=True, blank=True)
+    camp = models.ForeignKey(
+        Camp, on_delete=models.CASCADE, blank=True, null=True)
+    number = models.CharField("Номер военнопленного",
+                              max_length=60, null=True, blank=True)
 
 
 class CompulsoryWork(models.Model):
@@ -151,7 +162,8 @@ class InfirmaryCamp(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     period_from = models.DateField(null=True, blank=True)
     period_to = models.DateField(null=True, blank=True)
-    camp = models.ForeignKey(Camp, on_delete=models.CASCADE, blank=True, null=True)
+    camp = models.ForeignKey(
+        Camp, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Burial(models.Model):
@@ -169,7 +181,8 @@ class Reburial(models.Model):
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
     date_of_reburial = models.DateField(null=True, blank=True)
     reburial_cause = models.CharField(max_length=80, null=True, blank=True)
-    address = models.ForeignKey(AddressItem, on_delete=models.CASCADE, blank=True, null=True)
+    address = models.ForeignKey(
+        AddressItem, on_delete=models.CASCADE, blank=True, null=True)
     cemetery_item = models.ForeignKey(
         CemeteryItem, on_delete=models.CASCADE, blank=True, null=True)
 

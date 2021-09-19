@@ -129,16 +129,16 @@
         }, "Неверный формат даты");
 
         $.validator.addMethod("anyDate",
-            function(value, element) {
-                if(value != "") 
+            function (value, element) {
+                if (value != "")
                     return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[/., -](0?[1-9]|1[0-2])[/., -](19|20)?\d{2}$/);
-                else 
+                else
                     return true;
             },
             "Please enter a date in the format!"
         );
-        $.validator.addClassRules('date', 
-            {anyDate: true}
+        $.validator.addClassRules('date',
+            { anyDate: true }
         );
         form.validate({
             errorPlacement: function errorPlacement(error, element) {
@@ -157,9 +157,9 @@
                     lettersonly: true
                 },
                 surname_distortion: "lettersonly",
-            
+
                 father_name_distortion: "lettersonly",
-        
+
                 born_region_name: "required",
                 born_district_name: "required",
                 born_locality_name: "required",
@@ -186,11 +186,11 @@
                     required: "Пожалуйста введите отчество",
                     lettersonly: "В отчестве должны содержаться только буквы"
                 },
-                
+
                 calling_team_name: {
                     required: "Введите призывную команду"
                 },
-                
+
             }
         });
 
@@ -243,7 +243,7 @@
             set_disabled_input(v, last_msg_region[0], last_msg_district[0], last_msg_locality[0]);
         }
 
-        
+
         $("#wizard-input").steps(settings);
 
         set_disabled_live_address(false);
@@ -480,7 +480,7 @@
                                         {{ name_distortion_form.name }}
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-row">
                                     <div class="form-group col-md-6 mb-0 container-element">
                                         {{ person_form.patronimic|as_crispy_field }}
@@ -571,8 +571,7 @@
                                             военкомата</button>
                                     </div>
                                     <div class="d-none">
-                                        <select id="id_military_enlistment_office_address"
-                                            class="select form-control custom-select">
+                                        {{ military_enlistment_office_form.address|as_crispy_field }}
 
                                         </select>
                                     </div>

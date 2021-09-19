@@ -12,4 +12,5 @@ urlpatterns = [
          name='get_cemetery_items'),
     path('add_cemetery_item/', views.add_cemetery_item,
          name='add_cemetery_item'),
+    path('get_full_string/<int:pk>/', views.get_full_str, name='get_full_str'),
 ]

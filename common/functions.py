@@ -50,6 +50,7 @@ def add_item(request, query_set, data_dict):
         print(type(id))
     return JsonResponse({'result': True, 'id': id}, safe=False)
 
+
 def get_data_by_name(request, table_name):
     if request.is_ajax():
         term = request.POST.get('term')
@@ -60,6 +61,7 @@ def get_data_by_name(request, table_name):
             )
             response_content = list(result.values())
             return JsonResponse(response_content, safe=False)
+
 
 def add_data_with_name(request, table_name):
     d = -1
@@ -76,6 +78,7 @@ def delete_objects_from_formset(formset):
     for item in formset.deleted_objects:
         item.delete()
 
+
 def save_formset_with_person(formset, person):
     formset_items = formset.save(commit=False)
     for item in formset_items:
@@ -87,8 +90,7 @@ def save_formset_with_person(formset, person):
 
 def from_queryset_to_str(queryset):
     str_result = ''
-    for item in queryset:
+    for item in queryset.order_by('level'):
         if item.get_parent is not None:
             str_result += ' ' + item.get_parent.name
     return str_result
-

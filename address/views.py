@@ -4,6 +4,7 @@ from .models import AddressItem
 from .forms import AddressItemForm
 from django.forms import modelformset_factory
 from django.db.models import Q
+from django.http import JsonResponse
 
 
 def add_or_change_address(request, pk=None):
@@ -41,3 +42,8 @@ def add_or_change_address(request, pk=None):
     context = {
         "address_formset": address_formset}
     return render(request, "address.html", context)
+
+
+def get_full_str(request, pk=None):
+    address_item = get_object_or_404(AddressItem, pk=pk)
+    return JsonResponse({'result': True, 'full_str': address_item.get_full_str}, safe=False)

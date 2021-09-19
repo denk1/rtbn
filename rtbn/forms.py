@@ -21,8 +21,10 @@ from .settings import DATE_INPUT_FORMATS
 
 
 class PersonModelForm(forms.ModelForm):
-    birthday = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
-    mobilization = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    birthday = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
+    mobilization = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = Person
@@ -120,21 +122,27 @@ class PatronimicDistortionForm(forms.ModelForm):
 
 
 class MilitaryEnlistmentOfficeForm(forms.ModelForm):
-    def __init__(self, request, *args, **kwargs):
-        self.request = request
-        super().__init__(*args, **kwargs)
-        self.fields['address'].label = "Адрес военкомата"
-
     class Meta:
         model = MilitaryEnlistmentOffice
         fields = ('address',)
-        widgets = {
-            'address': forms.Select(attrs={
-                'placeholder': 'Название призывного пункта',
-                'class': 'form-control form-element',
-                'name': 'military_enlistment_office',
-                'id': 'enlistment_office_address'}),
-        }
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+        self.fields['address'].widget = forms.Select(attrs={
+            'id': 'id_military_enlistment_office_address'})
+        id_field = layout.Field("id")
+
+        address_field = layout.Field(
+            "address", css_id="myid", css_class="input-block-level calling-team")
+
+        self.helper = helper.FormHelper()
+        self.helper.form_tag = True
+        self.helper.disable_csrf = True
+        self.helper.layout = layout.Layout(
+            id_field,
+            address_field,
+        )
 
 
 class CallingTeamForm(forms.ModelForm):
@@ -179,7 +187,7 @@ class CallingDirectionForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['calling_team'].label = "Призывная команда:"
         self.fields['war_unit'].label = "Направлен в"
-        
+
         id_field = layout.Field("id")
 
         calling_team_field = layout.Field(
@@ -210,8 +218,10 @@ class CallingDirectionForm(forms.ModelForm):
 
 
 class WarArchievementForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_from = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = WarArchievement
@@ -263,9 +273,10 @@ class WarArchievementForm(forms.ModelForm):
 
 
 class HospitalizationForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
-
+    period_from = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = Hospitalization
@@ -325,7 +336,8 @@ class HospitalizationForm(forms.ModelForm):
 
 
 class CaptivityForm(forms.ModelForm):
-    date_of_captivity = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    date_of_captivity = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = Captivity
@@ -363,8 +375,10 @@ class CaptivityForm(forms.ModelForm):
 
 
 class BeingCampedForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_from = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = BeingCamped
@@ -412,8 +426,10 @@ class BeingCampedForm(forms.ModelForm):
 
 
 class CompusoryWorkForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_from = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = CompulsoryWork
@@ -455,8 +471,10 @@ class CompusoryWorkForm(forms.ModelForm):
 
 
 class InfirmaryCampForm(forms.ModelForm):
-    period_from = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
-    period_to = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    period_from = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
+    period_to = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = InfirmaryCamp
@@ -498,7 +516,8 @@ class InfirmaryCampForm(forms.ModelForm):
 
 
 class BurialForm(forms.ModelForm):
-    date_of_burial = forms.DateField(input_formats=DATE_INPUT_FORMATS,  required=False)
+    date_of_burial = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS,  required=False)
 
     class Meta:
         model = Burial
@@ -539,7 +558,8 @@ class BurialForm(forms.ModelForm):
 
 
 class ReburialForm(forms.ModelForm):
-    date_of_reburial = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
+    date_of_reburial = forms.DateField(
+        input_formats=DATE_INPUT_FORMATS, required=False)
 
     class Meta:
         model = Reburial

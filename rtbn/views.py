@@ -52,8 +52,9 @@ from common.functions import get_data_by_name, add_data_with_name, save_formset_
 
 
 def index(request):
-    persons = Person.objects.all()
+    persons = Person.objects.order_by('-id')[:5]
     return render(request, 'index.html', {'persons_update': persons})
+
 
 @login_required
 def add_or_change_person(request, pk=None):
@@ -148,6 +149,8 @@ def add_or_change_person(request, pk=None):
 
         burial_form = BurialForm(request, data=request.POST)
         reburial_form = ReburialForm(request, data=request.POST)
+        enlistment_office_form = MilitaryEnlistmentOfficeForm(
+            request, data=request.POST, prefix='enlistment')
 
         if person_form.is_valid() \
                 and calling_direction_formset.is_valid() \
@@ -157,17 +160,21 @@ def add_or_change_person(request, pk=None):
                 and being_camped_formset.is_valid() \
                 and compulsory_work_formset.is_valid() \
                 and infirmary_camp_formset.is_valid() \
+                and enlistment_office_form.is_valid() \
                 and burial_form.is_valid() \
                 and reburial_form.is_valid():
             person = person_form.save(commit=False)
+            enlistment_office = enlistment_office_form.save(commit=False)
+            person.military_enlistment_office.address = enlistment_office.address
             person.author = request.user
             person.save()
             burial = burial_form.save(commit=False)
             reburial = reburial_form.save(commit=False)
+
             burial.person = person
             reburial.person = person
             burial.save()
-            burial.save()
+            reburial.save()
             save_formset_with_person(calling_direction_formset, person)
             save_formset_with_person(war_achievement_formset, person)
             save_formset_with_person(hospitalization_formset, person)
@@ -193,7 +200,7 @@ def add_or_change_person(request, pk=None):
             request, instance=patronimic_distortion, prefix='patronimic_dist')
 
         military_enlistment_office_form = MilitaryEnlistmentOfficeForm(
-            request, instance=military_enlistment_office)
+            request, instance=military_enlistment_office, prefix='enlistment')
 
         calling_direction_formset = CallingDirectionFormset(
             queryset=CallingDirection.objects.filter(person=person),
@@ -321,9 +328,12 @@ class PersonDetail(DetailView):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
         person = get_object_or_404(Person, pk=self.kwargs.get('pk'))
-        context['calling_directions'] = CallingDirection.objects.filter(person=person)
-        context['war_archievement'] = WarArchievement.objects.filter(person=person)
-        context['hospitalizations'] = Hospitalization.objects.filter(person=person)
+        context['calling_directions'] = CallingDirection.objects.filter(
+            person=person)
+        context['war_archievement'] = WarArchievement.objects.filter(
+            person=person)
+        context['hospitalizations'] = Hospitalization.objects.filter(
+            person=person)
         context['burial'] = Burial.objects.filter(person=person).first()
         context['reburial'] = Reburial.objects.filter(person=person).first()
         return context

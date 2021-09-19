@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import CemeteryItem
 from .forms import CemeteryItemForm
 from django.forms import modelformset_factory
+from django.http import JsonResponse
 from common.functions import get_tree_items, get_items, add_item
 from django.views.decorators.csrf import csrf_exempt
 
@@ -24,7 +25,8 @@ def add_or_change_cemetery_item(request, pk=None):
             form_kwargs={"request": request},
         )
     else:
-        CemeteryItem_queryset_result = get_tree_items(cemetery_item, CemeteryItem, dict_filter)
+        CemeteryItem_queryset_result = get_tree_items(
+            cemetery_item, CemeteryItem, dict_filter)
         cemetery_item_formset = CemeteryItemFormSet(
             queryset=CemeteryItem_queryset_result,
             prefix="cemetery_item",
@@ -44,3 +46,8 @@ def get_cemetery_items(request):
 @csrf_exempt
 def add_cemetery_item(request):
     return add_item(request, CemeteryItem, data_dict_add)
+
+
+def get_full_str(request, pk=None):
+    cemetery_item = get_object_or_404(CemeteryItem, pk=pk)
+    return JsonResponse({'result': True, 'full_str': cemetery_item.get_full_str}, safe=False)

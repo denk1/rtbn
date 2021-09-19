@@ -229,6 +229,22 @@ function create_get_ajax_request(uri, do_this) {
     }
 }
 
+function create_get_ajax_json_request(uri, do_this) {
+    return function () {
+        $.ajax({
+            url: uri,
+            method: "GET",
+            dataType: "json"
+        }).done(
+            do_this
+        ).fail(function () {
+            console.log("error");
+        }).always(function () {
+            console.log('always')
+        });
+    }
+}
+
 function init_btn_primary(wnd, uri) {
     let btn_primary = wnd.find(".btn-primary");
     btn_primary.attr("action", uri);
@@ -258,6 +274,26 @@ function init_btn_box_inform(btn, select, uri) {
         }
     });
     get_ajax_request();
+}
+
+function init_btn_box_inform_json(btn, uri) {
+    let get_ajax_json_request = create_get_ajax_json_request(uri, function (data) {
+        let str_val = "";
+        console.log(str_val);
+        let selects = $(data)
+            .find(".formset-forms")
+            .find("select")
+            .not("d-none");
+        if (data['result']) {
+            str_val = data['full_str'];
+        }
+
+        if (btn != null) {
+            console.log("cur_btn_tree");
+            console.log($cur_btn_tree.prev(".inform-box-label").text(str_val));
+        }
+    });
+    get_ajax_json_request();
 }
 
 function init_btn_war_unit() {
@@ -482,12 +518,12 @@ $(function () {
             .remove()
             .end()
             .append($options)
-            .val(test_value);
-
+            .val(test_value).trigger('change');
+        console.log(cur_select.val());
         modal_window.modal('hide');
         modal_dynamic_content.html("");
-        str_uri = get_btn_primary_action($(this)) + clone_select.val();
-        init_btn_box_inform($cur_btn_tree, cur_select, str_uri);
+        str_uri = get_btn_primary_action($(this)) + 'get_full_string/' + clone_select.val();
+        init_btn_box_inform_json($cur_btn_tree, str_uri);
     });
 
 

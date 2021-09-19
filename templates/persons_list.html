@@ -1,26 +1,30 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% block content %}
 <div>
-{% for person in persons %}
-<p>
+    {% for person in persons %}
+    <p>
 
-<a href="{{ person.get_url_path }}" class="d-block my-3">
-{{person.surname}}
+        <a href="{{ person.get_url_path }}" class="d-block my-3">
+            {{person.surname}}
 
-{{ person.name }}
+            {{ person.name }}
 
-{{ person.patronimic}}
+            {% if person.patronimic %}
+            {{ person.patronimic}}
+            {% endif %}
 
-{{ person.birthday|date:"d.m.Y" }} г.р.
-</a>
-</p>
-{% endfor %}
+            {% if person.birthday %}
+            {{ person.birthday|date:"d.m.Y" }} г.р.
+            {% endif %}
+        </a>
+    </p>
+    {% endfor %}
 </div>
 <div class="pagination">
     <span class="step-links">
         {% if persons.has_previous %}
-            <a href="?page=1">&laquo; начало</a>
-            <a href="?page={{ persons.previous_page_number }}">предыдущий</a>
+        <a href="?page=1">&laquo; начало</a>
+        <a href="?page={{ persons.previous_page_number }}">предыдущий</a>
         {% endif %}
 
         <p class="current">
@@ -28,8 +32,8 @@
         </p>
 
         {% if persons.has_next %}
-            <a href="?page={{ persons.next_page_number }}">следующий</a>
-            <a href="?page={{ persons.paginator.num_pages }}">последний &raquo;</a>
+        <a href="?page={{ persons.next_page_number }}">следующий</a>
+        <a href="?page={{ persons.paginator.num_pages }}">последний &raquo;</a>
         {% endif %}
     </span>
 </div>

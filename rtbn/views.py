@@ -147,8 +147,8 @@ def add_or_change_person(request, pk=None):
             form_kwargs={"request": request}
         )
 
-        burial_form = BurialForm(request.POST, request.FILES)
-        reburial_form = ReburialForm(request.POST, request.FILES )
+        burial_form = BurialForm(request, data=request.POST)
+        reburial_form = ReburialForm(request, data=request.POST)
         enlistment_office_form = MilitaryEnlistmentOfficeForm(
             request, data=request.POST, prefix='enlistment')
 
@@ -168,13 +168,18 @@ def add_or_change_person(request, pk=None):
             #person.military_enlistment_office.address = enlistment_office.address
             person.author = request.user
             person.save()
-            burial_prev = Burial.objects.get(person=person)
-            reburial_prev = Reburial.objects.get(person=person)
-            
+            try:
+                burial_prev = Burial.objects.get(person=person)
+            except Burial.DoesNotExist:
+                burial_prev = None
+            try:
+                reburial_prev = Reburial.objects.get(person=person)
+            except Reburial.DoesNotExist:
+                reburial_prev = None
             burial = burial_form.save(commit=False)
             reburial = reburial_form.save(commit=False)
             if(burial_prev is not None):
-                burial.pk = burial_prev.pk    
+                burial.pk = burial_prev.pk
             if(reburial_prev is not None):
                 reburial.pk = reburial_prev.pk
             burial.person = person
@@ -210,7 +215,6 @@ def add_or_change_person(request, pk=None):
         patronimic_distortion_form = PatronimicDistortionForm(
             request, instance=patronimic_distortion, prefix='patronimic_dist')
 
-    
         calling_direction_formset = CallingDirectionFormset(
             queryset=CallingDirection.objects.filter(person=person),
             prefix="calling_direction",
@@ -273,7 +277,7 @@ def add_or_change_person(request, pk=None):
         'infirmary_camp_formset': infirmary_camp_formset,
         'burial_form': burial_form,
         'reburial_form': reburial_form,
-        'action_path': request.path 
+        'action_path': request.path
     }
 
     return render(request, 'person_form.html', context)

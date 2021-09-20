@@ -167,6 +167,7 @@ class InfirmaryCamp(models.Model):
 
 
 class Burial(models.Model):
+    id = models.AutoField(primary_key=True)
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
     date_of_burial = models.DateField(null=True, blank=True)
     address_doc = models.ForeignKey(
@@ -178,6 +179,7 @@ class Burial(models.Model):
 
 
 class Reburial(models.Model):
+    id = models.AutoField(primary_key=True)
     person = models.OneToOneField(Person, on_delete=models.CASCADE)
     date_of_reburial = models.DateField(null=True, blank=True)
     reburial_cause = models.CharField(max_length=80, null=True, blank=True)

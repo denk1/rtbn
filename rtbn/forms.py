@@ -30,7 +30,11 @@ class PersonModelForm(forms.ModelForm):
         ))
     mobilization = forms.DateField(
         input_formats=DATE_INPUT_FORMATS,
-        required=False)
+        required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = Person
@@ -61,8 +65,8 @@ class PersonModelForm(forms.ModelForm):
 
         last_msg_locality_field = layout.Field(
             "last_msg_locality", css_class="input-block-level d-none")
-
         self.helper = helper.FormHelper()
+        self.helper.form_action = self.request.path     
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
@@ -130,23 +134,20 @@ class PatronimicDistortionForm(forms.ModelForm):
 class MilitaryEnlistmentOfficeForm(forms.ModelForm):
     class Meta:
         model = MilitaryEnlistmentOffice
-        fields = ('address',)
+        exclude = ['name']
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
-        self.fields['address'].widget = forms.Select(attrs={
-            'id': 'id_military_enlistment_office_address'})
-        id_field = layout.Field("id")
+        self.fields['address'].required = False
 
         address_field = layout.Field(
             "address", css_id="myid", css_class="input-block-level calling-team")
 
         self.helper = helper.FormHelper()
-        self.helper.form_tag = True
+        self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
-            id_field,
             address_field,
         )
 
@@ -225,9 +226,17 @@ class CallingDirectionForm(forms.ModelForm):
 
 class WarArchievementForm(forms.ModelForm):
     period_from = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
     period_to = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = WarArchievement
@@ -280,9 +289,17 @@ class WarArchievementForm(forms.ModelForm):
 
 class HospitalizationForm(forms.ModelForm):
     period_from = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
     period_to = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = Hospitalization
@@ -343,7 +360,11 @@ class HospitalizationForm(forms.ModelForm):
 
 class CaptivityForm(forms.ModelForm):
     date_of_captivity = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = Captivity
@@ -382,9 +403,17 @@ class CaptivityForm(forms.ModelForm):
 
 class BeingCampedForm(forms.ModelForm):
     period_from = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
     period_to = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = BeingCamped
@@ -433,9 +462,17 @@ class BeingCampedForm(forms.ModelForm):
 
 class CompusoryWorkForm(forms.ModelForm):
     period_from = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
     period_to = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = CompulsoryWork
@@ -478,9 +515,17 @@ class CompusoryWorkForm(forms.ModelForm):
 
 class InfirmaryCampForm(forms.ModelForm):
     period_from = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
     period_to = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = InfirmaryCamp
@@ -523,7 +568,11 @@ class InfirmaryCampForm(forms.ModelForm):
 
 class BurialForm(forms.ModelForm):
     date_of_burial = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS,  required=False)
+        input_formats=DATE_INPUT_FORMATS,  required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = Burial
@@ -536,6 +585,7 @@ class BurialForm(forms.ModelForm):
         self.fields['address_doc'].label = "Адрес по документам"
         self.fields['address_act'].label = "Фактический адрес"
         self.fields['cemetery_item'].label = "Кладбище"
+        id_field = layout.Field("id")
         date_of_burial_field = layout.Field(
             "date_of_burial", css_class="input-block-level date"
         )
@@ -556,6 +606,7 @@ class BurialForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
+            id_field,
             date_of_burial_field,
             address_doc_field,
             address_act_field,
@@ -565,7 +616,11 @@ class BurialForm(forms.ModelForm):
 
 class ReburialForm(forms.ModelForm):
     date_of_reburial = forms.DateField(
-        input_formats=DATE_INPUT_FORMATS, required=False)
+        input_formats=DATE_INPUT_FORMATS, required=False,
+        widget=forms.DateInput(
+            format='%d.%m.%Y',
+
+        ))
 
     class Meta:
         model = Reburial
@@ -578,6 +633,7 @@ class ReburialForm(forms.ModelForm):
         self.fields['reburial_cause'].label = "Причина"
         self.fields['address'].label = "Адрес"
         self.fields['cemetery_item'].label = "Кладбище"
+        id_field = layout.Field("id")
         date_of_reburial_field = layout.Field(
             "date_of_reburial", css_class="input-block-level date")
 
@@ -597,6 +653,7 @@ class ReburialForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
+            id_field,
             date_of_reburial_field,
             reburial_cause_field,
             address_field,

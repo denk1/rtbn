@@ -444,7 +444,7 @@
         //set_address('#id_district_lst-parent_address_unit', '#id_locality_lst-parent_address_unit', '#last_msg_locality');
         //set_address('#id_enlistment_office-parent_address_unit', '#enlistment_office_address', null);
         //set_select2_item('#military_enlistment_office', 4, '#enlistment_office_address', "{% url 'enlistment_office' %}", "{% url 'add_enlistment_office' %}");
-        set_select2_tree.select_autocomplete($("#id_military_enlistment_office"), $("#id_military_enlistment_office_address"), "{% url 'enlistment_office' %}", "{% url 'add_enlistment_office' %}")
+        set_select2_tree.select_autocomplete($("#id_military_enlistment_office"), $("#id_enlistment-address"), "{% url 'enlistment_office' %}", "{% url 'add_enlistment_office' %}")
         //$(set_select2_region);
         set_url_address("{% url 'region' %}", "{% url 'add_region' %}");
 
@@ -453,7 +453,7 @@
 <div class="content">
     <div class="offset_content">
         <h1>Персональные данные разыскиваемого</h1>
-        <form id="personal_data" action="{% url 'add_person' %}" method="POST" enctype="multipart/form-data">
+        <form id="personal_data" action="{{ action_path }}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% load crispy_forms_tags %}
             <div class="card wizard-card" data-color="red" id="wizard-input">

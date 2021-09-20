@@ -290,7 +290,7 @@ function init_btn_box_inform_json(btn, uri) {
 
         if (btn != null) {
             console.log("cur_btn_tree");
-            console.log($cur_btn_tree.prev(".inform-box-label").text(str_val));
+            console.log(btn.prev(".inform-box-label").text(str_val));
         }
     });
     get_ajax_json_request();
@@ -371,7 +371,7 @@ function init_action_btns() {
     let cemetery = $(".btn-cemetery").attr("action");
 
     pathes_obj = { [address]: addressUrls, [war_unit]: war_unitUrs, [cemetery]: cemetery_itemUrls };
-    change_depended_select($("#id_military_enlistment_office_address"), $("#id_military_enlistment_office"));
+    change_depended_select($("#id_enlistment-address"), $("#id_military_enlistment_office"));
 }
 
 function change_depended_select($element_checked, $purpose_element) {
@@ -469,10 +469,11 @@ $(function () {
             let select = $(this).parents(".form-group").find("select");
             if (select.length == 1 && select.val() != "" && select.val() != null) {
                 console.log($(this).attr("action"));
-                let str_uri = $(this).attr("action") + select.val();
-                init_btn_box_inform($(this), select, str_uri);
+                let str_uri = $(this).attr("action") + 'get_full_string/' + select.val();
+                init_btn_box_inform_json($(this), str_uri);
             }
         });
+    
 
     $(document).on('click', '.delete', function (e) {
         e.preventDefault();
@@ -555,7 +556,7 @@ $(function () {
         revise_clonable_select($(this).parents(".modal"), is_selected_above_item);
     });
 
-    $("#id_military_enlistment_office_address").on("change", function (e) {
+    $("#id_enlistment-address").on("change", function (e) {
         change_depended_select($(this), $("#id_military_enlistment_office"));
     });
 

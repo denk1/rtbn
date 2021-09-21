@@ -139,7 +139,7 @@ class MilitaryEnlistmentOfficeForm(forms.ModelForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
-        self.fields['address'].required = False
+        self.fields['address'].required = True
 
         address_field = layout.Field(
             "address", css_id="myid", css_class="input-block-level calling-team")
@@ -558,7 +558,6 @@ class InfirmaryCampForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
-            id_field,
             period_from_field,
             period_to_field,
             camp_field,
@@ -585,7 +584,7 @@ class BurialForm(forms.ModelForm):
         self.fields['address_doc'].label = "Адрес по документам"
         self.fields['address_act'].label = "Фактический адрес"
         self.fields['cemetery_item'].label = "Кладбище"
-        id_field = layout.Field("id")
+    
         date_of_burial_field = layout.Field(
             "date_of_burial", css_class="input-block-level date"
         )
@@ -606,7 +605,7 @@ class BurialForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
-            id_field,
+            
             date_of_burial_field,
             address_doc_field,
             address_act_field,
@@ -633,7 +632,7 @@ class ReburialForm(forms.ModelForm):
         self.fields['reburial_cause'].label = "Причина"
         self.fields['address'].label = "Адрес"
         self.fields['cemetery_item'].label = "Кладбище"
-        id_field = layout.Field("id")
+        
         date_of_reburial_field = layout.Field(
             "date_of_reburial", css_class="input-block-level date")
 
@@ -653,7 +652,6 @@ class ReburialForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = layout.Layout(
-            id_field,
             date_of_reburial_field,
             reburial_cause_field,
             address_field,

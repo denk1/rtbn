@@ -6,11 +6,11 @@
 <div class="inner">
     <div class="search_border">
         <div class="main_button">
-            <a href="{% url 'search' %}">
+            <a class="btn btn-primary" href="{% url 'search' %}">
                 <b>Поиск</b>
             </a>
         </div>
-        <div class="main_button">
+        <div class="main_button btn btn-primary">
             Внесение данных
         </div>
     </div>
@@ -158,19 +158,10 @@
                 },
                 surname_distortion: "lettersonly",
 
-                father_name_distortion: "lettersonly",
+                patronimic: "lettersonly",
 
-                born_region_name: "required",
-                born_district_name: "required",
-                born_locality_name: "required",
-                live_region_name: "required",
-                live_district_name: "required",
-                live_locality_name: "required",
-                region_military_enlistment_office: "required",
-                district_military_enlistment_office: "required",
-                military_enlistment_office: "required",
-                calling_team_name: "required",
-                warname: "required",
+                military_enlistment_office: {required: true},
+            
             },
             messages: {
                 name: {

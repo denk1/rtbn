@@ -37,7 +37,7 @@ class CallingDirection(models.Model):
 class MilitaryEnlistmentOffice(models.Model):
     id = models.AutoField(primary_key=True)
     address = models.ForeignKey(AddressItem, on_delete=models.CASCADE)
-    name = models.CharField("Название военкомата", max_length=50)
+    name = models.CharField("Название военкомата", max_length=50, null=False, blank=False)
 
     def __str__(self):
         return self.name

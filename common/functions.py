@@ -94,3 +94,9 @@ def from_queryset_to_str(queryset):
         if item.get_parent is not None:
             str_result += ' ' + item.get_parent.name
     return str_result
+
+
+def delete_related_data(dataset, related_item):
+    queryset = dataset.objects.filter(person=related_item)
+    for item in queryset:
+        item.delete()

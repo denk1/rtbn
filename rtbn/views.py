@@ -48,7 +48,10 @@ from .forms import PersonModelForm, \
     BurialForm, \
     ReburialForm
 
-from common.functions import get_data_by_name, add_data_with_name, save_formset_with_person
+from common.functions import get_data_by_name, \
+    add_data_with_name, \
+    save_formset_with_person, \
+    delete_related_data
 
 
 def index(request):
@@ -284,7 +287,7 @@ def add_or_change_person(request, pk=None):
 
 
 def persons_listing(request):
-    persons_list = Person.objects.all()
+    persons_list = Person.objects.order_by('-id')
     paginator = Paginator(persons_list, 25)
     page = request.GET.get('page')
     persons = paginator.get_page(page)
@@ -353,8 +356,25 @@ class PersonDetail(DetailView):
         return context
 
 
-def delete_person(request, pk=None):
-    pass
+
+@login_required
+def delete_person(request, pk):
+    person = get_object_or_404(Person, pk=pk)
+    if request.method == 'POST':
+        try:
+            burial = Burial.objects.get(person=person)
+            burial.delete()
+        except Burial.DoesNotExist:
+            burial = None
+        try:
+            reburial = Reburial.objects.get(person=person)
+            reburial.delete()
+        except Reburial.DoesNotExist:
+            reburial = None
+        person.delete()
+        return redirect("data_list")
+    context = {"person": person}
+    return render(request, "rtbn/person_deleting_confirmation.html", context)
 
 
 def searching(request):

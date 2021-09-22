@@ -205,7 +205,7 @@ class CallingDirectionForm(forms.ModelForm):
 
         war_unit_button = layout.ButtonHolder(layout.Button('war_unit_button',
                                                             'Подразделение',
-                                                            css_class="input-block-level btn-unit invoke-modal"))
+                                                            css_class="btn btn-outline-secondary input-block-level btn-unit invoke-modal"))
 
         delete_field = layout.Field(
             "DELETE", css_class="input-block-level")
@@ -244,8 +244,9 @@ class WarArchievementForm(forms.ModelForm):
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super().__init__(*args, **kwargs)
+        super(WarArchievementForm, self).__init__(*args, **kwargs)
         self.fields['war_operation'].label = "Название сражения:"
+        self.fields['war_operation'].required = True 
         self.fields['war_unit'].label = "В составе:"
         self.fields['period_from'].label = "С"
         self.fields['period_to'].label = "По"
@@ -256,12 +257,12 @@ class WarArchievementForm(forms.ModelForm):
         )
 
         war_unit_field = layout.Field(
-            "war_unit", css_class="input-block-level invoke-modal hidden-select"
+            "war_unit", css_class="btn btn-outline-secondary input-block-level invoke-modal hidden-select"
         )
 
         war_unit_button = layout.ButtonHolder(layout.Button('war_unit_achievement_button',
                                                             'Подразделение',
-                                                            css_class="input-block-level btn-unit invoke-modal"))
+                                                            css_class="btn btn-outline-secondary input-block-level btn-unit invoke-modal"))
 
         period_from_field = layout.Field(
             "period_from", css_class="input-block-level date"
@@ -321,7 +322,7 @@ class HospitalizationForm(forms.ModelForm):
         )
 
         hospital_location_field = layout.Field(
-            "hospital_location", css_class="input-block-level test-class d-none hidden-select-address"
+            "hospital_location", css_class="btn btn-outline-secondary input-block-level test-class d-none hidden-select-address"
         )
 
         period_from_field = layout.Field(
@@ -333,11 +334,11 @@ class HospitalizationForm(forms.ModelForm):
         )
 
         war_unit_consist_field = layout.Field(
-            "war_unit_consist", css_class="input-block-level invoke-modal hidden-select"
+            "war_unit_consist", css_class="btn btn-outline-secondary input-block-level invoke-modal hidden-select"
         )
 
         war_unit_direction_field = layout.Field(
-            "war_unit_direction", css_class="input-block-level invoke-modal hidden-select"
+            "war_unit_direction", css_class="btn btn-outline-secondaryinput-block-level invoke-modal hidden-select"
         )
 
         delete_field = layout.Field(
@@ -590,15 +591,15 @@ class BurialForm(forms.ModelForm):
         )
 
         address_doc_field = layout.Field(
-            "address_doc", css_class="input-block-level hidden-select-address"
+            "address_doc", css_class="btn btn-outline-secondary input-block-level hidden-select-address"
         )
 
         address_act_field = layout.Field(
-            "address_act", css_class="input-block-level hidden-select-address"
+            "address_act", css_class="btn btn-outline-secondary input-block-level hidden-select-address"
         )
 
         cemetery_item_field = layout.Field(
-            "cemetery_item", css_class="input-block-level hidden-select-cemetery"
+            "cemetery_item", css_class="btn btn-outline-secondary input-block-level hidden-select-cemetery"
         )
 
         self.helper = helper.FormHelper()
@@ -641,11 +642,11 @@ class ReburialForm(forms.ModelForm):
         )
 
         address_field = layout.Field(
-            "address", css_class="input-block-level hidden-select-address"
+            "address", css_class="btn btn-outline-secondary input-block-level hidden-select-address"
         )
 
         cemetery_item_field = layout.Field(
-            "cemetery_item", css_class="input-block-level hidden-select-cemetery"
+            "cemetery_item", css_class="btn btn-outline-secondary input-block-level hidden-select-cemetery"
         )
 
         self.helper = helper.FormHelper()

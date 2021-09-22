@@ -1,13 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'authorized.html' %}
 {% block content %}
-<a class="btn btn-primary" href='{% url "data_list" %}'>
-        <b>список</b>
-</a>
+
 <div class="info">
         {% if user.is_authenticated %}
-        <div class="form-group">
-                <a href="{% url 'change_person' pk=person.pk %}" class="btn btn-primary">Внести изменения</a>
-                <a href="{% url 'delete_person' pk=person.pk %}" class="btn btn-danger">Удалить</a>
+        <div class="row align-items-center w-10">
+         <div class="col-11 ">
+          <div class="form-group float-right">
+                <a href="{% url 'change_person' pk=person.pk %}" class="btn btn-info btn-sm">Редактировать</a>
+                <a href="{% url 'delete_person' pk=person.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+          </div>
+         </div>
         </div>
         {% endif %}
         <b class="name-info">
@@ -56,12 +58,16 @@
                                                         {% if hospitalizations %}
                                                         <h4>Госпитализация</h4>
                                                         {% for hospitalization in hospitalizations %}
+                                                        {% if hospitalization.hospital %}
                                                         <p>Название госпиталя</p>
                                                         {{ hospitalization.hospital }}
+                                                        {% endif %}
+                                                        {% if hospitalization.hospital_location %}
                                                         <p>Месторасположение госпиталя</p>
                                                         {{ hospitalization.hospital_location.get_full_str }}
+                                                        {% endif %}
                                                         <p><b>В период: {{ hospitalization.period_from|date:"d.m.Y" }} -
-                                                                        {{ hospitalization.period_to|date:"d.m.Y"}}</b>
+                                                                {{ hospitalization.period_to|date:"d.m.Y"}}</b>
                                                         </p>
                                                         {% if hospitalization.war_unit_consist %}
                                                         <p>В составе:</p>

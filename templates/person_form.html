@@ -117,6 +117,8 @@
 
     $(document).ready(function () {
         window.WIDGET_INI_REGISTER = window.WIDGET_INI_REGISTER || []
+        $('#id_military_enlistment_office').prop('required',true);
+        $('.war-operation').prop('required',true);
         var form = $("#personal_data");
         $('#id_birthday').addClass('date');
 
@@ -135,12 +137,22 @@
                 else
                     return true;
             },
-            "Please enter a date in the format!"
+            "Пожалуйста, введите правильный формат даты ДД.ММ.ГГГГ"
         );
+        
+        
+
+        $.validator.addMethod("notEmpty", function(value, element){
+                return value != "" && value !== "";
+            }, 
+            "Название военкомата не может быть пустым!"
+        );
+
         $.validator.addClassRules('date',
             { anyDate: true }
         );
-        form.validate({
+        var validator = form.validate({
+            focusCleanup: true,
             errorPlacement: function errorPlacement(error, element) {
                 element.before(error);
             },
@@ -160,7 +172,10 @@
 
                 patronimic: "lettersonly",
 
-                military_enlistment_office: {required: true},
+                military_enlistment_office: {
+                    required: true,
+                    notEmpty: true
+                },
             
             },
             messages: {
@@ -184,6 +199,23 @@
 
             }
         });
+        
+        function check_military_enlistment_office() {
+            let $mil_office = $("#id_military_enlistment_office");
+            let is_validated = $mil_office.val() != "" && $mil_office.val() !== "";
+            let $error_label = $('<p id="military_enlistment_error" style="color:red;">Введите название военкомата! Для этого, надо сначало добавить адрес слева.</p>');
+            if(!is_validated) {
+                if($mil_office.next('#military_enlistment_error').length == 0)
+                    $error_label.insertAfter($mil_office);
+            } 
+            else {
+                $error_label.text("");
+            }
+
+            return is_validated;
+        }
+
+        
 
         var settings = {
             headerTag: "h3",
@@ -198,8 +230,9 @@
                 previous: "предыдущая секция"
             },
             onStepChanging: function (event, currentIndex, newIndex) {
+                if(currentIndex == 1) 
+                    return check_military_enlistment_office()
                 return form.valid();
-                //return true;
             },
             onStepChanged: function (event, currentIndex, priorIndex) {
 
@@ -436,7 +469,13 @@
         //set_address('#id_enlistment_office-parent_address_unit', '#enlistment_office_address', null);
         //set_select2_item('#military_enlistment_office', 4, '#enlistment_office_address', "{% url 'enlistment_office' %}", "{% url 'add_enlistment_office' %}");
         set_select2_tree.select_autocomplete($("#id_military_enlistment_office"), $("#id_enlistment-address"), "{% url 'enlistment_office' %}", "{% url 'add_enlistment_office' %}")
-        //$(set_select2_region);
+        let military_enlistment_office = $("#id_military_enlistment_office").on("change", function () {
+            form.validate().resetForm();
+            if($(this).val() !== "" && $(this).next('#military_enlistment_error').length == 1) {
+                $(this).next('#military_enlistment_error').remove();
+            }
+            console.log("reset the form");
+        });
         set_url_address("{% url 'region' %}", "{% url 'add_region' %}");
 
     });
@@ -500,7 +539,7 @@
                                     <div class="inform-box">
                                         <p class="inform-box-label"></p>
                                         <button data-toggle="modal" data-target="#tree_modal_wnd"
-                                            class="invoke-modal btn-address"
+                                            class="btn btn-primary invoke-modal btn-address"
                                             action="{% url 'address:add_address' %}">Адрес
                                             места рождения</button>
                                     </div>
@@ -530,7 +569,7 @@
                                     <div class="inform-box">
                                         <p class="inform-box-label"></p>
                                         <button data-toggle="modal" data-target="#tree_modal_wnd"
-                                            class="invoke-modal btn-address"
+                                            class="btn btn-primary invoke-modal btn-address"
                                             action="{% url 'address:add_address' %}">Адрес места
                                             жительства</button>
                                         <div class="d-none">
@@ -557,7 +596,7 @@
                                     <div class="inform-box">
                                         <p class="inform-box-label"></p>
                                         <button data-toggle="modal" data-target="#tree_modal_wnd"
-                                            class="invoke-modal btn-address"
+                                            class="btn btn-primary invoke-modal btn-address"
                                             action="{% url 'address:add_address' %}">Адрес
                                             военкомата</button>
                                     </div>
@@ -602,7 +641,7 @@
                                         <div class="inform-box">
                                             <p class="inform-box-label"></p>
                                             <button data-toggle="modal" data-target="#tree_modal_wnd"
-                                                class="invoke-modal btn-address"
+                                                class="btn btn-primary invoke-modal btn-address"
                                                 action="{% url 'address:add_address' %}">Последнее сообщение
                                                 из:</button>
                                             <div class="d-none">
@@ -811,7 +850,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Введите иеррархические данные</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

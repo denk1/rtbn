@@ -905,7 +905,17 @@
             </div>
 
             {% block title %}
-
+            <div class="inner">
+                <div class="search_border">
+                    <div class="main_button"><a class='btn btn-primary' href="{% url 'search' %}"><b>Поиск</b></a></div>
+                    <div class="main_button"><a class='btn btn-primary' href="{% url 'add_person' %}"><b>Внесение данных</b></a></div>
+                    <div class="main_button"><a class="btn btn-primary" href='{% url "data_list" %}'>
+                        <b>список</b>
+                    </a>
+                </div>
+                </div>
+            </div>
+            
             {% endblock %}
 
             {% block content %}
@@ -919,14 +929,14 @@
             {% block footer %}
             <div id="content_tags" class="inner">
                 <p class="sections_name">По разделам:</p>
-                <div class="tags color_border_red">
+                <div class="btn btn-secondary btn-sm">
                     <a href="{% url 'data_list' %}">Персональные данные</a>
                 </div>
-                <div class="tags color_border_gray">Призыв</div>
-                <div class="tags color_border_gray">Боевые действия</div>
-                <div class="tags color_border_gray">Госпиталь</div>
-                <div class="tags color_border_gray">Плен</div>
-                <div class="tags color_border_gray">Захоронение</div>
+                <div class="btn btn-secondary btn-sm">Призыв</div>
+                <div class="btn btn-secondary btn-sm">Боевые действия</div>
+                <div class="btn btn-secondary btn-sm">Госпиталь</div>
+                <div class="btn btn-secondary btn-sm">Плен</div>
+                <div class="btn btn-secondary btn-sm">Захоронение</div>
             </div>
 
             {% endblock %}
